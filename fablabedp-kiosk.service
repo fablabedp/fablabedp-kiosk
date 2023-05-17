@@ -8,6 +8,7 @@ Environment=DISPLAY=:0.0
 Environment=XAUTHORITY=/home/pi/.Xauthority
 Type=simple
 ExecStart=/bin/bash /home/pi/fablabedp-kiosk/start_kiosk.sh
+WorkingDirectory=/home/pi/fablabedp-kiosk/
 Restart=on-abort
 User=pi
 Group=pi
