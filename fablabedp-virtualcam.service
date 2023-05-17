@@ -1,0 +1,11 @@
+[Unit]
+Description=fablabedp-virtualcam
+After=network.target
+
+[Service]
+ExecStart=/bin/bash /home/pi/fablabedp-kiosk/start_virtualcam.sh
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
