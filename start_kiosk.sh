@@ -1,0 +1,1 @@
+/usr/bin/chromium-browser --kiosk  --disable-restore-session-state index.html
