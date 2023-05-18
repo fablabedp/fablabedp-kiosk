@@ -2,19 +2,27 @@
 let capture = null;
 let review = null;
 let photo = null;
+let thumbnail = null;
 let take_photo = null;
+let rotate_camera = null;
 let to_review = null;
 let to_camera = null;
 
+let camera_is_rotated = true;
 
 window.onload = (event) => {
 
   capture = document.getElementById('capture');
   review = document.getElementById('review');
+  video = document.getElementById('video');
   photo = document.getElementById('photo');
+  thumbnail = document.getElementById('thumbnail');
   take_photo = document.getElementById("take-photo");
+  rotate_camera = document.getElementById("rotate-camera");
   to_review = document.getElementById("to-review");
   to_camera = document.getElementById("to-camera");
+
+  rotateCamera(camera_is_rotated);
 
   to_review.addEventListener(
     "click",
@@ -36,6 +44,15 @@ window.onload = (event) => {
     false
   );
 
+  rotate_camera.addEventListener(
+    "click",
+    (ev) => {
+      camera_is_rotated = !camera_is_rotated;
+      rotateCamera(camera_is_rotated);
+      ev.preventDefault();
+    },
+    false
+  );
 };
 
 
@@ -75,3 +92,17 @@ const download = (path, filename) => {
   anchor.click();
   document.body.removeChild(anchor);
 };
+
+
+function rotateCamera(rotate) {
+
+  if(rotate) {
+    video.style.transform = 'rotate(180deg)';
+    photo.style.transform = 'rotate(180deg)';
+    thumbnail.style.transform = 'rotate(180deg)';
+  } else {
+    video.style.transform = 'rotate(0deg)';
+    photo.style.transform = 'rotate(0deg)';
+    thumbnail.style.transform = 'rotate(0deg)';
+  }
+}
