@@ -7,17 +7,26 @@
     <link href="bootstrap.min.css" rel="stylesheet">
     <link href="cam.css" rel="stylesheet">
     <script src="cam.js"></script>
+    <style>
+      .container-cam {
+        max-width: 800px;
+      }
+
+      .camera {
+        transform: rotate(180deg);
+      }
+
+    </style>
   </head>
   <body class="d-flex flex-column h-100">
 
     <main class="flex-shrink-0">
 
-      <div id="capture" class="container">
+      <div id="capture" class="container container-cam">
         <div class="d-grid gap-2 row-gap-100 col-8 mx-auto">
           <a
           class="btn btn-primary btn-lg m-5"
           href="index.html"
-          target="_blank"
           style="--bs-btn-padding-y: 1rem"
           type="button">Home</a>
         </div>
@@ -43,12 +52,11 @@
         </div>
       </div>
 
-      <div id="review" class="container" hidden>
+      <div id="review" class="container container-cam" hidden>
         <div class="d-grid gap-2 row-gap-100 col-8 mx-auto">
           <a
           class="btn btn-primary btn-lg m-5"
           href="index.html"
-          target="_blank"
           style="--bs-btn-padding-y: 1rem"
           type="button">Home</a>
         </div>
