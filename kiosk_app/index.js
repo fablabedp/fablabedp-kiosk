@@ -62,9 +62,9 @@ io_socket.on('connection', (socket) => {
 
 function removePhoto() {
 	fs.stat(photo_file, function (err, stats) {
-	   if (err) { return console.error(err); }
-	   fs.unlink(photo_file,function(err){
-	        if(err) return console.log(err);
-	   });
+		if (err) { return console.error(err); }
+		fs.unlink(photo_file,function(err){
+			if(err) return console.log(err);
+		});
 	});
 }

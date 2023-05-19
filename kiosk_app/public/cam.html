@@ -14,6 +14,16 @@
       .btn-mod {
         --bs-btn-padding-y: 1rem;
       }
+      .countdown_wrapper {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        align-content: center;
+        flex-direction: column;
+      }
+      .countdown_wrapper h1 {
+        font-size: 2000%;
+      }
     </style>
   </head>
   <body class="d-flex flex-column h-100">
@@ -28,7 +38,14 @@
           type="button">Voltar Atrás</a>
         </div>
         <div class="camera">
-          <video id="video" class="img-fluid">Video stream not available.</video>
+
+          <div class="card text-bg-dark video-wrapper">
+          <video id="video" class="card-img">Video stream not available.</video>
+          <div class="card-img-overlay countdown_wrapper">
+            <h1 class="card-title" id="countdown"></h1>
+          </div>
+
+        </div>
         </div>
         <div class="row m-5 text-center">
           <div class="col-7 gap-2 mx-auto">
@@ -69,13 +86,17 @@
         </div>
         <div class="d-grid gap-2 row-gap-100 col-8 mx-auto">
           <div class="my-5">
-            <form>
+            <form id="email-form">
             <input type="email" class="form-control" id="email" placeholder="Endereço de E-mail">
             <button
             id="send-photo"
             class="btn btn-primary btn-lg mt-3"
             >Enviar</button>
             </form>
+            <p
+            id="email-sent-msg"
+            style="display: none;"
+            >Foto enviada. Obrigado!</p>
           </div>
           <button
           id="to-camera"
