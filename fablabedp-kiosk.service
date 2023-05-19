@@ -12,7 +12,7 @@ Environment=DISPLAY=:0.0
 Environment=XAUTHORITY=/home/pi/.Xauthority
 Type=idle
 ExecStart=/bin/bash /home/pi/fablabedp-kiosk/start_kiosk.sh
-WorkingDirectory=/home/pi/fablabedp-kiosk/
+WorkingDirectory=/home/pi/fablabedp-kiosk/kiosk_app/
 Restart=always
 User=pi
 Group=pi
