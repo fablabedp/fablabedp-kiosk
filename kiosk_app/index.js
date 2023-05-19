@@ -1,4 +1,5 @@
 import path from 'path';
+import fs from 'fs';
 import express from 'express';
 import {fileURLToPath} from 'url';
 import { SMTPClient } from 'emailjs';
@@ -21,7 +22,11 @@ const client = new SMTPClient({
 	ssl: true,	
 });
 
+let photo_file = process.env.DOWNLOADS_PATH + 'image.jpg';
+
+
 function sendEmail(email_address) {
+
 	client.send(
 		{
 			text: 'Foto do evento de 20 de Maio 2023.\nNão foram registados quaisquer dados pessoais, tais como endereços de e-mail ou imagens.',
@@ -29,7 +34,7 @@ function sendEmail(email_address) {
 			to: email_address,
 			subject: 'Foto Família',
 			attachment: [
-				{ path: '../image.jpg', type: 'image/jpeg', name: 'foto.jpg' },
+				{ path: process.env.DOWNLOADS_PATH + 'image.jpg', type: 'image/jpeg', name: 'foto.jpg' },
 			],
 		},
 		(err, message) => {
@@ -39,9 +44,27 @@ function sendEmail(email_address) {
 }
 
 io_socket.on('connection', (socket) => {
+
 	console.log('io socket connected');
+
+	socket.on('take_photo', () => {
+		// remove temporary photo when taking a new one
+		removePhoto();
+	});
+
 	socket.on('send_email', (email_address) => {
 		console.log('sending email to', email_address);
 		sendEmail(email_address);
 	});
+
 });
+
+
+function removePhoto() {
+	fs.stat(photo_file, function (err, stats) {
+	   if (err) { return console.error(err); }
+	   fs.unlink(photo_file,function(err){
+	        if(err) return console.log(err);
+	   });
+	});
+}

@@ -57,15 +57,15 @@ window.onload = (event) => {
     false
   );
 
-  // rotate_camera.addEventListener(
-  //   "click",
-  //   (ev) => {
-  //     camera_is_rotated = !camera_is_rotated;
-  //     rotateCamera(camera_is_rotated);
-  //     ev.preventDefault();
-  //   },
-  //   false
-  // );
+  rotate_camera.addEventListener(
+    "click",
+    (ev) => {
+      camera_is_rotated = !camera_is_rotated;
+      rotateCamera(camera_is_rotated);
+      ev.preventDefault();
+    },
+    false
+  );
 
   send_photo.addEventListener(
     "click",
@@ -93,6 +93,7 @@ navigator.mediaDevices.getUserMedia({video: true})
     take_photo.addEventListener(
       "click",
       (ev) => {
+        socket.emit('take_photo');
         photo.src = 'loading.gif';
         thumbnail.src = 'loading.gif';
         imageCapture.takePhoto()
@@ -100,8 +101,8 @@ navigator.mediaDevices.getUserMedia({video: true})
           const photo_data = URL.createObjectURL(blob);
           photo.src = photo_data;
           thumbnail.src = photo_data;
-          //download(photo_data, 'image.jpg');
-          photo_data.onload = () => { URL.revokeObjectURL(this); }
+          download(photo_data, 'image.jpg');
+          //photo_data.onload = () => { URL.revokeObjectURL(this); }
            })
           .catch(error => console.error('takePhoto() error:', error));
         ev.preventDefault();

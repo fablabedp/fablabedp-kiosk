@@ -3,6 +3,33 @@
 
 ## Installing
 
+
+Update Raspberry Pi OS and install Git
+
+```
+sudo apt update
+sudo apt upgrade
+sudo apt install git
+```
+
+
+Installing Node.js
+
+```
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt install nodejs
+```
+
+
+Installing the Kiosk app
+```
+git clone https://github.com/fablabedp/fablabedp-kiosk.git
+cd fablabedp-kiosk/kiosk_app/
+npm install
+
+```
+
+
 Installing systemd services
 
 ```
