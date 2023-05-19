@@ -1,0 +1,26 @@
+{
+  "name": "kiosk_app",
+  "version": "1.0.0",
+  "description": "FabLab EDP Kiosk",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fablabedp/fablabedp-kiosk.git\u001b[H\u001b[F.git"
+  },
+  "author": "FabLab EDP",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fablabedp/fablabedp-kiosk.git\u001b[H\u001b[F/issues"
+  },
+  "homepage": "https://github.com/fablabedp/fablabedp-kiosk.git\u001b[H\u001b[F#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "emailjs": "^4.0.2",
+    "express": "^4.18.2",
+    "socketio": "^1.0.0"
+  }
+}
