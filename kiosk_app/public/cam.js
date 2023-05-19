@@ -57,15 +57,15 @@ window.onload = (event) => {
     false
   );
 
-  rotate_camera.addEventListener(
-    "click",
-    (ev) => {
-      camera_is_rotated = !camera_is_rotated;
-      rotateCamera(camera_is_rotated);
-      ev.preventDefault();
-    },
-    false
-  );
+  // rotate_camera.addEventListener(
+  //   "click",
+  //   (ev) => {
+  //     camera_is_rotated = !camera_is_rotated;
+  //     rotateCamera(camera_is_rotated);
+  //     ev.preventDefault();
+  //   },
+  //   false
+  // );
 
   send_photo.addEventListener(
     "click",
@@ -93,6 +93,8 @@ navigator.mediaDevices.getUserMedia({video: true})
     take_photo.addEventListener(
       "click",
       (ev) => {
+        photo.src = 'loading.gif';
+        thumbnail.src = 'loading.gif';
         imageCapture.takePhoto()
           .then(blob => {
           const photo_data = URL.createObjectURL(blob);
