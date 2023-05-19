@@ -78,7 +78,7 @@ window.onload = (event) => {
   send_photo.addEventListener(
     'click',
     (ev) => {
-      //socket.emit('send_email', document.getElementById('email').value, photo.src);
+      socket.emit('send_email', document.getElementById('email').value, photo.src);
       email_form.style.display = 'none';
       email_sent_msg.style.display = 'block';
       ev.preventDefault();
