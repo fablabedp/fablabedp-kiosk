@@ -25,7 +25,7 @@
           <a
           class="btn btn-primary btn-lg m-5 btn-mod"
           href="index.html"
-          type="button">Home</a>
+          type="button">Voltar Atrás</a>
         </div>
         <div class="camera">
           <video id="video" class="img-fluid">Video stream not available.</video>
@@ -36,11 +36,15 @@
               <button
               id="take-photo"
               class="btn btn-primary btn-lg btn-mod"
-              >Take photo</button>
-              <button
+              >1. Tirar Foto</button>
+              <!-- <button
               id="rotate-camera"
               class="btn btn-primary btn-lg btn-mod"
-              >Rotate</button>
+              >Rotate</button> -->
+              <button
+              id="to-review-btn"
+              class="btn btn-primary btn-lg btn-mod"
+              >2. Enviar por Email</button>
             </div>
           </div>
         </form>
@@ -57,7 +61,7 @@
           <a
           class="btn btn-primary btn-lg m-5 btn-mod"
           href="index.html"
-          type="button">Home</a>
+          type="button">Voltar Atrás</a>
         </div>
         <div class="camera">
             <img id="photo" class="img-fluid" src="placeholder_image.jpg"/>
@@ -65,18 +69,18 @@
         <div class="d-grid gap-2 row-gap-100 col-8 mx-auto">
           <div class="my-5">
             <form>
-            <input type="email" class="form-control" id="email" placeholder="Email address">
+            <input type="email" class="form-control" id="email" placeholder="Endereço de E-mail">
             <button
             id="send-photo"
             class="btn btn-primary btn-lg mt-3"
-            >Send</button>
+            >Enviar</button>
             </form>
           </div>
           <button
           type="submit"
           id="to-camera"
           class="btn btn-primary btn-lg mx-5 btn-mod"
-          >Camera</button>
+          >Tirar Outro Foto</button>
         </div>
       </div>
 

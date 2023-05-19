@@ -10,6 +10,7 @@ let take_photo = null;
 let send_photo = null;
 let rotate_camera = null;
 let to_review = null;
+let to_review_btn = null;
 let to_camera = null;
 
 let camera_is_rotated = true;
@@ -25,6 +26,7 @@ window.onload = (event) => {
   send_photo = document.getElementById("send-photo");
   rotate_camera = document.getElementById("rotate-camera");
   to_review = document.getElementById("to-review");
+  to_review_btn = document.getElementById("to-review-btn");
   to_camera = document.getElementById("to-camera");
 
   rotateCamera(camera_is_rotated);
@@ -32,13 +34,19 @@ window.onload = (event) => {
   to_review.addEventListener(
     "click",
     (ev) => {
-      capture.hidden = true;
-      review.hidden = false;
+      review_photo();
       ev.preventDefault();
     },
     false
   );
-
+  to_review_btn.addEventListener(
+    "click",
+    (ev) => {
+      review_photo();
+      ev.preventDefault();
+    },
+    false
+  );
   to_camera.addEventListener(
     "click",
     (ev) => {
@@ -62,12 +70,17 @@ window.onload = (event) => {
   send_photo.addEventListener(
     "click",
     (ev) => {
-      socket.emit('send_email', document.getElementById('email').value);
+      socket.emit('send_email', document.getElementById('email').value, photo.src);
       ev.preventDefault();
     },
     false
   );
 };
+
+function review_photo() {
+  capture.hidden = true;
+  review.hidden = false;
+}
 
 
 // adapted from https://developer.chrome.com/blog/imagecapture/
