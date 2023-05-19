@@ -29,7 +29,7 @@ function sendEmail(email_address) {
 
 	client.send(
 		{
-			text: 'Foto do encontro AFC de 20 de Maio 2023.\n\nAo obrigo do RGPD não são registados dados pessoais, tais como endereços de e-mail ou imagens.',
+			text: 'Foto do encontro AFC de 20 de Maio 2023.\n\nAo abrigo do RGPD não são registados dados pessoais, tais como endereços de e-mail ou imagens.',
 			from: 'Quiosque Família <quosquefamilia@gmail.com>',
 			to: email_address,
 			subject: 'Foto Família',
