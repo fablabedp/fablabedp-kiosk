@@ -18,7 +18,7 @@ let countdown_label = null;
 
 let photo_countdown = 5;
 
-let camera_is_rotated = true;
+let camera_is_rotated = false;
 
 window.onload = (event) => {
 
