@@ -63,6 +63,10 @@ npm install
 
 ```
 
+Configuring Enviroment Variables
+
+rename `.env.sample` to `.env` and edit variables as needed
+
 
 Installing systemd services
 

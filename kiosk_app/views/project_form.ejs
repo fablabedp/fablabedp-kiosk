@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% let title = 'Create New Project' %>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <form method='post' action=''>
+      <label for='project_name'>Enter name: </label>
+      <input
+        type='text'
+        id='project_name'
+        name='project_name'
+        value="<%= locals.body ? body.project_name: 'your project' %>" />
+      <input type='submit' value='OK' />
+    </form>
+    <% if (typeof errors != 'undefined') { -%>
+      <ul>
+      <% errors.forEach((error) => { -%>
+        <li><%= error.msg %></li>
+      <% }); -%>
+      </ul>
+    <% } -%>
+  </body>
+</html>

@@ -1,70 +1,102 @@
-import path from 'path';
-import fs from 'fs';
-import express from 'express';
-import {fileURLToPath} from 'url';
-import { SMTPClient } from 'emailjs';
-import socketIO from 'socket.io';
-import dotenv from 'dotenv';
+#!/usr/bin/env node
 
-dotenv.config();
+import app from './app.js';
+import http from 'http';
+import cors from 'cors';
+import { Server } from 'socket.io';
 
-const app = express();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-app.use(express.static(path.join(__dirname, 'public')));
-const io_server = app.listen(3000, () => console.log('kiosk available at localhost:3000'));
-const io_socket = socketIO(io_server);
-
-const client = new SMTPClient({
-	user: process.env.EMAIL_USER,
-	password: process.env.EMAIL_PASS,
-	host: process.env.SMTP_HOST,
-	ssl: true,	
-});
-
-let photo_file = process.env.DOWNLOADS_PATH + 'image.jpg';
+/////// used by sockets
+import { sendEmail } from './email.js';
+import { removePhoto } from './camera.js';
+//////
 
 
-function sendEmail(email_address) {
+const port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
 
-	client.send(
-		{
-			text: 'Foto do encontro AFC de 20 de Maio 2023.\n\nAo abrigo do RGPD não são registados dados pessoais, tais como endereços de e-mail ou imagens.',
-			from: 'Quiosque Família <quosquefamilia@gmail.com>',
-			to: email_address,
-			subject: 'Foto Família',
-			attachment: [
-				{ path: process.env.DOWNLOADS_PATH + 'image.jpg', type: 'image/jpeg', name: 'foto.jpg' },
-			],
-		},
-		(err, message) => {
-			console.log(err || message);
-		}
-	);
+const server = http.createServer(app);
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+// https://stackoverflow.com/questions/65721253/how-to-use-socket-io-in-node-js-with-es6-syntax
+const io_socket = new Server(server, { cors: { origin: '*' } });
+
+
+
+
+function normalizePort(val) {
+  const port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
 }
 
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  const bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+function onListening() {
+  const addr = server.address();
+  const bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+}
+
+// close the server when killing the process
+// https://stackoverflow.com/questions/14515954/how-to-properly-close-node-js-express-server
+process.on('SIGINT', function() {
+  server.close((err) => {
+    console.log('server closed')
+    process.exit(err ? 1 : 0)
+  })
+});
+
+
+
+
+// websockets
 io_socket.on('connection', (socket) => {
 
-	console.log('io socket connected');
+  console.log('io socket connected');
 
-	socket.on('take_photo', () => {
-		// remove temporary photo when taking a new one
-		removePhoto();
-	});
+  socket.on('take_photo', () => {
+    // remove temporary photo when taking a new one
+    removePhoto();
+  });
 
-	socket.on('send_email', (email_address) => {
-		console.log('sending email to', email_address);
-		sendEmail(email_address);
-	});
+  socket.on('send_email', (email_address) => {
+    console.log('sending email to', email_address);
+    sendEmail(email_address);
+  });
 
 });
-
-
-function removePhoto() {
-	fs.stat(photo_file, function (err, stats) {
-		if (err) { return console.error(err); }
-		fs.unlink(photo_file,function(err){
-			if(err) return console.log(err);
-		});
-	});
-}
