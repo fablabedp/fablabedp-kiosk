@@ -16,7 +16,7 @@ export const user_detail = asyncHandler(async (req, res, next) => {
 });
 
 export const user_create_get = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: New user form');
+  res.render('user_create');
 });
 
 export const user_create_post = [
@@ -49,7 +49,7 @@ export const project_detail = asyncHandler(async (req, res, next) => {
 });
 
 export const project_create_get = asyncHandler(async (req, res, next) => {
-  res.render('project_form');
+  res.render('project_create');
 });
 
 export const project_create_post = [
@@ -69,7 +69,7 @@ export const project_create_post = [
     if (!errors.isEmpty()) {
 
       // There are errors. Render the form again with sanitized values/error messages.
-      res.render('project_form', {
+      res.render('project_create', {
         body: req.body,
         errors: errors.array(),
       });
@@ -84,7 +84,7 @@ export const project_create_post = [
       if (existing_project) {
         // project exists, redirect to its detail page.
         console.log('project with this name already exists');
-        res.render('project_form', {
+        res.render('project_create', {
           body: req.body,
           errors: [{msg: 'A project with this name already exists.'}],
         });
@@ -92,7 +92,7 @@ export const project_create_post = [
         projects.insert({ name: req.body.project_name });
         // New project saved. Redirect to project detail page.
         const new_project = await projects.findOne({ name: req.body.project_name });
-        res.render('project_detail', { project: new_project });
+        res.render('project', { project: new_project });
         await database.saveDatabase();
         console.log('new project added');
         console.log("num projects: ", projects.count());
