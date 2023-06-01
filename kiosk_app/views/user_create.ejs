@@ -3,7 +3,7 @@
   <head>
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <% let title ='Create New User' %>
+    <% let title ='Registrar Utilizador' %>
     <title><%= title %></title>
     <link href='../bootstrap.min.css' rel='stylesheet'>
     <link rel='stylesheet' href='/style.css' />
@@ -11,14 +11,29 @@
   <body class='d-flex flex-column h-100'>
     <main class='flex-shrink-0'>
       <div class='container'>
-        <h1 class='mt-5'><%= title %></h1>
+        <div class='d-grid gap-2 row-gap-100 col-6 mx-auto'>
+          <a class='btn btn-primary btn-lg m-5 btn-mod' href='./' type='button'>Home</a>
+          <h1 class='my-5'><%= title %></h1>
 
           <form method='post' action=''>
-            <label for='name'>Nome e apelido</label> <input type='text' id='name' name='name'value="<%= locals.body ? body.name: '' %>" />
-            <label for='email'>e-mail</label> <input type='text' id='email' name='email'value="<%= locals.body ? body.email: '' %>" />
-            <label for='phone'>Telemóvel</label> <input type='text' id='phone' name='phone'value="<%= locals.body ? body.phone: '' %>" />
-            <label for='org'>Empresa grupo EDP / área</label> <input type='text' id='org' name='org'value="<%= locals.body ? body.org: '' %>" />
-            <input type='submit' value='Sumbit' />
+            <div class="mb-3">
+              <label class="form-label" for='name'>Nome e apelido</label>
+              <input required class="form-control" type='text' id='name' name='name'value="<%= locals.body ? body.name: '' %>" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for='email'>e-mail</label>
+              <input required class="form-control" type='email' id='email' name='email'value="<%= locals.body ? body.email: '' %>" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for='phone'>Telemóvel</label>
+              <input required class="form-control" type='tel' id='phone' name='phone'value="<%= locals.body ? body.phone: '' %>" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for='org'>Empresa grupo EDP / área</label>
+              <input required class="form-control" type='text' id='org' name='org'value="<%= locals.body ? body.org: '' %>" />
+            </div>
+            <input type='submit' class="btn btn-primary" value='Sumbit' />
+
           </form>
           <% if (typeof errors != 'undefined') { -%>
             <ul>
@@ -28,6 +43,7 @@
             </ul>
           <% } -%>
 
+        </div>
       </div>
     </main>
   </body>

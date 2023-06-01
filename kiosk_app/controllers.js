@@ -12,7 +12,8 @@ export const user_list = asyncHandler(async (req, res, next) => {
 });
 
 export const user_detail = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: User detail');
+  const get_user = await users.get(req.query.id);
+  res.render('user', { user: get_user });
 });
 
 export const user_create_get = asyncHandler(async (req, res, next) => {
@@ -20,8 +21,55 @@ export const user_create_get = asyncHandler(async (req, res, next) => {
 });
 
 export const user_create_post = [
+
+  // Validate and sanitize fields.
+  body('name', 'Name is required.').trim().notEmpty().escape(),
+  body('email', 'Valid email is required.').trim().isEmail().escape(),
+  body('phone', 'Phone is required.').trim().notEmpty().escape(),
+  body('org', 'Organisation is required.').trim().notEmpty().escape(),
+
   asyncHandler(async (req, res, next) => {
-    res.send('NOT IMPLEMENTED: New user confirmed');
+
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+
+      // There are errors. Render the form again with sanitized values/error messages.
+      res.render('user_create', {
+        body: req.body,
+        errors: errors.array(),
+      });
+      return;
+
+    } else {
+
+      // Data from form is valid.
+      // Check if user with same name already exists.
+      const existing_user = await users.findOne({ name: req.body.name });
+
+      if (existing_user) {
+        // user exists, redirect to its detail page.
+        console.log('user with this name already exists');
+        res.render('user_create', {
+          body: req.body,
+          errors: [{msg: 'A user with this name already exists.'}],
+        });
+      } else {
+        users.insert({
+          name: req.body.name,
+          email: req.body.email,
+          phone: req.body.phone,
+          org: req.body.org,
+        });
+        // New user saved. Redirect to user detail page.
+        //const new_user = await users.get(); // get most recent user
+        res.redirect('../user?id=' + users.count());
+        await database.saveDatabase();
+        console.log('new user added');
+        console.log("num users: ", users.count());
+      }
+    }
   }),
 ];
 
