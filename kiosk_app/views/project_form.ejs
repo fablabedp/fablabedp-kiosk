@@ -1,27 +1,36 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang='en' class='h-100' data-bs-theme='auto'>
   <head>
-    <% let title = 'Create New Project' %>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <% let title = project.name %>
     <title><%= title %></title>
+    <link href='bootstrap.min.css' rel='stylesheet'>
     <link rel='stylesheet' href='/style.css' />
   </head>
-  <body>
-    <h1><%= title %></h1>
-    <form method='post' action=''>
-      <label for='project_name'>Enter name: </label>
-      <input
-        type='text'
-        id='project_name'
-        name='project_name'
-        value="<%= locals.body ? body.project_name: 'your project' %>" />
-      <input type='submit' value='OK' />
-    </form>
-    <% if (typeof errors != 'undefined') { -%>
-      <ul>
-      <% errors.forEach((error) => { -%>
-        <li><%= error.msg %></li>
-      <% }); -%>
-      </ul>
-    <% } -%>
+  <body class='d-flex flex-column h-100'>
+    <main class='flex-shrink-0'>
+      <div class='container'>
+        <h1 class='mt-5'><%= title %></h1>
+
+          <form method='post' action=''>
+            <label for='project_name'>Enter name: </label>
+            <input
+              type='text'
+              id='project_name'
+              name='project_name'
+              value="<%= locals.body ? body.project_name: 'your project' %>" />
+            <input type='submit' value='OK' />
+          </form>
+          <% if (typeof errors != 'undefined') { -%>
+            <ul>
+            <% errors.forEach((error) => { -%>
+              <li><%= error.msg %></li>
+            <% }); -%>
+            </ul>
+          <% } -%>
+
+      </div>
+    </main>
   </body>
 </html>

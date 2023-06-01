@@ -1,12 +1,50 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang='en' class='h-100' data-bs-theme='auto'>
   <head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <% let title = 'Kiosk Home' %>
     <title><%= title %></title>
+    <link href='bootstrap.min.css' rel='stylesheet'>
     <link rel='stylesheet' href='/style.css' />
+    <style>
+      .btn-mod  {
+        --bs-btn-padding-y: 3.5rem;
+      }
+    </style>
   </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <p><a href='projects/create'>Go to form</a></p>
+  <body class='d-flex flex-column h-100'>
+
+    <main class='flex-shrink-0'>
+
+      <div class='container'>
+        <h1 class='mt-5'></h1>
+        <p class='lead'></p>
+        <p></p>
+        <div class='d-grid gap-2 row-gap-100 col-8 mx-auto'>
+          <a
+          class='btn btn-primary btn-lg m-3 btn-mod'
+          href='users/create'
+          type='button'>Registrar Utilizador</a>
+          <a
+          class='btn btn-primary btn-lg m-3 btn-mod'
+          href='projects/create'
+          type='button'>Registrar Projeto</a>
+          <a
+          class='btn btn-primary btn-lg m-3 btn-mod'
+          href='projects'
+          type='button'>Projetos</a>
+          <a
+          class='btn btn-primary btn-lg m-3 btn-mod'
+          href='photos'
+          type='button'>Photo Booth</a>
+        </div>
+      </div>
+    </main>
+    <footer class='footer mt-auto py-3 bg-body-tertiary'>
+      <div class='container'>
+        <img src='logo.png' width='500px' class='rounded my-4 mx-auto d-block'>
+      </div>
+    </footer>
   </body>
 </html>

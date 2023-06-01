@@ -2,13 +2,49 @@ import asyncHandler from 'express-async-handler';
 import { body, validationResult } from 'express-validator';
 import { database, projects, users } from './database.js';
 
+
+
+/* ============================= User pages ================================ */
+
+
+export const user_list = asyncHandler(async (req, res, next) => {
+  res.send('NOT IMPLEMENTED: User list');
+});
+
+export const user_detail = asyncHandler(async (req, res, next) => {
+  res.send('NOT IMPLEMENTED: User detail');
+});
+
+export const user_create_get = asyncHandler(async (req, res, next) => {
+  res.send('NOT IMPLEMENTED: New user form');
+});
+
+export const user_create_post = [
+  asyncHandler(async (req, res, next) => {
+    res.send('NOT IMPLEMENTED: New user confirmed');
+  }),
+];
+
+export const user_edit_get = asyncHandler(async (req, res, next) => {
+  res.send('NOT IMPLEMENTED: Edit user form');
+});
+
+export const user_edit_post = [
+  asyncHandler(async (req, res, next) => {
+    res.send('NOT IMPLEMENTED: Edit user confirmed');
+  }),
+];
+
+
+
+/* =========================== Project pages =============================== */
+
 export const project_list = asyncHandler(async (req, res, next) => {
   res.send('NOT IMPLEMENTED: Project list');
 });
 
 export const project_detail = asyncHandler(async (req, res, next) => {
   const get_project = await projects.get(req.query.id);
-  console.log(get_project);
   res.render('project', { project: get_project });
 });
 
@@ -64,3 +100,38 @@ export const project_create_post = [
     }
   }),
 ];
+
+
+export const project_edit_get = asyncHandler(async (req, res, next) => {
+  res.send('NOT IMPLEMENTED: Edit project form');
+});
+
+export const project_edit_post = [
+  asyncHandler(async (req, res, next) => {
+    res.send('NOT IMPLEMENTED: Edit project confirmed');
+  }),
+];
+
+export const project_update_get = asyncHandler(async (req, res, next) => {
+  res.send('NOT IMPLEMENTED: Update project form');
+});
+
+export const project_update_post = [
+  asyncHandler(async (req, res, next) => {
+    res.send('NOT IMPLEMENTED: Update project confirmed');
+  }),
+];
+
+export const project_close_get = asyncHandler(async (req, res, next) => {
+  res.send('NOT IMPLEMENTED: Close project form');
+});
+
+export const project_close_post = [
+  asyncHandler(async (req, res, next) => {
+    res.send('NOT IMPLEMENTED: Close project confirmed');
+  }),
+];
+
+export const project_photos = asyncHandler(async (req, res, next) => {
+  res.send('NOT IMPLEMENTED: project photos page');
+});

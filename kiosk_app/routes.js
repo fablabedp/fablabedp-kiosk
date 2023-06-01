@@ -3,14 +3,39 @@ import * as controller from './controllers.js';
 
 const router = express.Router();
 
-/* GET home page. */
+/* Home page */
 router.get('/', (req, res, next) => {
-  res.render('index', { title: 'Express' });
+  res.render('index');
 });
 
+/* Camera Page */
+router.get('/photos', (req, res, next) => {
+  res.render('photos');
+});
+
+/* User pages */
+router.get('/user', controller.user_detail);
+router.get('/users', controller.user_list);
+router.get('/users/create', controller.user_create_get);
+router.post('/users/create', controller.user_create_post);
+router.get('/users/edit', controller.user_edit_get);
+router.post('/users/edit', controller.user_edit_post);
+
+/* Project Pages */
 router.get('/project', controller.project_detail);
 router.get('/projects', controller.project_list);
 router.get('/projects/create', controller.project_create_get);
 router.post('/projects/create', controller.project_create_post);
+router.get('/projects/edit', controller.project_edit_get);
+router.post('/projects/edit', controller.project_edit_post);
+// close a project and give feedback
+router.get('/projects/update', controller.project_update_get);
+router.post('/projects/update', controller.project_update_post);
+// close a project and give feedback
+router.get('/projects/close', controller.project_close_get);
+router.post('/projects/close', controller.project_close_post);
+// add/view photos from a project
+router.get('/projects/photos', controller.project_photos);
+
 
 export default router;
