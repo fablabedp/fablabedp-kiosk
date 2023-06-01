@@ -15,33 +15,31 @@
           <a class='btn btn-primary btn-lg m-5 btn-mod' href='./' type='button'>Home</a>
           <h1 class='my-5'><%= title %></h1>
 
+          <% if (typeof errors != 'undefined') { -%>
+            <% errors.forEach((error) => { -%>
+            <div class="alert alert-danger" role="alert">
+              <%= error.msg %>
+            </div>
+          <% });} -%>
+
           <form method='post' action=''>
             <div class="mb-3">
               <label class="form-label" for='name'>Nome e apelido</label>
-              <input required class="form-control" type='text' id='name' name='name'value="<%= locals.body ? body.name: '' %>" />
+              <input required class="form-control" type='text' id='name' name='name'value="<%= locals.body ? body.name : '' %>" />
             </div>
             <div class="mb-3">
               <label class="form-label" for='email'>e-mail</label>
-              <input required class="form-control" type='email' id='email' name='email'value="<%= locals.body ? body.email: '' %>" />
+              <input required class="form-control" type='email' id='email' name='email'value="<%= locals.body ? body.email : '' %>" />
             </div>
             <div class="mb-3">
               <label class="form-label" for='phone'>Telemóvel</label>
-              <input required class="form-control" type='tel' id='phone' name='phone'value="<%= locals.body ? body.phone: '' %>" />
+              <input required class="form-control" type='tel' id='phone' name='phone'value="<%= locals.body ? body.phone : '' %>" />
             </div>
             <div class="mb-3">
               <label class="form-label" for='org'>Empresa grupo EDP / área</label>
-              <input required class="form-control" type='text' id='org' name='org'value="<%= locals.body ? body.org: '' %>" />
+              <input required class="form-control" type='text' id='org' name='org'value="<%= locals.body ? body.org : '' %>" />
             </div>
-            <input type='submit' class="btn btn-primary" value='Sumbit' />
-
-          </form>
-          <% if (typeof errors != 'undefined') { -%>
-            <ul>
-            <% errors.forEach((error) => { -%>
-              <li><%= error.msg %></li>
-            <% }); -%>
-            </ul>
-          <% } -%>
+            <input type='submit' class="btn btn-primary" value='Submit' />
 
         </div>
       </div>

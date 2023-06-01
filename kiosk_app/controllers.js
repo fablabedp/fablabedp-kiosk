@@ -63,8 +63,7 @@ export const user_create_post = [
           org: req.body.org,
         });
         // New user saved. Redirect to user detail page.
-        //const new_user = await users.get(); // get most recent user
-        res.redirect('../user?id=' + users.count());
+        res.redirect('../user?id=' + users.count()); // redirect to most recent user
         await database.saveDatabase();
         console.log('new user added');
         console.log("num users: ", users.count());
@@ -102,14 +101,18 @@ export const project_create_get = asyncHandler(async (req, res, next) => {
 
 export const project_create_post = [
 
+
+
   // Validate and sanitize the name field.
-  body('project_name', 'project name must contain at least 3 characters')
+  body('name', 'project name must contain at least 3 characters')
     .trim()
     .isLength({ min: 3 })
     .escape(),
 
   // Process request after validation and sanitization.
   asyncHandler(async (req, res, next) => {
+
+    console.log(req.body);
 
     // Extract the validation errors from a request.
     const errors = validationResult(req);
@@ -127,7 +130,7 @@ export const project_create_post = [
 
       // Data from form is valid.
       // Check if project with same name already exists.
-      const existing_project = await projects.findOne({ name: req.body.project_name });
+      const existing_project = await projects.findOne({ name: req.body.name });
 
       if (existing_project) {
         // project exists, redirect to its detail page.
@@ -137,10 +140,9 @@ export const project_create_post = [
           errors: [{msg: 'A project with this name already exists.'}],
         });
       } else {
-        projects.insert({ name: req.body.project_name });
+        projects.insert({ name: req.body.name });
         // New project saved. Redirect to project detail page.
-        const new_project = await projects.findOne({ name: req.body.project_name });
-        res.render('project', { project: new_project });
+        res.redirect('../project?id=' + projects.count()); // redirect to most recent project
         await database.saveDatabase();
         console.log('new project added');
         console.log("num projects: ", projects.count());
