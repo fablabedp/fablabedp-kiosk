@@ -3,7 +3,7 @@
   <head>
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <% let title ='Registrar Utilizadora' %>
+    <% let title = lang.home.register_user %>
     <title><%= title %></title>
     <link href='../bootstrap.min.css' rel='stylesheet'>
     <link rel='stylesheet' href='/style.css' />
@@ -11,8 +11,9 @@
   <body class='d-flex flex-column h-100'>
     <main class='flex-shrink-0'>
       <div class='container'>
+        <%- include('home_button', { url: '../', text: lang.home_button }) %>
+
         <div class='d-grid gap-2 row-gap-100 col-6 mx-auto'>
-          <a class='btn btn-primary btn-lg m-5 btn-mod' href='../' type='button'>Home</a>
           <h1 class='mb-5'><%= title %></h1>
 
           <% if (typeof errors != 'undefined') { -%>
@@ -24,19 +25,19 @@
 
           <form method='post' action=''>
             <div class="mb-3">
-              <label class="form-label" for='name'>Nome e apelido</label>
+              <label class="form-label" for='name'><%= lang.users.name %></label>
               <input required class="form-control" type='text' id='name' name='name'value="<%= locals.body ? body.name : '' %>" />
             </div>
             <div class="mb-3">
-              <label class="form-label" for='email'>e-mail</label>
+              <label class="form-label" for='email'><%= lang.users.email %></label>
               <input required class="form-control" type='email' id='email' name='email'value="<%= locals.body ? body.email : '' %>" />
             </div>
             <div class="mb-3">
-              <label class="form-label" for='phone'>Telemóvel</label>
+              <label class="form-label" for='phone'><%= lang.users.phone %></label>
               <input required class="form-control" type='tel' id='phone' name='phone'value="<%= locals.body ? body.phone : '' %>" />
             </div>
             <div class="mb-3">
-              <label class="form-label" for='org'>Empresa grupo EDP / área</label>
+              <label class="form-label" for='org'><%= lang.users.org %></label>
               <input required class="form-control" type='text' id='org' name='org'value="<%= locals.body ? body.org : '' %>" />
             </div>
             <input type='submit' class="btn btn-primary" value='Submit' />

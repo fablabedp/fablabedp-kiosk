@@ -2,7 +2,16 @@ import asyncHandler from 'express-async-handler';
 import { body, validationResult } from 'express-validator';
 import { database, projects, users } from './database.js';
 
+import fs from 'fs';
+const lang = JSON.parse(fs.readFileSync('./lang.json'));
 
+export const home = asyncHandler(async (req, res, next) => {
+  res.render('index', { lang: lang });
+});
+
+export const photos = asyncHandler(async (req, res, next) => {
+  res.render('photos', { lang: lang });
+});
 
 /* ============================= User pages ================================ */
 
@@ -14,20 +23,20 @@ export const user_list = asyncHandler(async (req, res, next) => {
 export const user_detail = asyncHandler(async (req, res, next) => {
   const get_user = await users.get(req.query.id);
   console.log(get_user);
-  res.render('user', { user: get_user });
+  res.render('user', { lang: lang, user: get_user });
 });
 
 export const user_create_get = asyncHandler(async (req, res, next) => {
-  res.render('user_create');
+  res.render('user_create', { lang: lang });
 });
 
 export const user_create_post = [
 
   // Validate and sanitize fields.
-  body('name', 'Name is required.').trim().notEmpty().escape(),
-  body('email', 'Valid email is required.').trim().isEmail().escape(),
-  body('phone', 'Phone is required.').trim().notEmpty().escape(),
-  body('org', 'Organisation is required.').trim().notEmpty().escape(),
+  body('name', lang.errors.bad_name ).trim().notEmpty().escape(),
+  body('email', lang.errors.bad_email ).trim().isEmail().escape(),
+  body('phone', lang.errors.bad_phone ).trim().notEmpty().escape(),
+  body('org', lang.errors.bad_org ).trim().notEmpty().escape(),
 
   asyncHandler(async (req, res, next) => {
 
@@ -51,10 +60,11 @@ export const user_create_post = [
 
       if (existing_user) {
         // user exists, redirect to its detail page.
-        console.log('user with this name already exists');
+        console.log('user already exists');
         res.render('user_create', {
+          lang: lang,
           body: req.body,
-          errors: [{msg: 'A user with this name already exists.'}],
+          errors: [{msg: lang.errors.user_exists}],
         });
       } else {
         users.insert({
@@ -94,12 +104,12 @@ export const project_list = asyncHandler(async (req, res, next) => {
 export const project_detail = asyncHandler(async (req, res, next) => {
   const get_project = await projects.get(req.query.id);
   console.log(get_project);
-  res.render('project', { project: get_project });
+  res.render('project', { lang: lang, project: get_project });
 });
 
 export const project_create_get = asyncHandler(async (req, res, next) => {
   const user_list = await users.find({ 'name' : { '$ne' : null }});
-  res.render('project_create', { users: user_list });
+  res.render('project_create', { lang: lang, users: user_list });
 });
 
 export const project_create_post = [
@@ -113,8 +123,6 @@ export const project_create_post = [
   // Process request after validation and sanitization.
   asyncHandler(async (req, res, next) => {
 
-    console.log(req.body);
-
     // Extract the validation errors from a request.
     const errors = validationResult(req);
 
@@ -125,6 +133,7 @@ export const project_create_post = [
 
       // There are errors. Render the form again with sanitized values/error messages.
       res.render('project_create', {
+        lang: lang,
         body: req.body,
         users: user_list,
         errors: errors.array(),
@@ -139,11 +148,12 @@ export const project_create_post = [
 
       if (existing_project) {
         // project exists, redirect to its detail page.
-        console.log('project with this name already exists');
+        console.log('project already exists');
         res.render('project_create', {
+          lang: lang,
           body: req.body,
           users: user_list,
-          errors: [{msg: 'A project with this name already exists.'}],
+          errors: [{msg: lang.errors.project_exists}],
         });
       } else {
 

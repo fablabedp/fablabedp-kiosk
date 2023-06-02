@@ -3,7 +3,7 @@
   <head>
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <% let title = 'Project: ' + project.name %>
+    <% let title = lang.project + ': ' + project.name %>
     <title><%= title %></title>
     <link href='bootstrap.min.css' rel='stylesheet'>
     <link rel='stylesheet' href='/style.css' />
@@ -11,13 +11,14 @@
   <body class='d-flex flex-column h-100'>
     <main class='flex-shrink-0'>
       <div class='container'>
+        <%- include('home_button', { url: './', text: lang.home_button }) %>
+
         <div class='d-grid gap-2 row-gap-100 col-6 mx-auto'>
-          <a class='btn btn-primary btn-lg m-5 btn-mod' href='./' type='button'>Home</a>
           <h1 class='mb-5'><%= project.name %></h1>
           <p><strong>ID: </strong><%= project.$loki %></p>
-          <p><strong>User:</strong></br><%= project.user %></p>
-          <p><strong>Description:</strong></br><%= project.description %></p>
-          <p><strong>Tools:</strong>
+          <p><strong><%= lang.user %>:</strong></br><%= project.user %></p>
+          <p><strong><%= lang.projects.description %>:</strong></br><%= project.description %></p>
+          <p><strong><%= lang.projects.tools %>:</strong>
             <ul>
             <% if(typeof project.tools != 'undefined') { project.tools.forEach((tool) => { -%>
               <li><%= tool %></li>
@@ -27,7 +28,7 @@
             <% } -%>
             </ul>
           </p>
-          <p><strong>Materials:</strong>
+          <p><strong><%= lang.projects.materials.materials %>:</strong>
             <ul>
             <% if(typeof project.materials != 'undefined') { project.materials.forEach((material) => { -%>
               <li><%= material %></li>

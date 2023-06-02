@@ -1,0 +1,72 @@
+{
+  "home_title"       : "Kiosk Home",
+  "home_button"      : "Home",
+  "user"             : "Utilizadora",
+  "project"          : "Projeto",
+  "home"             :
+  {
+    "register_project" : "Registrar Projeto",
+    "register_user"    : "Registrar Utilizadora",
+    "project_list"     : "Projetos",
+    "photos"           : "Photo Booth"
+  },
+  "photos":
+  {
+    "title"            : "Kiosk Camera",
+    "take_photo"       : "1. Tirar Foto",
+    "to_review"        : "2. Enviar por Email",
+    "rotate"           : "Rotate",
+    "email_address"    : "Endereço de E-mail",
+    "send_email"       : "Enviar",
+    "email_sent"       : "Foto enviada. Obrigado!",
+    "to_camera"        : "Tirar Outro Foto",
+    "no_video"         : "Video stream not available."
+  },
+  "users":
+  {
+    "name"             : "Nome e apelido",
+    "email"            : "Email",
+    "phone"            : "Telemóvel",
+    "org"              : "Empresa grupo EDP / área"
+  },
+  "projects":
+  {
+    "name"             : "Designação do Projeto",
+    "description"      : "Breve descrição do projeto",
+    "tools"            : "Processos / ferramentas a utilizar do FabLab EDP",
+    "tool_list"        :
+    {
+      "unknown"          : "*Não sabe*",
+      "cad_2d"           : "Desenho vetorial 2D",
+      "cut_vinyl"        : "Corte de vinil",
+      "cut_laser"        : "Corte / gravação Laser",
+      "cut_waterjet"     : "Corte Waterjet",
+      "cad_3d"           : "Desenho CAD 3D",
+      "scan_3d"          : "Digitalização 3D",
+      "3d_print"         : "Impressão 3D",
+      "cnc"              : "Maquinação CNC",
+      "elec_tools"       : "Eletrónica e microcontroladores"
+    },
+    "tools_other"      : "Outro",
+    "materials"        : "Materiais a utilizar",
+    "material_list"    :
+    {
+      "wood"             : "Madeiras e derivados (MDF, contraplacado, etc.)",
+      "plastic"          : "Acrílicos e plásticos",
+      "3d_filament"      : "Filamentos de impressão (ex. PLA, PETG, ABS, etc.)",
+      "metal"            : "Metais não ferrosos (ex. alumínio , cobre e latão)",
+      "hardware"         : "Ferragens e parafusos",
+      "elec_parts"       : "Componentes eletrónicos e PCBs"
+    },
+    "materials_other"  : "Outro"
+  },
+  "errors":
+  {
+    "bad_name"  : "Name is required.",
+    "bad_email" : "Valid email is required.",
+    "bad_phone" : "Phone is required.",
+    "bad_org"   : "Organisation is required.",
+    "user_exists" : "A user with this name already exists.",
+    "project_exists" : "A project with this name already exists."
+  }
+}

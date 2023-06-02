@@ -4,14 +4,10 @@ import * as controller from './controllers.js';
 const router = express.Router();
 
 /* Home page */
-router.get('/', (req, res, next) => {
-  res.render('index');
-});
+router.get('/', controller.home);
 
 /* Camera Page */
-router.get('/photos', (req, res, next) => {
-  res.render('photos');
-});
+router.get('/photos', controller.photos);
 
 /* User pages */
 router.get('/user', controller.user_detail);

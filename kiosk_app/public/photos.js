@@ -100,11 +100,8 @@ function review_photo() {
 // adapted from https://developer.chrome.com/blog/imagecapture/
 navigator.mediaDevices.getUserMedia({video: true})
   .then((mediaStream) => {
-    console.log('BOOO');
     const mediaStreamTrack = mediaStream.getVideoTracks()[0];
-    console.log(mediaStreamTrack);
     const imageCapture = new ImageCapture(mediaStreamTrack);
-    console.log(imageCapture);
     video.srcObject = mediaStream;
     video.play();
     take_photo.addEventListener(
