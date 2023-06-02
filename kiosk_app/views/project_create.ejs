@@ -11,9 +11,9 @@
   <body class='d-flex flex-column h-100'>
     <main class='flex-shrink-0'>
       <div class='container'>
-        <div class='d-grid gap-2 row-gap-100 col-6 mx-auto'>
-          <a class='btn btn-primary btn-lg m-5 btn-mod' href='./' type='button'>Home</a>
-          <h1 class='my-5'><%= title %></h1>
+        <div class='d-grid gap-2 row-gap-100 col-6 mx-auto mb-5'>
+          <a class='btn btn-primary btn-lg m-5 btn-mod' href='../' type='button'>Home</a>
+          <h1 class='mb-5'><%= title %></h1>
 
           <% if (typeof errors != 'undefined') { -%>
             <% errors.forEach((error) => { -%>
@@ -24,6 +24,17 @@
 
           <form method='post' action=''>
             <div class="mb-3">
+              <label class="form-label" for='user'>Utilizadora:</label>
+              <select class="form-select" id='user' name='user'>
+                <% let existing_user = locals.body ? body.user : '' %>
+                <option selected hidden value="<%= existing_user %>"><%= existing_user %></option>
+                <% if (typeof users != 'undefined') { -%>
+                  <% users.forEach((user) => { -%>
+                    <option value="<%= user.name %>"><%= user.name %></option>
+                <% });} -%>
+              </select>
+            </div>
+            <div class="mb-3">
               <label class="form-label" for='name'>Designação do Projeto:</label>
               <input required class="form-control" type='text' id='name' name='name'value="<%= locals.body ? body.name : '' %>" />
             </div>
@@ -33,60 +44,67 @@
             </div>
             <div class="mb-3">
               <label class="form-label" for='tools'>Processos / ferramentas a utilizar do FabLab EDP:</label>
-              <% let tool_list = [
-                { 'id': 'unknown',      'name': '*Não sabe*' },
-                { 'id': 'cad_2d',       'name': 'Desenho vetorial 2D' },
-                { 'id': 'cut_vinyl',    'name': 'Corte de vinil' },
-                { 'id': 'cut_laser',    'name': 'Corte / gravação Laser' },
-                { 'id': 'cut_waterjet', 'name': 'Corte Waterjet' },
-                { 'id': 'cad_3d',       'name': 'Desenho CAD 3D' },
-                { 'id': 'scan_3d',      'name': 'Digitalização 3D' },
-                { 'id': '3d_print',     'name': 'Impressão 3D' },
-                { 'id': 'cnc',          'name': 'Maquinação CNC' },
-                { 'id': 'elec_tools',   'name': 'Eletrónica e microcontroladores' },
-              ]%>
-              <% tool_list.forEach( (tool) => { -%>
-                <div class="form-check">
-                  <input class="form-check-input" name='tools' type="checkbox" value=<%= tool.id %> id=<%= tool.id %> >
-                  <label class="form-check-label" for=<%= tool.id %>><%= tool.name %></label>
-                </div>
-              <% }); -%>
-              <% if ( locals.body ) {  -%>
-                <script>
-                  let tools = '<%= body.tools %>'.split(',')
-                  tools.forEach( (tool) => {
-                    document.getElementById(tool).checked = true;
-                  });
-                </script>
-              <% } -%>
+              <div class="form-check">
+                <% let tool_list = [
+                  { 'id': 'unknown',      'name': '*Não sabe*' },
+                  { 'id': 'cad_2d',       'name': 'Desenho vetorial 2D' },
+                  { 'id': 'cut_vinyl',    'name': 'Corte de vinil' },
+                  { 'id': 'cut_laser',    'name': 'Corte / gravação Laser' },
+                  { 'id': 'cut_waterjet', 'name': 'Corte Waterjet' },
+                  { 'id': 'cad_3d',       'name': 'Desenho CAD 3D' },
+                  { 'id': 'scan_3d',      'name': 'Digitalização 3D' },
+                  { 'id': '3d_print',     'name': 'Impressão 3D' },
+                  { 'id': 'cnc',          'name': 'Maquinação CNC' },
+                  { 'id': 'elec_tools',   'name': 'Eletrónica e microcontroladores' },
+                ]%>
+                <% tool_list.forEach( (tool) => { -%>
+                  <div class="form-check">
+                    <input class="form-check-input" name='tools' type="checkbox" value=<%= tool.id %> id=<%= tool.id %> >
+                    <label class="form-check-label" for=<%= tool.id %>><%= tool.name %></label>
+                  </div>
+                <% }); -%>
+                <% if ( locals.body ) {  -%>
+                  <script>
+                    let tools = '<%= body.tools %>'.split(',')
+                    tools.forEach( (tool) => {
+                      document.getElementById(tool).checked = true;
+                    });
+                  </script>
+                <% } -%>
+                <label class="form-check-label" for='tools_other'>Other: </label>
+                <input class="form-control" type='text' id='tools_other' name='tools_other'value="<%= locals.body ? body.tools_other : '' %>" />
+              </div>
             </div>
             <div class="mb-3">
               <label class="form-label" for='materials'>Materiais a utilizar</label>
-              <% let material_list = [
-                { 'id': 'wood',        'name': 'Madeiras e derivados (MDF, contraplacado, etc.)' },
-                { 'id': 'plastic',     'name': 'Acrílicos e plásticos' },
-                { 'id': '3d_filament', 'name': 'Filamentos de impressão (ex. PLA, PETG, ABS, etc.)' },
-                { 'id': 'metal',       'name': 'Metais não ferrosos (ex. alumínio , cobre e latão)' },
-                { 'id': 'hardware',    'name': 'Ferragens e parafusos' },
-                { 'id': 'elec_parts',  'name': 'Componentes eletrónicos e PCBs' },
-              ]%>
-              <% material_list.forEach( (material) => { -%>
-                <div class="form-check">
-                  <input class="form-check-input" name='materials' type="checkbox" value=<%= material.id %> id=<%= material.id %> >
-                  <label class="form-check-label" for=<%= material.id %>><%= material.name %></label>
-                </div>
-              <% }); -%>
-              <% if ( locals.body ) {  -%>
-                <script>
-                  let materials = '<%= body.materials %>'.split(',')
-                  materials.forEach( (material) => {
-                    document.getElementById(material).checked = true;
-                  });
-                </script>
-              <% } -%>
+              <div class="form-check">
+                <% let material_list = [
+                  { 'id': 'wood',        'name': 'Madeiras e derivados (MDF, contraplacado, etc.)' },
+                  { 'id': 'plastic',     'name': 'Acrílicos e plásticos' },
+                  { 'id': '3d_filament', 'name': 'Filamentos de impressão (ex. PLA, PETG, ABS, etc.)' },
+                  { 'id': 'metal',       'name': 'Metais não ferrosos (ex. alumínio , cobre e latão)' },
+                  { 'id': 'hardware',    'name': 'Ferragens e parafusos' },
+                  { 'id': 'elec_parts',  'name': 'Componentes eletrónicos e PCBs' },
+                ]%>
+                <% material_list.forEach( (material) => { -%>
+                  <div class="form-check">
+                    <input class="form-check-input" name='materials' type="checkbox" value=<%= material.id %> id=<%= material.id %> >
+                    <label class="form-check-label" for=<%= material.id %>><%= material.name %></label>
+                  </div>
+                <% }); -%>
+                <% if ( locals.body ) {  -%>
+                  <script>
+                    let materials = '<%= body.materials %>'.split(',')
+                    materials.forEach( (material) => {
+                      document.getElementById(material).checked = true;
+                    });
+                  </script>
+                <% } -%>
+                <label class="form-check-label" for='materials_other'>Other: </label>
+                <input class="form-control" type='text' id='materials_other' name='materials_other'value="<%= locals.body ? body.materials_other : '' %>" />
+              </div>
             </div>
             <input type='submit' class="btn btn-primary" value='Submit' />
-
           </form>
         </div>
       </div>

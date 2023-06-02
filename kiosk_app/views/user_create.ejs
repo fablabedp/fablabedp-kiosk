@@ -3,7 +3,7 @@
   <head>
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <% let title ='Registrar Utilizador' %>
+    <% let title ='Registrar Utilizadora' %>
     <title><%= title %></title>
     <link href='../bootstrap.min.css' rel='stylesheet'>
     <link rel='stylesheet' href='/style.css' />
@@ -12,8 +12,8 @@
     <main class='flex-shrink-0'>
       <div class='container'>
         <div class='d-grid gap-2 row-gap-100 col-6 mx-auto'>
-          <a class='btn btn-primary btn-lg m-5 btn-mod' href='./' type='button'>Home</a>
-          <h1 class='my-5'><%= title %></h1>
+          <a class='btn btn-primary btn-lg m-5 btn-mod' href='../' type='button'>Home</a>
+          <h1 class='mb-5'><%= title %></h1>
 
           <% if (typeof errors != 'undefined') { -%>
             <% errors.forEach((error) => { -%>

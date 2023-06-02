@@ -13,7 +13,30 @@
       <div class='container'>
         <div class='d-grid gap-2 row-gap-100 col-6 mx-auto'>
           <a class='btn btn-primary btn-lg m-5 btn-mod' href='./' type='button'>Home</a>
-          <h1 class='my-5'><%= title %></h1>
+          <h1 class='mb-5'><%= project.name %></h1>
+          <p><strong>ID: </strong><%= project.$loki %></p>
+          <p><strong>User:</strong></br><%= project.user %></p>
+          <p><strong>Description:</strong></br><%= project.description %></p>
+          <p><strong>Tools:</strong>
+            <ul>
+            <% if(typeof project.tools != 'undefined') { project.tools.forEach((tool) => { -%>
+              <li><%= tool %></li>
+            <% }); } -%>
+            <% if(project.tools_other) { -%>
+              <li><%= project.tools_other %></li>
+            <% } -%>
+            </ul>
+          </p>
+          <p><strong>Materials:</strong>
+            <ul>
+            <% if(typeof project.materials != 'undefined') { project.materials.forEach((material) => { -%>
+              <li><%= material %></li>
+            <% }); } -%>
+            <% if(project.materials_other) { -%>
+              <li><%= project.materials_other %></li>
+            <% } -%>
+            </ul>
+          </p>
         </div>
       </div>
     </main>

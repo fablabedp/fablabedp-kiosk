@@ -13,6 +13,7 @@ export const user_list = asyncHandler(async (req, res, next) => {
 
 export const user_detail = asyncHandler(async (req, res, next) => {
   const get_user = await users.get(req.query.id);
+  console.log(get_user);
   res.render('user', { user: get_user });
 });
 
@@ -92,16 +93,16 @@ export const project_list = asyncHandler(async (req, res, next) => {
 
 export const project_detail = asyncHandler(async (req, res, next) => {
   const get_project = await projects.get(req.query.id);
+  console.log(get_project);
   res.render('project', { project: get_project });
 });
 
 export const project_create_get = asyncHandler(async (req, res, next) => {
-  res.render('project_create');
+  const user_list = await users.find({ 'name' : { '$ne' : null }});
+  res.render('project_create', { users: user_list });
 });
 
 export const project_create_post = [
-
-
 
   // Validate and sanitize the name field.
   body('name', 'project name must contain at least 3 characters')
@@ -117,11 +118,15 @@ export const project_create_post = [
     // Extract the validation errors from a request.
     const errors = validationResult(req);
 
+    // Get list of registered users
+    const user_list = await users.find({ 'name' : { '$ne' : null }});
+
     if (!errors.isEmpty()) {
 
       // There are errors. Render the form again with sanitized values/error messages.
       res.render('project_create', {
         body: req.body,
+        users: user_list,
         errors: errors.array(),
       });
       return;
@@ -137,10 +142,24 @@ export const project_create_post = [
         console.log('project with this name already exists');
         res.render('project_create', {
           body: req.body,
+          users: user_list,
           errors: [{msg: 'A project with this name already exists.'}],
         });
       } else {
-        projects.insert({ name: req.body.name });
+
+        // if checkbox lists have only one item selected, make sure these are converted into arrays
+        let tools = Array.isArray(req.body.tools) ? req.body.tools : [req.body.tools];
+        let materials = Array.isArray(req.body.materials) ? req.body.materials : [req.body.materials];
+
+        projects.insert({
+          name: req.body.name,
+          user: req.body.user,
+          description: req.body.description,
+          tools: tools,
+          tools_other: req.body.tools_other,
+          materials: materials,
+          materials_other: req.body.materials_other,
+        });
         // New project saved. Redirect to project detail page.
         res.redirect('../project?id=' + projects.count()); // redirect to most recent project
         await database.saveDatabase();
