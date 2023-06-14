@@ -60,6 +60,11 @@
     },
     "materials_other"  : "Outro"
   },
+  "email":
+  {
+    "subject"    : "FabLab EDP Kiosk Photo",
+    "body_text"  : "Obrigado pela sua visíta."
+  },
   "errors":
   {
     "bad_name"  : "Name is required.",

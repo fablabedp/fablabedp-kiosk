@@ -1,3 +1,6 @@
+import fs from 'fs';
+const lang = JSON.parse(fs.readFileSync('./lang.json'));
+
 import { SMTPClient } from 'emailjs';
 
 const client = new SMTPClient({
@@ -9,12 +12,15 @@ const client = new SMTPClient({
 
 function sendEmail(email_address) {
 
+	console.log(lang.email.body_text);
+	console.log(lang.email.subject);
+
 	client.send(
 		{
-			text: 'body text',
-			from: 'Sender <sender@email.com>',
+			text: lang.email.body_text,
+			from: process.env.EMAIL_SENDER,
 			to: email_address,
-			subject: 'subject',
+			subject: lang.email.subject,
 			attachment: [
 				{ path: process.env.DOWNLOADS_PATH + 'image.jpg', type: 'image/jpeg', name: 'foto.jpg' },
 			],
