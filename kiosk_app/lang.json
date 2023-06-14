@@ -1,13 +1,14 @@
 {
   "home_title"       : "Kiosk Home",
   "home_button"      : "Home",
-  "user"             : "Utilizadora",
+  "user"             : "Utilizador",
   "project"          : "Projeto",
   "home"             :
   {
     "register_project" : "Registrar Projeto",
-    "register_user"    : "Registrar Utilizadora",
+    "register_user"    : "Registrar Utilizador",
     "project_list"     : "Projetos",
+    "user_list"        : "Utilizadores",
     "photos"           : "Photo Booth"
   },
   "photos":
@@ -32,6 +33,8 @@
   "projects":
   {
     "name"             : "Designação do Projeto",
+    "date_start"       : "Data de início",
+    "date_end"         : "Data de termino",
     "description"      : "Breve descrição do projeto",
     "tools"            : "Processos / ferramentas a utilizar do FabLab EDP",
     "tool_list"        :

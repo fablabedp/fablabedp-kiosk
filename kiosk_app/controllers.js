@@ -17,7 +17,15 @@ export const photos = asyncHandler(async (req, res, next) => {
 
 
 export const user_list = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: User list');
+  const user_names = [];
+  for (let i = 1; i < users.count(); i++) {
+    const get_user = await users.get(i);
+    user_names.push({
+      'name' : get_user.name,
+      'id' : get_user.$loki
+    });
+  }
+  res.render('users', { lang: lang, users: user_names });
 });
 
 export const user_detail = asyncHandler(async (req, res, next) => {
@@ -98,7 +106,15 @@ export const user_edit_post = [
 /* =========================== Project pages =============================== */
 
 export const project_list = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: Project list');
+  const project_names = [];
+  for (let i = 1; i < projects.count(); i++) {
+    const get_project = await projects.get(i);
+    project_names.push({
+      'name' : get_project.name,
+      'id' : get_project.$loki
+    });
+  }
+  res.render('projects', { lang: lang, projects: project_names });
 });
 
 export const project_detail = asyncHandler(async (req, res, next) => {
@@ -164,6 +180,7 @@ export const project_create_post = [
         projects.insert({
           name: req.body.name,
           user: req.body.user,
+          date_start: req.body.date_start,
           description: req.body.description,
           tools: tools,
           tools_other: req.body.tools_other,
