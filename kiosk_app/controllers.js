@@ -125,7 +125,22 @@ export const project_detail = asyncHandler(async (req, res, next) => {
 
 export const project_create_get = asyncHandler(async (req, res, next) => {
   const user_list = await users.find({ 'name' : { '$ne' : null }});
-  res.render('project_create', { lang: lang, users: user_list });
+  res.render('project_create', { lang: lang, users: user_list, new_project: 'true' });
+});
+
+export const project_edit_get = asyncHandler(async (req, res, next) => {
+  const user_list = await users.find({ 'name' : { '$ne' : null }});
+  const get_project = await projects.get(req.query.id);
+  console.log(get_project);
+  req.body.name            = get_project.name;
+  req.body.user            = get_project.user;
+  req.body.date_start      = get_project.date_start;
+  req.body.description     = get_project.description;
+  req.body.tools           = get_project.tools;
+  req.body.tools_other     = get_project.tools_other;
+  req.body.materials       = get_project.materials;
+  req.body.materials_other = get_project.materials_other;
+  res.render('project_create', { lang: lang, users: user_list, new_project: 'false', project: get_project, body: req.body});
 });
 
 export const project_create_post = [
@@ -162,7 +177,7 @@ export const project_create_post = [
       // Check if project with same name already exists.
       const existing_project = await projects.findOne({ name: req.body.name });
 
-      if (existing_project) {
+      if (existing_project && req.body.new_project == 'true') {
         // project exists, redirect to its detail page.
         console.log('project already exists');
         res.render('project_create', {
@@ -171,42 +186,49 @@ export const project_create_post = [
           users: user_list,
           errors: [{msg: lang.errors.project_exists}],
         });
+
       } else {
+
+        // create a new project if needed, otherwise get id of exisiting project
+        let id = -1;
+        if(req.body.new_project == 'true') {
+          projects.insert({name: req.body.name});
+          id = projects.count();
+          existing_project = projects.get(id);
+        } else {
+          id = existing_project.$loki;
+        }
 
         // if checkbox lists have only one item selected, make sure these are converted into arrays
         let tools = Array.isArray(req.body.tools) ? req.body.tools : [req.body.tools];
         let materials = Array.isArray(req.body.materials) ? req.body.materials : [req.body.materials];
 
-        projects.insert({
-          name: req.body.name,
-          user: req.body.user,
-          date_start: req.body.date_start,
-          description: req.body.description,
-          tools: tools,
-          tools_other: req.body.tools_other,
-          materials: materials,
-          materials_other: req.body.materials_other,
-        });
+        existing_project.name            = req.body.name;
+        existing_project.user            = req.body.user;
+        existing_project.date_start      = req.body.date_start;
+        existing_project.description     = req.body.description;
+        existing_project.tools           = tools;
+        existing_project.tools_other     = req.body.tools_other;
+        existing_project.materials       = materials;
+        existing_project.materials_other = req.body.materials_other;
+        projects.update(existing_project);
+
         // New project saved. Redirect to project detail page.
-        res.redirect('../project?id=' + projects.count()); // redirect to most recent project
+        res.redirect('../project?id=' + id); // redirect to most recent project
         await database.saveDatabase();
-        console.log('new project added');
+
+        if(req.body.new_project == 'true') {
+          console.log('added new project:', id);
+        } else {
+          console.log('updated project:', id);
+        }
         console.log("num projects: ", projects.count());
+
       }
     }
   }),
 ];
 
-
-export const project_edit_get = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: Edit project form');
-});
-
-export const project_edit_post = [
-  asyncHandler(async (req, res, next) => {
-    res.send('NOT IMPLEMENTED: Edit project confirmed');
-  }),
-];
 
 export const project_update_get = asyncHandler(async (req, res, next) => {
   res.send('NOT IMPLEMENTED: Update project form');

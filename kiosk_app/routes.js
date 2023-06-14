@@ -23,8 +23,8 @@ router.get('/projects', controller.project_list);
 router.get('/projects/create', controller.project_create_get);
 router.post('/projects/create', controller.project_create_post);
 router.get('/projects/edit', controller.project_edit_get);
-router.post('/projects/edit', controller.project_edit_post);
-// close a project and give feedback
+router.post('/projects/edit', controller.project_create_post);
+// update a project and give feedback
 router.get('/projects/update', controller.project_update_get);
 router.post('/projects/update', controller.project_update_post);
 // close a project and give feedback

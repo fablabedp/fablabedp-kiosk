@@ -6,6 +6,7 @@
   "home"             :
   {
     "register_project" : "Registrar Projeto",
+    "edit_project"     : "Editar Projeto",
     "register_user"    : "Registrar Utilizador",
     "project_list"     : "Projetos",
     "user_list"        : "Utilizadores",
