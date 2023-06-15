@@ -5,11 +5,16 @@
   "project"          : "Projeto",
   "home"             :
   {
+    "project_list"     : "Projetos",
     "register_project" : "Registrar Projeto",
     "edit_project"     : "Editar Projeto",
-    "register_user"    : "Registrar Utilizador",
-    "project_list"     : "Projetos",
+    "update_project"   : "Atualizar Projeto",
+    "close_project"    : "Terminar Projeto",
+    "delete_project"   : "Eliminar Projeto",
     "user_list"        : "Utilizadores",
+    "register_user"    : "Registrar Utilizador",
+    "edit_user"        : "Editar Utilizador",
+    "delete_user"      : "Eliminar Utilizador",
     "photos"           : "Photo Booth"
   },
   "photos":

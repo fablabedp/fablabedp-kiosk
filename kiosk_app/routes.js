@@ -3,6 +3,13 @@ import * as controller from './controllers.js';
 
 const router = express.Router();
 
+/* redirect trailing slashes */
+// https://stackoverflow.com/questions/13442377/redirect-all-trailing-slashes-globally-in-express
+router.get('\\S+\/$', function (req, res) {
+  return res.redirect(301, req.path.slice(0, -1) + req.url.slice(req.path.length));
+});
+
+
 /* Home page */
 router.get('/', controller.home);
 
@@ -15,7 +22,7 @@ router.get('/users', controller.user_list);
 router.get('/users/create', controller.user_create_get);
 router.post('/users/create', controller.user_create_post);
 router.get('/users/edit', controller.user_edit_get);
-router.post('/users/edit', controller.user_edit_post);
+router.post('/users/edit', controller.user_create_post);
 
 /* Project Pages */
 router.get('/project', controller.project_detail);

@@ -18,7 +18,7 @@ export const photos = asyncHandler(async (req, res, next) => {
 
 export const user_list = asyncHandler(async (req, res, next) => {
   const user_names = [];
-  for (let i = 1; i < users.count(); i++) {
+  for (let i = 1; i <= users.count(); i++) {
     const get_user = await users.get(i);
     user_names.push({
       'name' : get_user.name,
@@ -35,8 +35,19 @@ export const user_detail = asyncHandler(async (req, res, next) => {
 });
 
 export const user_create_get = asyncHandler(async (req, res, next) => {
-  res.render('user_create', { lang: lang });
+  res.render('user_create', { lang: lang, new_user: 'true' });
 });
+
+export const user_edit_get = asyncHandler(async (req, res, next) => {
+  const get_user = await users.get(req.query.id);
+  console.log(get_user);
+  req.body.name  = get_user.name;
+  req.body.email = get_user.email;
+  req.body.phone = get_user.phone;
+  req.body.org   = get_user.org;
+  res.render('user_create', { lang: lang, new_user: 'false', user: get_user, body: req.body });
+});
+
 
 export const user_create_post = [
 
@@ -66,23 +77,36 @@ export const user_create_post = [
       // Check if user with same name already exists.
       const existing_user = await users.findOne({ name: req.body.name });
 
-      if (existing_user) {
+      if (existing_user && req.body.new_user == 'true') {
         // user exists, redirect to its detail page.
         console.log('user already exists');
         res.render('user_create', {
           lang: lang,
           body: req.body,
+          new_user: req.body.new_user,
           errors: [{msg: lang.errors.user_exists}],
         });
+
       } else {
-        users.insert({
-          name: req.body.name,
-          email: req.body.email,
-          phone: req.body.phone,
-          org: req.body.org,
-        });
+
+        // create a new user if needed, otherwise get id of exisiting user
+        let id = -1;
+        if(req.body.new_user == 'true') {
+          users.insert({name: req.body.name});
+          id = users.count();
+          existing_user = users.get(id);
+        } else {
+          id = existing_user.$loki;
+        }
+
+        existing_user.name  = req.body.name;
+        existing_user.email = req.body.email;
+        existing_user.phone = req.body.phone;
+        existing_user.org   = req.body.org;
+        users.update(existing_user);
+
         // New user saved. Redirect to user detail page.
-        res.redirect('../user?id=' + users.count()); // redirect to most recent user
+        res.redirect('../user?id=' + id);
         await database.saveDatabase();
         console.log('new user added');
         console.log("num users: ", users.count());
@@ -91,9 +115,6 @@ export const user_create_post = [
   }),
 ];
 
-export const user_edit_get = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: Edit user form');
-});
 
 export const user_edit_post = [
   asyncHandler(async (req, res, next) => {
