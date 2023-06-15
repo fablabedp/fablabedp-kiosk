@@ -5,26 +5,12 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <% let title = new_project === 'true' ? lang.home.register_project : lang.home.edit_project %>
     <title><%= title %></title>
-    <link href='../bootstrap.min.css' rel='stylesheet'>
+    <link rel='stylesheet' href='../style.css' />
+    <link rel='stylesheet' href='../bootstrap.min.css'>
     <script type='text/javascript' src='https://code.jquery.com/jquery-3.7.0.min.js'></script>
     <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js'></script>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker3.css'/>
-    <link rel='stylesheet' href='/style.css' />
-    <script>
-    // date picker adapted from https://formden.com/blog/date-picker
-    $(document).ready(() => {
-      let date_input=$("input[name='date_start']");
-      let date_container=$('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : 'body';
-      date_input.datepicker({
-        format: 'dd/mm/yyyy',
-        container: date_container,
-        todayHighlight: true,
-        autoclose: true,
-      })
-      let d = new Date();
-      $('#date_start').val(d.getDate() + '/' + (d.getMonth()+1) + '/' + d.getFullYear());
-    })
-    </script>
+    <script type='text/javascript' src='../datepicker.js'></script>
   </head>
   <body class='d-flex flex-column h-100'>
     <main class='flex-shrink-0'>
@@ -59,10 +45,10 @@
               </select>
             </div>
             <div class='mb-3'>
-              <label class='form-label' for='date_start'><%= lang.projects.date_start %>:</label>
+              <label class='form-label' for='date'><%= lang.projects.date_start %>:</label>
               <div class='input-group date'>
                 <div class='input-group-addon'>
-                  <input type='text' class='form-control' id='date_start' name='date_start'>
+                  <input type='text' class='form-control' id='date' name='date'>
                   <span class='glyphicon glyphicon-th'></span>
                 </div>
               </div>
@@ -115,7 +101,7 @@
             </div>
 
             <input type='hidden' id='new_project' name='new_project' value='<%= new_project === 'true' ? 'true' : 'false' %>' />
-            <input type='submit' class='btn btn-primary' value='Submit' />
+            <input type='submit' class='btn btn-primary mt-3' value='<%= lang.submit %>' />
 
           </form>
         </div>

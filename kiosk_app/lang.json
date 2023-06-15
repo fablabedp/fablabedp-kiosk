@@ -3,6 +3,8 @@
   "home_button"      : "Home",
   "user"             : "Utilizador",
   "project"          : "Projeto",
+  "submit"           : "Submeter",
+  "update"           : "Atualizar",
   "home"             :
   {
     "project_list"     : "Projetos",
@@ -42,12 +44,12 @@
     "active"           : "Ativo",
     "inactive"         : "Terminado",
     "date_start"       : "Data de início",
+    "date_log"         : "Data de feedback",
     "date_end"         : "Data de termino",
     "description"      : "Breve descrição do projeto",
     "tools"            : "Processos / ferramentas a utilizar do FabLab EDP",
     "tool_list"        :
     {
-      "unknown"          : "*Não sabe*",
       "cad_2d"           : "Desenho vetorial 2D",
       "cut_vinyl"        : "Corte de vinil",
       "cut_laser"        : "Corte / gravação Laser",
@@ -69,7 +71,11 @@
       "hardware"         : "Ferragens e parafusos",
       "elec_parts"       : "Componentes eletrónicos e PCBs"
     },
-    "materials_other"  : "Outro"
+    "materials_other"  : "Outro",
+    "log"              : "Feedback",
+    "hours"            : "Horas",
+    "evaluation"       : "Avaliação",
+    "media"            : "Galeria"
   },
   "email":
   {

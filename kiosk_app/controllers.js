@@ -116,12 +116,6 @@ export const user_create_post = [
 ];
 
 
-export const user_edit_post = [
-  asyncHandler(async (req, res, next) => {
-    res.send('NOT IMPLEMENTED: Edit user confirmed');
-  }),
-];
-
 
 
 /* =========================== Project pages =============================== */
@@ -258,9 +252,12 @@ export const project_create_post = [
   }),
 ];
 
-
 export const project_update_get = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: Update project form');
+  const get_project = await projects.get(req.query.id);
+  console.log(get_project);
+  req.body.name = get_project.name;
+  req.body.user = get_project.user;
+  res.render('project_update', { lang: lang, project: get_project, body: req.body});
 });
 
 export const project_update_post = [

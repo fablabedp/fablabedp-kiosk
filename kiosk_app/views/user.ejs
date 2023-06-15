@@ -16,14 +16,17 @@
         <div class='d-grid gap-2 row-gap-100 col-6 mx-auto'>
           <h1 class='mb-5'><%= user.name %></h1>
 
-          <div class='d-grid col-4 mb-5'>
-            <a class='btn btn-primary' href='../users/edit?id=<%= user.$loki %>' type='button'><%= lang.home.edit_user %></a>
-          </div>
-
-          <p><strong>ID: </strong><%= user.$loki %></p>
+          <!-- <p><strong>ID: </strong><%= user.$loki %></p> -->
           <p><strong><%= lang.users.email %>:</strong></br><%= user.email %></p>
           <p><strong><%= lang.users.phone %>:</strong></br><%= user.phone %></p>
           <p><strong><%= lang.users.org %>:</strong></br><%= user.org %></p>
+          
+          <div class='d-grid col-4 mt-3 mb-5 gap-3'>
+            <a class='btn btn-primary' href='../users/edit?id=<%= user.$loki %>' type='button'><%= lang.home.edit_user %></a>
+            <a class='btn btn-danger' href='../users/delete?id=<%= user.$loki %>' type='button'><%= lang.home.delete_user %></a>
+          </div>
+
+
         </div>
       </div>
     </main>

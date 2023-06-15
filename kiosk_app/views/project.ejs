@@ -16,10 +16,6 @@
         <div class='d-grid gap-2 row-gap-100 col-6 mx-auto'>
           <h1 class='mb-4'><%= project.name %></h1>
 
-          <div class='d-grid col-4 mb-5'>
-            <a class='btn btn-primary' href='../projects/edit?id=<%= project.$loki %>' type='button'><%= lang.home.edit_project %></a>
-          </div>
-
           <% if(project.active) { -%>
             <div class="d-grid col-2 py-2 alert alert-success">
               <%= lang.projects.active %>
@@ -29,14 +25,14 @@
               <%= lang.projects.inactive %>
             </div>
           <% } -%>
-          <p><strong>ID: </strong><%= project.$loki %></p>
+          <!-- <p><strong>ID: </strong><%= project.$loki %></p> -->
           <p><strong><%= lang.user %>:</strong></br><%= project.user %></p>
           <p><strong><%= lang.projects.date_start %>:</strong></br><%= project.date_start %></p>
           <p><strong><%= lang.projects.description %>:</strong></br><%= project.description %></p>
           <p><strong><%= lang.projects.tools %>:</strong>
             <ul>
-            <% if(typeof project.tools != 'undefined') { project.tools.forEach((tool) => { -%>
-              <li><%= tool %></li>
+            <% if(typeof project.tools != 'undefined' && typeof project.tools[0] != 'undefined' && project.tools[0] != null) { project.tools.forEach((tool) => { -%>
+              <li><%= lang.projects.tool_list[tool] %></li>
             <% }); } -%>
             <% if(project.tools_other) { -%>
               <li><%= project.tools_other %></li>
@@ -45,14 +41,42 @@
           </p>
           <p><strong><%= lang.projects.materials %>:</strong>
             <ul>
-            <% if(typeof project.materials != 'undefined') { project.materials.forEach((material) => { -%>
-              <li><%= material %></li>
+            <% if(typeof project.materials != 'undefined' && typeof project.materials[0] != 'undefined' && project.materials[0] != null) { project.materials.forEach((material) => { -%>
+              <li><%= lang.projects.material_list[material] %></li>
             <% }); } -%>
             <% if(project.materials_other) { -%>
               <li><%= project.materials_other %></li>
-            <% } -%>
+            <% }  -%>
             </ul>
           </p>
+
+          <hr>
+
+          <h3><%= lang.projects.log %></h3>
+
+          <hr>
+
+          <h3><%= lang.projects.hours %></h3>
+
+          <hr>
+
+          <h3><%= lang.projects.media %></h3>
+
+          <hr>
+<!-- 
+          <% if(!project.active) { -%>
+            <h3><%= lang.projects.feedback %></h3>
+
+            <hr>
+          <% } -%>
+ -->
+          <div class='d-grid col-4 mt-3 mb-5 gap-3'>
+            <a class='btn btn-primary' href='../projects/update?id=<%= project.$loki %>' type='button'><%= lang.home.update_project %></a>
+            <a class='btn btn-primary' href='../projects/edit?id=<%= project.$loki %>' type='button'><%= lang.home.edit_project %></a>
+            <a class='btn btn-primary' href='../projects/close?id=<%= project.$loki %>' type='button'><%= lang.home.close_project %></a>
+            <a class='btn btn-danger' href='../projects/delete?id=<%= project.$loki %>' type='button'><%= lang.home.delete_project %></a>
+          </div>
+
         </div>
       </div>
     </main>
