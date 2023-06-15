@@ -34,6 +34,8 @@
   "projects":
   {
     "name"             : "Designação do Projeto",
+    "active"           : "Ativo",
+    "inactive"         : "Terminado",
     "date_start"       : "Data de início",
     "date_end"         : "Data de termino",
     "description"      : "Breve descrição do projeto",

@@ -6,15 +6,15 @@
     <% let title = new_project === 'true' ? lang.home.register_project : lang.home.edit_project %>
     <title><%= title %></title>
     <link href='../bootstrap.min.css' rel='stylesheet'>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker3.css"/>
+    <script type='text/javascript' src='https://code.jquery.com/jquery-3.7.0.min.js'></script>
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js'></script>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker3.css'/>
     <link rel='stylesheet' href='/style.css' />
     <script>
     // date picker adapted from https://formden.com/blog/date-picker
     $(document).ready(() => {
-      let date_input=$('input[name="date_start"]');
-      let date_container=$('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+      let date_input=$("input[name='date_start']");
+      let date_container=$('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : 'body';
       date_input.datepicker({
         format: 'dd/mm/yyyy',
         container: date_container,
@@ -36,48 +36,48 @@
 
           <% if (typeof errors != 'undefined') { -%>
             <% errors.forEach((error) => { -%>
-            <div class="alert alert-danger" role="alert">
+            <div class='alert alert-danger' role='alert'>
               <%= error.msg %>
             </div>
           <% });} -%>
 
           <form method='post' action=''>
 
-            <div class="mb-3">
-              <label class="form-label" for='name'><%= lang.projects.name %>:</label>
-              <input required class="form-control" type='text' id='name' name='name'value="<%= locals.body ? body.name : '' %>" />
+            <div class='mb-3'>
+              <label class='form-label' for='name'><%= lang.projects.name %>:</label>
+              <input required class='form-control' type='text' id='name' name='name'value='<%= locals.body ? body.name : '' %>' />
             </div>
-            <div class="mb-3">
-              <label class="form-label" for='user'><%= lang.user %>:</label>
-              <select class="form-select" id='user' name='user'>
+            <div class='mb-3'>
+              <label class='form-label' for='user'><%= lang.user %>:</label>
+              <select class='form-select' id='user' name='user'>
                 <% let existing_user = locals.body ? body.user : '' %>
-                <option selected hidden value="<%= existing_user %>"><%= existing_user %></option>
+                <option selected hidden value='<%= existing_user %>'><%= existing_user %></option>
                 <% if (typeof users != 'undefined') { -%>
                   <% users.forEach((user) => { -%>
-                    <option value="<%= user.name %>"><%= user.name %></option>
+                    <option value='<%= user.name %>'><%= user.name %></option>
                 <% });} -%>
               </select>
             </div>
-            <div class="mb-3">
-              <label class="form-label" for='date_start'><%= lang.projects.date_start %>:</label>
-              <div class="input-group date">
-                <div class="input-group-addon">
-                  <input type="text" class="form-control" id="date_start" name="date_start">
-                  <span class="glyphicon glyphicon-th"></span>
+            <div class='mb-3'>
+              <label class='form-label' for='date_start'><%= lang.projects.date_start %>:</label>
+              <div class='input-group date'>
+                <div class='input-group-addon'>
+                  <input type='text' class='form-control' id='date_start' name='date_start'>
+                  <span class='glyphicon glyphicon-th'></span>
                 </div>
               </div>
             </div>
-            <div class="mb-3">
-              <label class="form-label" for='description'><%= lang.projects.description %>:</label>
-              <textarea  required class="form-control" rows="3" id='description' name='description'><%= locals.body ? body.description : '' %></textarea>
+            <div class='mb-3'>
+              <label class='form-label' for='description'><%= lang.projects.description %>:</label>
+              <textarea  required class='form-control' rows='3' id='description' name='description'><%= locals.body ? body.description : '' %></textarea>
             </div>
-            <div class="mb-3">
-              <label class="form-label" for='tools'><%= lang.projects.tools %>:</label>
-              <div class="form-check">
+            <div class='mb-3'>
+              <label class='form-label' for='tools'><%= lang.projects.tools %>:</label>
+              <div class='form-check'>
                 <% Object.keys(lang.projects.tool_list).forEach( id => { -%>
-                  <div class="form-check">
-                    <input class="form-check-input" name='tools' type="checkbox" value=<%= id %> id=<%= id %> >
-                    <label class="form-check-label" for=<%= id %>><%= lang.projects.tool_list[id] %></label>
+                  <div class='form-check'>
+                    <input class='form-check-input' name='tools' type='checkbox' value=<%= id %> id=<%= id %> >
+                    <label class='form-check-label' for=<%= id %>><%= lang.projects.tool_list[id] %></label>
                   </div>
                 <% }); -%>
                 <% if ( locals.body ) {  -%>
@@ -88,17 +88,17 @@
                     });
                   </script>
                 <% } -%>
-                <label class="form-check-label" for='tools_other'><%= lang.projects.tools_other %>: </label>
-                <input class="form-control" type='text' id='tools_other' name='tools_other'value="<%= locals.body ? body.tools_other : '' %>" />
+                <label class='form-check-label' for='tools_other'><%= lang.projects.tools_other %>: </label>
+                <input class='form-control' type='text' id='tools_other' name='tools_other'value='<%= locals.body ? body.tools_other : '' %>' />
               </div>
             </div>
-            <div class="mb-3">
-              <label class="form-label" for='materials'><%= lang.projects.materials %></label>
-              <div class="form-check">
+            <div class='mb-3'>
+              <label class='form-label' for='materials'><%= lang.projects.materials %></label>
+              <div class='form-check'>
                 <% Object.keys(lang.projects.material_list).forEach( id => { -%>
-                  <div class="form-check">
-                    <input class="form-check-input" name='materials' type="checkbox" value=<%= id %> id=<%= id %> >
-                    <label class="form-check-label" for=<%= id %>><%= lang.projects.material_list[id] %></label>
+                  <div class='form-check'>
+                    <input class='form-check-input' name='materials' type='checkbox' value=<%= id %> id=<%= id %> >
+                    <label class='form-check-label' for=<%= id %>><%= lang.projects.material_list[id] %></label>
                   </div>
                 <% }); -%>
                 <% if ( locals.body ) {  -%>
@@ -109,13 +109,13 @@
                     });
                   </script>
                 <% } -%>
-                <label class="form-check-label" for='materials_other'>Other: </label>
-                <input class="form-control" type='text' id='materials_other' name='materials_other'value="<%= locals.body ? body.materials_other : '' %>" />
+                <label class='form-check-label' for='materials_other'>Other: </label>
+                <input class='form-control' type='text' id='materials_other' name='materials_other'value='<%= locals.body ? body.materials_other : '' %>' />
               </div>
             </div>
 
-            <input type="hidden" id="new_project" name="new_project" value="<%= new_project === 'true' ? 'true' : 'false' %>" />
-            <input type='submit' class="btn btn-primary" value='Submit' />
+            <input type='hidden' id='new_project' name='new_project' value='<%= new_project === 'true' ? 'true' : 'false' %>' />
+            <input type='submit' class='btn btn-primary' value='Submit' />
 
           </form>
         </div>

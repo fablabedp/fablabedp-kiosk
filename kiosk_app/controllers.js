@@ -106,14 +106,20 @@ export const user_edit_post = [
 /* =========================== Project pages =============================== */
 
 export const project_list = asyncHandler(async (req, res, next) => {
-  const project_names = [];
-  for (let i = 1; i < projects.count(); i++) {
+  let project_names = [];
+  for (let i = 1; i <= projects.count(); i++) {
     const get_project = await projects.get(i);
     project_names.push({
       'name' : get_project.name,
+      'active' : get_project.active,
+      'date_start' : get_project.date_start,
       'id' : get_project.$loki
     });
   }
+  // Sorting projects not working yet...
+  // project_names = project_names.sort((a,b) => {
+  //   return new Date(b.date_start) - new Date(a.date_start);
+  // });
   res.render('projects', { lang: lang, projects: project_names });
 });
 
@@ -167,6 +173,7 @@ export const project_create_post = [
         lang: lang,
         body: req.body,
         users: user_list,
+        new_project: req.body.new_project,
         errors: errors.array(),
       });
       return;
@@ -175,7 +182,7 @@ export const project_create_post = [
 
       // Data from form is valid.
       // Check if project with same name already exists.
-      const existing_project = await projects.findOne({ name: req.body.name });
+      let existing_project = await projects.findOne({ name: req.body.name });
 
       if (existing_project && req.body.new_project == 'true') {
         // project exists, redirect to its detail page.
@@ -184,6 +191,7 @@ export const project_create_post = [
           lang: lang,
           body: req.body,
           users: user_list,
+          new_project: req.body.new_project,
           errors: [{msg: lang.errors.project_exists}],
         });
 
@@ -192,7 +200,7 @@ export const project_create_post = [
         // create a new project if needed, otherwise get id of exisiting project
         let id = -1;
         if(req.body.new_project == 'true') {
-          projects.insert({name: req.body.name});
+          projects.insert({name: req.body.name, active: true});
           id = projects.count();
           existing_project = projects.get(id);
         } else {
@@ -213,8 +221,8 @@ export const project_create_post = [
         existing_project.materials_other = req.body.materials_other;
         projects.update(existing_project);
 
-        // New project saved. Redirect to project detail page.
-        res.redirect('../project?id=' + id); // redirect to most recent project
+        // project saved. Redirect to project detail page.
+        res.redirect('../project?id=' + id);
         await database.saveDatabase();
 
         if(req.body.new_project == 'true') {

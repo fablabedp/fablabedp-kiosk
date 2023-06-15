@@ -20,6 +20,15 @@
             <a class='btn btn-primary' href='../projects/edit?id=<%= project.$loki %>' type='button'><%= lang.home.edit_project %></a>
           </div>
 
+          <% if(project.active) { -%>
+            <div class="d-grid col-2 py-2 alert alert-success">
+              <%= lang.projects.active %>
+            </div>
+          <% } else { -%>
+            <div class="d-grid col-2 py-2 alert alert-secondary">
+              <%= lang.projects.inactive %>
+            </div>
+          <% } -%>
           <p><strong>ID: </strong><%= project.$loki %></p>
           <p><strong><%= lang.user %>:</strong></br><%= project.user %></p>
           <p><strong><%= lang.projects.date_start %>:</strong></br><%= project.date_start %></p>
