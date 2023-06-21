@@ -18,7 +18,9 @@
           <div class="list-group">
             <% if(users.length > 0) { users.forEach((user) => { -%>
               <a class="list-group-item list-group-item-action py-3" href='./user?id=<%= user.id %>'><%= user.name %></a>
-            <% }); } -%>
+            <% }); } else { -%>
+              <p><%= lang.errors.no_users %></p>
+            <% } -%>
           </div>
         </div>
       </div>

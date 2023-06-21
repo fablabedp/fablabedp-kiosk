@@ -84,11 +84,13 @@
   },
   "errors":
   {
-    "bad_name"  : "Name is required.",
-    "bad_email" : "Valid email is required.",
-    "bad_phone" : "Phone is required.",
-    "bad_org"   : "Organisation is required.",
-    "user_exists" : "A user with this name already exists.",
-    "project_exists" : "A project with this name already exists."
+    "bad_name"             : "Name is required.",
+    "bad_email"            : "Valid email is required.",
+    "bad_phone"            : "Phone is required.",
+    "bad_org"              : "Organisation is required.",
+    "user_exists"          : "A user with this name already exists.",
+    "no_users"             : "There are no users.",
+    "no_active_projects"   : "There are no active projects.",
+    "no_inactive_projects" : "There are no finished projects."
   }
 }

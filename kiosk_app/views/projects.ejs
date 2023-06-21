@@ -25,7 +25,9 @@
               <% if(project.active) { -%>
                 <a class='list-group-item list-group-item-action py-3' href='./project?id=<%= project.id %>'><span class="alert alert-success py-1 me-3"><%= project.date_start %></span><%= project.name %></a>
               <% } -%>
-            <% }); } -%>
+            <% }); } else { -%>
+              <p><%= lang.errors.no_active_projects %></p>
+            <% } -%>
           </div>
 
           <div class='d-grid col-2 py-2 my-3 alert alert-secondary'>
@@ -37,7 +39,9 @@
               <% if(!project.active) { -%>
               <a class='list-group-item list-group-item-action py-3' href='./project?id=<%= project.id %>'><span class="alert alert-secondary py-1 me-3"><%= project.date_start %></span><%= project.name %></a>
               <% } -%>
-            <% }); } -%>
+            <% }); } else { -%>
+              <p><%= lang.errors.no_inactive_projects %></p>
+            <% } -%>
           </div>
 
         </div>
