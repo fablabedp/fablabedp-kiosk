@@ -40,6 +40,7 @@
               <label class="form-label" for='org'><%= lang.users.org %></label>
               <input required class="form-control" type='text' id='org' name='org'value="<%= locals.body ? body.org : '' %>" />
             </div>
+            <input type='hidden' id='new_user' name='new_user' value='<%= new_user === 'true' ? 'true' : 'false' %>' />
             <input type='submit' class="btn btn-primary mt-3" value='<%= lang.submit %>' />
 
         </div>

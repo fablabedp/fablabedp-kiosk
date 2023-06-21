@@ -51,10 +51,11 @@ export const user_edit_get = asyncHandler(async (req, res, next) => {
 
 export const user_create_post = [
 
+
   // Validate and sanitize fields.
   body('name', lang.errors.bad_name ).trim().notEmpty().escape(),
   body('email', lang.errors.bad_email ).trim().isEmail().escape(),
-  body('phone', lang.errors.bad_phone ).trim().notEmpty().escape(),
+  body('phone', lang.errors.bad_phone ).trim().notEmpty().escape().isNumeric(),
   body('org', lang.errors.bad_org ).trim().notEmpty().escape(),
 
   asyncHandler(async (req, res, next) => {
@@ -66,7 +67,9 @@ export const user_create_post = [
 
       // There are errors. Render the form again with sanitized values/error messages.
       res.render('user_create', {
+        lang: lang,
         body: req.body,
+        new_user: req.body.new_user,
         errors: errors.array(),
       });
       return;
@@ -75,7 +78,7 @@ export const user_create_post = [
 
       // Data from form is valid.
       // Check if user with same name already exists.
-      const existing_user = await users.findOne({ name: req.body.name });
+      let existing_user = await users.findOne({ name: req.body.name });
 
       if (existing_user && req.body.new_user == 'true') {
         // user exists, redirect to its detail page.
