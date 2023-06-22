@@ -231,8 +231,6 @@ export const project_create_post = [
         let tools = Array.isArray(req.body.tools) ? req.body.tools : [req.body.tools];
         let materials = Array.isArray(req.body.materials) ? req.body.materials : [req.body.materials];
 
-        console.log('TEAM', team);
-
         existing_project.name            = req.body.name;
         existing_project.team            = team;
         existing_project.date_start      = req.body.date_start;

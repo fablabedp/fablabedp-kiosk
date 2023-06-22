@@ -37,13 +37,17 @@
               <label class='form-label' for='team'><%= lang.projects.team %>:</label>
               <div class='row'>
                 <div class='col-8 gap-2'>
+                  <div class='list-group mb-3' id='team-list'></div>
+                </div>
+              </div>
+              <div class='row'>
+                <div class='col-8 gap-2'>
                   <select class='form-select' id='users' name='users'>
                     <% if (typeof users != 'undefined') { -%>
                       <% users.forEach((user) => { -%>
                         <option value='<%= user.name %>'><%= user.name %></option>
                     <% });} -%>
                   </select>
-                  <div class='list-group mt-3' id='team-list'></div>
                 </div>
                 <div class='col-4 gap-2'>
                   <button type="button" class="btn btn-primary" id='add-member'><%= lang.projects.add_member %></button>
@@ -121,44 +125,57 @@
     <% if ( locals.body ) {  -%>
       let members = '<%= body.team %>'.split(',')
       members.forEach( (member) => {
-        team.push(member);
+        addMember(member);
       });
     <% } -%>
 
     let add_member = document.getElementById('add-member');
+    let remove_members;
 
     add_member.addEventListener(
       'click',
       (ev) => {
         let member = document.getElementById('users').options[users.selectedIndex].text;
         if (team.find(el => el === member) == undefined) {
-          team.push(member);
+          addMember(member);
           updateTeam();
-
-          let team_member = document.createElement('input');
-          team_member.type = 'hidden';
-          team_member.name = 'team';
-          team_member.value = member;
-          document.getElementById('project-form').appendChild(team_member);
         }
-        console.log(document.getElementById('project-form'));
       },
       false
     );
 
+    function addMember(member) {
+      team.push(member);
+      let team_member = document.createElement('input');
+      team_member.type = 'hidden';
+      team_member.name = 'team';
+      team_member.value = member;
+      document.getElementById('project-form').appendChild(team_member);
+    }
+
     function updateTeam() {
       let list = '';
       if(team.length > 0) {
-        team.forEach((member) => {
-          list += "<p class='list-group-item list-group-item-action py-2 my-0'>";
-          list += "<button type='button' class='btn btn-danger py-0 px-2 align-items-end' id='remove-member'>&#10799</button>";
+        team.forEach((member, index) => {
+          list += "<div class='list-group-item list-group-item-action py-2 pe-2 my-0'>";
+          list += "<div class='d-flex w-100 justify-content-between'>"
           list += member;
-          list += "</p>";
+          list += "<button type='button' class='btn btn-danger py-0 px-2 remove-member'>&#10799</button>";
+          list += "</div></div>";
         });
       } else {
         list += "<p><em>" + "<%= lang.errors.empty_team %>" + "</em></p>"
       }
       document.getElementById('team-list').innerHTML = list;
+      remove_members = document.getElementsByClassName('remove-member');
+      Array.from(remove_members).forEach(function(el, index) {
+        el.addEventListener('click', () => {
+          team.splice(index, 1);
+          let members = document.getElementsByName('team');
+          members[index].remove();
+          updateTeam();
+        });
+      });
     }
 
     window.onload = (event) => {
@@ -166,4 +183,4 @@
     }
 
   </script>
-</html>
+  </html>
