@@ -26,7 +26,18 @@
             </div>
           <% } -%>
           <!-- <p><strong>ID: </strong><%= project.$loki %></p> -->
-          <p><strong><%= lang.user %>:</strong></br><%= project.user %></p>
+          <!-- <p><strong><%= lang.user %>:</strong></br><%= project.user %></p> -->
+
+          <% console.log(project.team) %>
+
+          <p><strong><%= lang.projects.team %>:</strong>
+            <ul>
+            <% project.team.forEach((member) => { -%>
+              <li><%= member %></li>
+            <% }); -%>
+            </ul>
+          </p>
+
           <p><strong><%= lang.projects.date_start %>:</strong></br><%= project.date_start %></p>
           <p><strong><%= lang.projects.description %>:</strong></br><%= project.description %></p>
           <p><strong><%= lang.projects.tools %>:</strong>

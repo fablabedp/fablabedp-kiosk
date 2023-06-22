@@ -149,6 +149,7 @@ export const project_detail = asyncHandler(async (req, res, next) => {
 
 export const project_create_get = asyncHandler(async (req, res, next) => {
   const user_list = await users.find({ 'name' : { '$ne' : null }});
+  req.body.team = [];
   res.render('project_create', { lang: lang, users: user_list, new_project: 'true' });
 });
 
@@ -157,7 +158,7 @@ export const project_edit_get = asyncHandler(async (req, res, next) => {
   const get_project = await projects.get(req.query.id);
   console.log(get_project);
   req.body.name            = get_project.name;
-  req.body.user            = get_project.user;
+  req.body.team            = get_project.team;
   req.body.date_start      = get_project.date_start;
   req.body.description     = get_project.description;
   req.body.tools           = get_project.tools;
@@ -225,12 +226,15 @@ export const project_create_post = [
           id = existing_project.$loki;
         }
 
-        // if checkbox lists have only one item selected, make sure these are converted into arrays
+        // if team and checkbox lists have only one entry, make sure these are converted into arrays
+        let team = Array.isArray(req.body.team) ? req.body.team : [req.body.team];
         let tools = Array.isArray(req.body.tools) ? req.body.tools : [req.body.tools];
         let materials = Array.isArray(req.body.materials) ? req.body.materials : [req.body.materials];
 
+        console.log('TEAM', team);
+
         existing_project.name            = req.body.name;
-        existing_project.user            = req.body.user;
+        existing_project.team            = team;
         existing_project.date_start      = req.body.date_start;
         existing_project.description     = req.body.description;
         existing_project.tools           = tools;

@@ -27,22 +27,29 @@
             </div>
           <% });} -%>
 
-          <form method='post' action=''>
+          <form method='post' action='' id='project-form'>
 
             <div class='mb-3'>
               <label class='form-label' for='name'><%= lang.projects.name %>:</label>
               <input required class='form-control' type='text' id='name' name='name'value='<%= locals.body ? body.name : '' %>' />
             </div>
             <div class='mb-3'>
-              <label class='form-label' for='user'><%= lang.user %>:</label>
-              <select class='form-select' id='user' name='user'>
-                <% let existing_user = locals.body ? body.user : '' %>
-                <option selected hidden value='<%= existing_user %>'><%= existing_user %></option>
-                <% if (typeof users != 'undefined') { -%>
-                  <% users.forEach((user) => { -%>
-                    <option value='<%= user.name %>'><%= user.name %></option>
-                <% });} -%>
-              </select>
+              <label class='form-label' for='team'><%= lang.projects.team %>:</label>
+              <div class='row'>
+                <div class='col-8 gap-2'>
+                  <select class='form-select' id='users' name='users'>
+                    <% if (typeof users != 'undefined') { -%>
+                      <% users.forEach((user) => { -%>
+                        <option value='<%= user.name %>'><%= user.name %></option>
+                    <% });} -%>
+                  </select>
+                  <div class='list-group mt-3' id='team-list'></div>
+                </div>
+                <div class='col-4 gap-2'>
+                  <button type="button" class="btn btn-primary" id='add-user'><%= lang.projects.add_user %></button>
+                </div>
+              </div>
+
             </div>
             <div class='mb-3'>
               <label class='form-label' for='date'><%= lang.projects.date_start %>:</label>
@@ -108,4 +115,52 @@
       </div>
     </main>
   </body>
+  <script type='text/javascript'>
+
+    let team = [];
+    <% if ( locals.body ) {  -%>
+      let members = '<%= body.team %>'.split(',')
+      members.forEach( (member) => {
+        team.push(member);
+      });
+    <% } -%>
+
+    let add_user = document.getElementById('add-user');
+
+    add_user.addEventListener(
+      'click',
+      (ev) => {
+        let member = document.getElementById('users').options[users.selectedIndex].text;
+        if (team.find(el => el === member) == undefined) {
+          team.push(member);
+          updateTeam();
+
+          let team_member = document.createElement('input');
+          team_member.type = 'hidden';
+          team_member.name = 'team';
+          team_member.value = member;
+          document.getElementById('project-form').appendChild(team_member);
+        }
+        console.log(document.getElementById('project-form'));
+      },
+      false
+    );
+
+    function updateTeam() {
+      let list = '';
+      if(team.length > 0) {
+        team.forEach((member) => {
+          list += "<p class='list-group-item list-group-item-action py-2 my-0'>" + member + "</p>"
+        });
+      } else {
+        list += "<p><em>" + "<%= lang.errors.empty_team %>" + "</em></p>"
+      }
+      document.getElementById('team-list').innerHTML = list;
+    }
+
+    window.onload = (event) => {
+      updateTeam();
+    }
+
+  </script>
 </html>

@@ -41,6 +41,8 @@
   "projects":
   {
     "name"             : "Designação do Projeto",
+    "team"             : "Equipa",
+    "add_user"         : "Adicionar à equipa",
     "active"           : "Ativo",
     "inactive"         : "Terminado",
     "date_start"       : "Data de início",
@@ -90,6 +92,7 @@
     "bad_org"              : "Organisation is required.",
     "user_exists"          : "A user with this name already exists.",
     "no_users"             : "There are no users.",
+    "empty_team"           : "The team is empty.",
     "no_active_projects"   : "There are no active projects.",
     "no_inactive_projects" : "There are no finished projects."
   }
