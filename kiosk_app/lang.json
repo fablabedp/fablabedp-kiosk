@@ -42,7 +42,7 @@
   {
     "name"             : "Designação do Projeto",
     "team"             : "Equipa",
-    "add_user"         : "Adicionar à equipa",
+    "add_member"       : "Adicionar à equipa",
     "active"           : "Ativo",
     "inactive"         : "Terminado",
     "date_start"       : "Data de início",

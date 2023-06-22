@@ -46,7 +46,7 @@
                   <div class='list-group mt-3' id='team-list'></div>
                 </div>
                 <div class='col-4 gap-2'>
-                  <button type="button" class="btn btn-primary" id='add-user'><%= lang.projects.add_user %></button>
+                  <button type="button" class="btn btn-primary" id='add-member'><%= lang.projects.add_member %></button>
                 </div>
               </div>
 
@@ -125,9 +125,9 @@
       });
     <% } -%>
 
-    let add_user = document.getElementById('add-user');
+    let add_member = document.getElementById('add-member');
 
-    add_user.addEventListener(
+    add_member.addEventListener(
       'click',
       (ev) => {
         let member = document.getElementById('users').options[users.selectedIndex].text;
@@ -150,7 +150,10 @@
       let list = '';
       if(team.length > 0) {
         team.forEach((member) => {
-          list += "<p class='list-group-item list-group-item-action py-2 my-0'>" + member + "</p>"
+          list += "<p class='list-group-item list-group-item-action py-2 my-0'>";
+          list += "<button type='button' class='btn btn-danger py-0 px-2 align-items-end' id='remove-member'>&#10799</button>";
+          list += member;
+          list += "</p>";
         });
       } else {
         list += "<p><em>" + "<%= lang.errors.empty_team %>" + "</em></p>"
