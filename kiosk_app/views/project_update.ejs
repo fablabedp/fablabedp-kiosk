@@ -33,7 +33,7 @@
               <label class='form-label' for='date'><%= lang.projects.date_log %>:</label>
               <div class='input-group date'>
                 <div class='input-group-addon'>
-                  <input type='text' class='form-control' id='date' name='date'>
+                  <input required type='text' class='form-control' id='date' name='date'>
                   <span class='glyphicon glyphicon-th'></span>
                 </div>
               </div>
@@ -58,6 +58,7 @@
                   <input class="form-control" type="number" id="hours" name="hours" min='0' value='0'>
                 </div>
             <% });} -%>
+            <input type='hidden' id='name' name='name' value='<%= project.name %>' />
             <input type='submit' class='btn btn-primary mt-3' value='<%= lang.update %>' />
 
           </form>

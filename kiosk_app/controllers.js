@@ -51,7 +51,6 @@ export const user_edit_get = asyncHandler(async (req, res, next) => {
 
 export const user_create_post = [
 
-
   // Validate and sanitize fields.
   body('name', lang.errors.bad_name ).trim().notEmpty().escape(),
   body('email', lang.errors.bad_email ).trim().isEmail().escape(),
@@ -270,8 +269,49 @@ export const project_update_get = asyncHandler(async (req, res, next) => {
 });
 
 export const project_update_post = [
+
   asyncHandler(async (req, res, next) => {
-    res.send('NOT IMPLEMENTED: Update project confirmed');
+
+    // Extract the validation errors from a request. (currently no validation is needed)
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+
+      // There are errors. Render the form again with sanitized values/error messages.
+      res.render('project_update', {
+        lang: lang,
+        project: get_project,
+        body: req.body,
+        errors: errors.array(),
+      });
+      return;
+
+    } else {
+
+      // Data from form is valid.
+      // get existing project
+      let existing_project = await projects.findOne({ name: req.body.name });
+
+      let id = existing_project.$loki;
+
+      // Check if there is any existing log for the project
+      if(!existing_project.log) {
+        console.log('undef');
+        existing_project.log = [];
+      }
+      console.log(existing_project.log);
+      existing_project.log.push({
+        'date': req.body.date,
+        'log_msg': req.body.log_msg
+      });
+
+      // project saved. Redirect to project detail page.
+      res.redirect('../project?id=' + id);
+      await database.saveDatabase();
+
+      console.log('updated project:', id);
+
+    }
   }),
 ];
 
