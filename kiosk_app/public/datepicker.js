@@ -1,7 +1,7 @@
 
 // date picker adapted from https://formden.com/blog/date-picker
 $(document).ready(() => {
-  let date_input=$("input[name='date']");
+  let date_input=$("#date");
   let date_container=$('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : 'body';
   date_input.datepicker({
     format: 'dd/mm/yyyy',

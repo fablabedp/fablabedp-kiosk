@@ -87,12 +87,14 @@
   "errors":
   {
     "bad_name"             : "Name is required.",
+    "short_name"           : "Project name must contain at least 3 characters.",
     "bad_email"            : "Valid email is required.",
     "bad_phone"            : "Phone is required.",
     "bad_org"              : "Organisation is required.",
     "user_exists"          : "A user with this name already exists.",
+    "project_exists"       : "A project with this name already exists.",
     "no_users"             : "There are no users.",
-    "empty_team"           : "The team is empty.",
+    "empty_team"           : "Team needs at least one member.",
     "no_active_projects"   : "There are no active projects.",
     "no_inactive_projects" : "There are no finished projects."
   }

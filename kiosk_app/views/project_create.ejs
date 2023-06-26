@@ -56,17 +56,17 @@
 
             </div>
             <div class='mb-3'>
-              <label class='form-label' for='date'><%= lang.projects.date_start %>:</label>
+              <label class='form-label' for='date_start'><%= lang.projects.date_start %>:</label>
               <div class='input-group date'>
                 <div class='input-group-addon'>
-                  <input type='text' class='form-control' id='date' name='date_start'>
+                  <input required type='text' class='form-control' id='date' name='date_start'>
                   <span class='glyphicon glyphicon-th'></span>
                 </div>
               </div>
             </div>
             <div class='mb-3'>
               <label class='form-label' for='description'><%= lang.projects.description %>:</label>
-              <textarea  required class='form-control' rows='3' id='description' name='description'><%= locals.body ? body.description : '' %></textarea>
+              <textarea required class='form-control' rows='3' id='description' name='description'><%= locals.body ? body.description : '' %></textarea>
             </div>
             <div class='mb-3'>
               <label class='form-label' for='tools'><%= lang.projects.tools %>:</label>
@@ -79,10 +79,12 @@
                 <% }); -%>
                 <% if ( locals.body ) {  -%>
                   <script>
-                    let tools = '<%= body.tools %>'.split(',')
-                    tools.forEach( (tool) => {
-                      document.getElementById(tool).checked = true;
-                    });
+                    let tools = '<%= body.tools %>'.split(',');
+                    if(tools.length > 0 && tools[0] != '') {
+                      tools.forEach( (tool) => {
+                        document.getElementById(tool).checked = true;
+                      });
+                    }
                   </script>
                 <% } -%>
                 <label class='form-check-label' for='tools_other'><%= lang.projects.tools_other %>: </label>
@@ -100,10 +102,12 @@
                 <% }); -%>
                 <% if ( locals.body ) {  -%>
                   <script>
-                    let materials = '<%= body.materials %>'.split(',')
-                    materials.forEach( (material) => {
-                      document.getElementById(material).checked = true;
-                    });
+                    let materials = '<%= body.materials %>'.split(',');
+                    if(materials.length > 0 && materials[0] != '') {
+                      materials.forEach( (material) => {
+                        document.getElementById(material).checked = true;
+                      });
+                    }
                   </script>
                 <% } -%>
                 <label class='form-check-label' for='materials_other'>Other: </label>
@@ -155,7 +159,7 @@
 
     function updateTeam() {
       let list = '';
-      if(team.length > 0) {
+      if(team.length > 0 && team[0] != '') {
         team.forEach((member, index) => {
           list += "<div class='list-group-item list-group-item-action py-2 pe-2 my-0'>";
           list += "<div class='d-flex w-100 justify-content-between'>"
@@ -179,6 +183,11 @@
     }
 
     window.onload = (event) => {
+      if(team.length > 0 && team[0] === '') {
+        team.pop();
+        let members = document.getElementsByName('team');
+        members[0].remove();
+      }
       updateTeam();
     }
 

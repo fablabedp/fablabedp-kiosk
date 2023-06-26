@@ -40,16 +40,24 @@
             </div>
             <div class='mb-3'>
               <label class='form-label' for='log_msg'><%= lang.projects.log %>:</label>
-              <textarea  required class='form-control' rows='3' id='log_msg' name='log_msg'><%= locals.body ? body.log_msg : '' %></textarea>
+              <textarea  class='form-control' rows='3' id='log_msg' name='log_msg'><%= locals.body ? body.log_msg : '' %></textarea>
             </div>
 
             <label class='form-label' for='user'><%= lang.projects.hours %>:</label>
-            <% let existing_user = locals.body ? body.user : '' %>
-            <div class="input-group mb-3">
-              <span class="input-group-text"><%= existing_user %></span>
-              <input class="form-control" type="number" id="hours" name="hours" min='0'>
-            </div>
-
+            <% if (typeof project.team != 'undefined') { -%>
+              <% project.team.forEach((member) => { -%>
+                <div class="input-group mb-3">
+                  <span class="input-group-text col-8"><%= member %></span>
+                  <input class="form-control" type="number" id="hours" name="hours" min='0' value='0'>
+                </div>
+            <% });} -%>
+            <% if (typeof project.tools != 'undefined') { -%>
+              <% project.tools.forEach((tool) => { -%>
+                <div class="input-group mb-3">
+                  <span class="input-group-text col-8"><%= lang.projects.tool_list[tool] %></span>
+                  <input class="form-control" type="number" id="hours" name="hours" min='0' value='0'>
+                </div>
+            <% });} -%>
             <input type='submit' class='btn btn-primary mt-3' value='<%= lang.update %>' />
 
           </form>

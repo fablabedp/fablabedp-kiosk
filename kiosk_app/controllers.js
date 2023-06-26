@@ -171,10 +171,14 @@ export const project_edit_get = asyncHandler(async (req, res, next) => {
 export const project_create_post = [
 
   // Validate and sanitize the name field.
-  body('name', 'project name must contain at least 3 characters')
+  body('name', lang.errors.short_name )
     .trim()
     .isLength({ min: 3 })
     .escape(),
+
+  // Check there are team members
+  body('team', lang.errors.empty_team )
+    .notEmpty(),
 
   // Process request after validation and sanitization.
   asyncHandler(async (req, res, next) => {

@@ -37,7 +37,7 @@
           </p>
 
           <p><strong><%= lang.projects.date_start %>:</strong></br><%= project.date_start %></p>
-          <p><strong><%= lang.projects.description %>:</strong></br><%= project.description %></p>
+          <p style="white-space: pre-wrap;"><strong><%= lang.projects.description %>:</strong></br><%= project.description %></p>
           <p><strong><%= lang.projects.tools %>:</strong>
             <ul>
             <% if(typeof project.tools != 'undefined' && typeof project.tools[0] != 'undefined' && project.tools[0] != null) { project.tools.forEach((tool) => { -%>
