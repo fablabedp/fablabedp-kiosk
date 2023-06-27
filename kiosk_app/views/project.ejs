@@ -28,18 +28,20 @@
           <!-- <p><strong>ID: </strong><%= project.$loki %></p> -->
           <!-- <p><strong><%= lang.user %>:</strong></br><%= project.user %></p> -->
 
-          <p><strong><%= lang.projects.team %>:</strong>
-            <ul>
+          <div class="mt-3"><strong><%= lang.projects.team %>:</strong>
+            <ul class="mb-0">
             <% project.team.forEach((member) => { -%>
               <li><%= member %></li>
             <% }); -%>
             </ul>
-          </p>
+          </div>
 
-          <p><strong><%= lang.projects.date_start %>:</strong></br><%= project.date_start %></p>
-          <p style="white-space: pre-wrap;"><strong><%= lang.projects.description %>:</strong></br><%= project.description %></p>
-          <p><strong><%= lang.projects.tools %>:</strong>
-            <ul>
+          <div class="mt-3"><strong><%= lang.projects.date_start %>:</strong></br><%= project.date_start %></div>
+
+          <div class="mt-3" style="white-space: pre-wrap;"><strong><%= lang.projects.description %>:</strong></br><%= project.description %></div>
+
+          <div class="mt-3"><strong><%= lang.projects.tools %>:</strong>
+            <ul class="mb-0">
             <% if(typeof project.tools != 'undefined' && typeof project.tools[0] != 'undefined' && project.tools[0] != null) { project.tools.forEach((tool) => { -%>
               <li><%= lang.projects.tool_list[tool] %></li>
             <% }); } -%>
@@ -47,9 +49,10 @@
               <li><%= project.tools_other %></li>
             <% } -%>
             </ul>
-          </p>
-          <p><strong><%= lang.projects.materials %>:</strong>
-            <ul>
+          </div>
+
+          <div class="mt-3"><strong><%= lang.projects.materials %>:</strong>
+            <ul class="mb-0">
             <% if(typeof project.materials != 'undefined' && typeof project.materials[0] != 'undefined' && project.materials[0] != null) { project.materials.forEach((material) => { -%>
               <li><%= lang.projects.material_list[material] %></li>
             <% }); } -%>
@@ -57,15 +60,36 @@
               <li><%= project.materials_other %></li>
             <% }  -%>
             </ul>
-          </p>
+          </div>
 
           <hr>
 
           <h3><%= lang.projects.log %></h3>
 
+          <% if(project.log) { -%>
+            <% project.log.forEach((log) => { -%>
+            <h5><%= log.date %></h5>
+            <p><%= log.log_msg %></p>
+            <% }); -%>
+          <% } -%>
+
           <hr>
 
           <h3><%= lang.projects.hours %></h3>
+
+          <% project.team.forEach((member) => { -%>
+            <ul class="list-group list-group-horizontal mb-1">
+              <li class="list-group-item col-8"><%= member %></li>
+              <li class="list-group-item col-4">0</li>
+            </ul>
+          <% }); -%>
+
+          <% project.tools.forEach((tool) => { -%>
+            <ul class="list-group list-group-horizontal mb-1">
+              <li class="list-group-item col-8"><%= lang.projects.tool_list[tool] %></li>
+              <li class="list-group-item col-4">0</li>
+            </ul>
+          <% }); -%>
 
           <hr>
 
