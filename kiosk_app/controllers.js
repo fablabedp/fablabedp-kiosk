@@ -156,11 +156,17 @@ export const project_edit_get = asyncHandler(async (req, res, next) => {
   const user_list = await users.find({ 'name' : { '$ne' : null }});
   const get_project = await projects.get(req.query.id);
   console.log(get_project);
-  req.body.name            = get_project.name;
-  req.body.team            = get_project.team;
-  req.body.date_start      = get_project.date_start;
-  req.body.description     = get_project.description;
-  req.body.tools           = get_project.tools;
+  req.body.name = get_project.name;
+  req.body.team = [];
+  get_project.team.forEach((member) => {
+      req.body.team.push(JSON.stringify(member));
+  });
+  req.body.date_start  = get_project.date_start;
+  req.body.description = get_project.description;
+  req.body.tools = [];
+  get_project.tools.forEach((tool) => {
+      req.body.tools.push(JSON.stringify(tool));
+  });
   req.body.tools_other     = get_project.tools_other;
   req.body.materials       = get_project.materials;
   req.body.materials_other = get_project.materials_other;
@@ -234,11 +240,18 @@ export const project_create_post = [
         let tools = Array.isArray(req.body.tools) ? req.body.tools : [req.body.tools];
         let materials = Array.isArray(req.body.materials) ? req.body.materials : [req.body.materials];
 
-        existing_project.name            = req.body.name;
-        existing_project.team            = team;
-        existing_project.date_start      = req.body.date_start;
-        existing_project.description     = req.body.description;
-        existing_project.tools           = tools;
+        existing_project.name= req.body.name;
+        existing_project.team = [];
+        team.forEach((member) => {
+          existing_project.team.push(JSON.parse(member));
+        });
+        existing_project.date_start  = req.body.date_start;
+        existing_project.description = req.body.description;
+        existing_project.tools = [];
+        tools.forEach((tool) => {
+          existing_project.tools.push(JSON.parse(tool));
+        });
+        // console.log(existing_project.tools);
         existing_project.tools_other     = req.body.tools_other;
         existing_project.materials       = materials;
         existing_project.materials_other = req.body.materials_other;
@@ -250,6 +263,7 @@ export const project_create_post = [
 
         if(req.body.new_project == 'true') {
           console.log('added new project:', id);
+          console.log(existing_project);
         } else {
           console.log('updated project:', id);
         }
@@ -294,18 +308,31 @@ export const project_update_post = [
 
       let id = existing_project.$loki;
 
-      // Check if there is any existing log for the project
-      if(!existing_project.log) {
-        console.log('undef');
-        existing_project.log = [];
+      // Check if there is a new log to add
+      if(req.body.log_msg) {
+
+        // Check if there is any existing log for the project
+        if(!existing_project.log) {
+          existing_project.log = [];
+        }
+
+        // Add log to project
+        existing_project.log.push({
+          'date': req.body.date,
+          'log_msg': req.body.log_msg
+        });
+
       }
-      console.log(existing_project.log);
-      existing_project.log.push({
-        'date': req.body.date,
-        'log_msg': req.body.log_msg
+
+      // Update hours
+      existing_project.team.forEach((member) => {
+        member.hours += Number(req.body[member.name]);
+      });
+      existing_project.tools.forEach((tool) => {
+        tool.hours += Number(req.body[tool.alias]);
       });
 
-      // project saved. Redirect to project detail page.
+      // Save project and redirect to project detail page.
       res.redirect('../project?id=' + id);
       await database.saveDatabase();
 

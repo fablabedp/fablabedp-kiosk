@@ -69,24 +69,14 @@
               <textarea required class='form-control' rows='3' id='description' name='description'><%= locals.body ? body.description : '' %></textarea>
             </div>
             <div class='mb-3'>
-              <label class='form-label' for='tools'><%= lang.projects.tools %>:</label>
+              <label class='form-label' for='tool_checkboxes'><%= lang.projects.tools %>:</label>
               <div class='form-check'>
                 <% Object.keys(lang.projects.tool_list).forEach( id => { -%>
                   <div class='form-check'>
-                    <input class='form-check-input' name='tools' type='checkbox' value=<%= id %> id=<%= id %> >
+                    <input class='form-check-input' name='tool_checkboxes' type='checkbox' value='<%= id %>' id='<%= id %>_checkbox' >
                     <label class='form-check-label' for=<%= id %>><%= lang.projects.tool_list[id] %></label>
                   </div>
                 <% }); -%>
-                <% if ( locals.body ) {  -%>
-                  <script>
-                    let tools = '<%= body.tools %>'.split(',');
-                    if(tools.length > 0 && tools[0] != '') {
-                      tools.forEach( (tool) => {
-                        document.getElementById(tool).checked = true;
-                      });
-                    }
-                  </script>
-                <% } -%>
                 <label class='form-check-label' for='tools_other'><%= lang.projects.tools_other %>: </label>
                 <input class='form-control' type='text' id='tools_other' name='tools_other'value='<%= locals.body ? body.tools_other : '' %>' />
               </div>
@@ -100,16 +90,6 @@
                     <label class='form-check-label' for=<%= id %>><%= lang.projects.material_list[id] %></label>
                   </div>
                 <% }); -%>
-                <% if ( locals.body ) {  -%>
-                  <script>
-                    let materials = '<%= body.materials %>'.split(',');
-                    if(materials.length > 0 && materials[0] != '') {
-                      materials.forEach( (material) => {
-                        document.getElementById(material).checked = true;
-                      });
-                    }
-                  </script>
-                <% } -%>
                 <label class='form-check-label' for='materials_other'>Other: </label>
                 <input class='form-control' type='text' id='materials_other' name='materials_other'value='<%= locals.body ? body.materials_other : '' %>' />
               </div>
@@ -125,22 +105,27 @@
   </body>
   <script type='text/javascript'>
 
+    // team members and tools are received from server as arrays of json strings
+    // these are stored as json objects in team[] and tools[] arrays
+    // and added as hidden <input> elements to form where value = json string, for being submitted back to the server with the form
+
     let team = [];
-    <% if ( locals.body ) {  -%>
-      let members = '<%= body.team %>'.split(',')
-      members.forEach( (member) => {
-        addMember(member);
-      });
-    <% } -%>
+    let tools = [];
 
     let add_member = document.getElementById('add-member');
     let remove_members;
 
+    // action when clicking on add_member button
     add_member.addEventListener(
       'click',
       (ev) => {
-        let member = document.getElementById('users').options[users.selectedIndex].text;
-        if (team.find(el => el === member) == undefined) {
+        let member = {
+          'name': document.getElementById('users').options[users.selectedIndex].text,
+          'hours': 0
+        }
+        // add member if not already in team
+        if (team.find(el => el.name === member.name) == undefined) {
+          team.push(member);
           addMember(member);
           updateTeam();
         }
@@ -148,22 +133,35 @@
       false
     );
 
+    // add member as hidden <input> element
     function addMember(member) {
-      team.push(member);
       let team_member = document.createElement('input');
       team_member.type = 'hidden';
-      team_member.name = 'team';
-      team_member.value = member;
+      team_member.name = 'team'; 30
+      team_member.value = JSON.stringify(member);
       document.getElementById('project-form').appendChild(team_member);
+      console.log("added member", member);
     }
 
+    // add tool as hidden <input> element
+    function addTool(tool) {
+      let tool_element = document.createElement('input');
+      tool_element.type = 'hidden';
+      tool_element.name = 'tools';
+      tool_element.id = tool.alias;
+      tool_element.value = JSON.stringify(tool);
+      document.getElementById('project-form').appendChild(tool_element);
+      console.log("added tool", tool);
+    }
+
+    // add team members to list group with a delete button for each member
     function updateTeam() {
       let list = '';
       if(team.length > 0 && team[0] != '') {
         team.forEach((member, index) => {
           list += "<div class='list-group-item list-group-item-action py-2 pe-2 my-0'>";
           list += "<div class='d-flex w-100 justify-content-between'>"
-          list += member;
+          list += member.name;
           list += "<button type='button' class='btn btn-danger py-0 px-2 remove-member'>&#10799</button>";
           list += "</div></div>";
         });
@@ -172,7 +170,7 @@
       }
       document.getElementById('team-list').innerHTML = list;
       remove_members = document.getElementsByClassName('remove-member');
-      Array.from(remove_members).forEach(function(el, index) {
+      Array.from(remove_members).forEach((el, index) => {
         el.addEventListener('click', () => {
           team.splice(index, 1);
           let members = document.getElementsByName('team');
@@ -182,13 +180,71 @@
       });
     }
 
+
     window.onload = (event) => {
-      if(team.length > 0 && team[0] === '') {
+
+      // populate team[] and tools[] arrays if we have existing data
+      <% if ( locals.body ) { -%>
+
+        <% body.team.forEach((member) => { -%>
+          team.push(<%- member %>); // this also parses the json string into an object
+          addMember(<%- member %>);
+        <% }); -%>
+
+        <% body.tools.forEach((tool) => { -%>
+          tools.push(<%- tool %>);
+          addTool(<%- tool %>);
+        <% }); -%>
+
+      <% } -%>
+
+      // if we get data with an empty team, we get an array with an empty element, which we need to delete
+      if(team.length > 0 && team[0].name === '') {
         team.pop();
         let members = document.getElementsByName('team');
         members[0].remove();
       }
       updateTeam();
+
+      // set selected tools and materials check boxes as checked
+      tools.forEach((tool) => {
+        document.getElementById(tool.alias + '_checkbox').checked = true;
+      });
+      <% if ( locals.body ) {  -%>
+        let materials = '<%= body.materials %>'.split(',');
+        if(materials.length > 0 && materials[0] != '') {
+          materials.forEach( (material) => {
+            document.getElementById(material).checked = true;
+          });
+        }
+      <% } -%>
+    }
+
+
+    onsubmit = (event) => {
+
+      // update tool <input> elements to reflect checked tools
+      let tool_checkboxes = document.getElementsByName('tool_checkboxes');
+      let tool_elements = document.getElementsByName('tools');
+      tool_checkboxes.forEach((tool_checkbox) => {
+        let id = tool_checkbox.value;
+        let el = document.getElementById(id);
+        if(tool_checkbox.checked) {
+          // add element if it doesn't already exist
+          if(el === null) {
+            let tool = {
+              'alias': id,
+              'hours': 0
+            }
+            addTool(tool);
+          }
+        } else {
+          // remove element if it exists
+          if(el != null) {
+            el.remove();
+          }
+        }
+      });
     }
 
   </script>
