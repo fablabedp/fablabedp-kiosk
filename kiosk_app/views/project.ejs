@@ -76,13 +76,21 @@
 
           <hr>
 
-          <h3><%= lang.projects.log %></h3>
+          <h3><%= lang.projects.feedback %></h3>
 
           <% if(project.log) { -%>
             <% project.log.forEach((log) => { -%>
             <h5><%= log.date %></h5>
-            <p class="my-0"> &#9733; &#9733; &#9733; &#9734; &#9734;</p>
-            <p><%= log.log_msg %></p>
+            <p class="my-0">
+              <% for (let i=0; i<5; i++) { -%>
+                <% if (i >= log.rating) { -%>
+                  &#9734;
+                <% } else { -%>
+                  &#9733;
+                <% } -%>
+              <% } -%>
+            </p>
+            <p><%= log.msg %></p>
             <% }); -%>
           <% } else { -%>
             <em><%= lang.errors.no_log %></em>

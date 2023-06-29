@@ -224,7 +224,7 @@ export const project_create_post = [
         });
 
       } else {
-        
+
         // create a new project if needed, otherwise get id of exisiting project
         let id = -1;
         if(req.body.new_project == 'true') {
@@ -292,12 +292,21 @@ export const project_update_get = asyncHandler(async (req, res, next) => {
 
 export const project_update_post = [
 
+  // Check there is a rating > 0
+  body('log_rating', lang.errors.no_rating )
+    .isInt({ min: 1 }),
+
   asyncHandler(async (req, res, next) => {
 
     // Extract the validation errors from a request. (currently no validation is needed)
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
+
+      const get_project = await projects.get(req.query.id);
+      console.log(get_project);
+      req.body.name = get_project.name;
+      req.body.user = get_project.user;
 
       // There are errors. Render the form again with sanitized values/error messages.
       res.render('project_update', {
@@ -317,7 +326,7 @@ export const project_update_post = [
       let id = existing_project.$loki;
 
       // Check if there is a new log to add
-      if(req.body.log_msg) {
+      if(req.body.log_rating) {
 
         // Check if there is any existing log for the project
         if(!existing_project.log) {
@@ -327,7 +336,8 @@ export const project_update_post = [
         // Add log to project
         existing_project.log.push({
           'date': req.body.date,
-          'log_msg': req.body.log_msg
+          'rating': req.body.log_rating,
+          'msg': req.body.log_msg
         });
 
       }

@@ -7,6 +7,7 @@
     <title><%= title %></title>
     <link rel='stylesheet' href='../style.css' />
     <link rel='stylesheet' href='../bootstrap.min.css'>
+    <link rel='stylesheet' href='../star-slider.css'>
     <script type='text/javascript' src='https://code.jquery.com/jquery-3.7.0.min.js'></script>
     <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js'></script>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker3.css'/>
@@ -39,8 +40,12 @@
               </div>
             </div>
             <div class='mb-3'>
-              <label class='form-label' for='log_msg'><%= lang.projects.log %>:</label>
-              <textarea  class='form-control' rows='3' id='log_msg' name='log_msg'><%= locals.body ? body.log_msg : '' %></textarea>
+              <label class='form-label' for='log_rating'><%= lang.projects.evaluation %>:</label>
+              <p><input class="star-slider" max="5" step="1" type="range" value="0" id="log_rating" name="log_rating"></p>
+            </div>
+            <div class='mb-3'>
+              <label class='form-label' for='log_msg'><%= lang.projects.feedback %>:</label>
+              <textarea class='form-control' rows='3' id='log_msg' name='log_msg'><%= locals.body ? body.log_msg : '' %></textarea>
             </div>
 
             <label class='form-label' for='user'><%= lang.projects.hours %>:</label>
