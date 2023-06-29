@@ -224,7 +224,7 @@ export const project_create_post = [
         });
 
       } else {
-
+        
         // create a new project if needed, otherwise get id of exisiting project
         let id = -1;
         if(req.body.new_project == 'true') {
@@ -239,6 +239,14 @@ export const project_create_post = [
         let team = Array.isArray(req.body.team) ? req.body.team : [req.body.team];
         let tools = Array.isArray(req.body.tools) ? req.body.tools : [req.body.tools];
         let materials = Array.isArray(req.body.materials) ? req.body.materials : [req.body.materials];
+
+        // if there are no tools or materials selected, initialise the arrays
+        if (req.body.tools === undefined) {
+          tools = [];
+        }
+        if (req.body.materials === undefined) {
+          materials = [];
+        }
 
         existing_project.name= req.body.name;
         existing_project.team = [];

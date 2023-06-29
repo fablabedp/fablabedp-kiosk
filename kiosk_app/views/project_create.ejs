@@ -137,7 +137,7 @@
     function addMember(member) {
       let team_member = document.createElement('input');
       team_member.type = 'hidden';
-      team_member.name = 'team'; 30
+      team_member.name = 'team';
       team_member.value = JSON.stringify(member);
       document.getElementById('project-form').appendChild(team_member);
       console.log("added member", member);
@@ -185,16 +185,18 @@
 
       // populate team[] and tools[] arrays if we have existing data
       <% if ( locals.body ) { -%>
-
-        <% body.team.forEach((member) => { -%>
-          team.push(<%- member %>); // this also parses the json string into an object
-          addMember(<%- member %>);
-        <% }); -%>
-
-        <% body.tools.forEach((tool) => { -%>
-          tools.push(<%- tool %>);
-          addTool(<%- tool %>);
-        <% }); -%>
+        <% if (body.team) { -%>
+          <% body.team.forEach((member) => { -%>
+            team.push(<%- member %>); // this also parses the json string into an object
+            addMember(<%- member %>);
+          <% }); -%>
+        <% } -%>
+        <% if (body.tools) { -%>
+          <% body.tools.forEach((tool) => { -%>
+            tools.push(<%- tool %>);
+            addTool(<%- tool %>);
+          <% }); -%>
+        <% } -%>
 
       <% } -%>
 
@@ -222,6 +224,10 @@
 
 
     onsubmit = (event) => {
+
+      //event.preventDefault();
+
+      console.log(document.getElementsByName('team'));
 
       // update tool <input> elements to reflect checked tools
       let tool_checkboxes = document.getElementsByName('tool_checkboxes');
