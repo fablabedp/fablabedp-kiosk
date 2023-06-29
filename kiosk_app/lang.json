@@ -46,6 +46,7 @@
     "active"           : "Ativo",
     "inactive"         : "Terminado",
     "date_start"       : "Data de início",
+    "date_end"         : "Data de termino",
     "date_log"         : "Data de feedback",
     "date_end"         : "Data de termino",
     "description"      : "Breve descrição do projeto",
@@ -89,13 +90,19 @@
     "bad_name"             : "Name is required.",
     "short_name"           : "Project name must contain at least 3 characters.",
     "bad_email"            : "Valid email is required.",
-    "bad_phone"            : "Phone is required.",
-    "bad_org"              : "Organisation is required.",
+    "bad_phone"            : "Phone number is required.",
+    "bad_org"              : "Organisation name is required.",
     "user_exists"          : "A user with this name already exists.",
     "project_exists"       : "A project with this name already exists.",
     "no_users"             : "There are no users.",
     "empty_team"           : "Team needs at least one member.",
     "no_active_projects"   : "There are no active projects.",
-    "no_inactive_projects" : "There are no finished projects."
+    "no_inactive_projects" : "There are no finished projects.",
+    "no_tools"             : "There are no processes or tools indicated.",
+    "no_materials"         : "There are no materials indicated.",
+    "no_log"               : "There is no feedback yet.",
+    "no_media"             : "There is no media yet.",
+    "unfinished"           : "The project has not been completed yet.",
+    "no_evaluation"        : "The project has not been evaluated."
   }
 }

@@ -38,28 +38,40 @@
 
           <div class="mt-3"><strong><%= lang.projects.date_start %>:</strong></br><%= project.date_start %></div>
 
+          <% if(!project.active) { -%>
+            <div class="mt-3"><strong><%= lang.projects.date_end %>:</strong></br><%= project.date_end %></div>
+          <% } -%>
+
           <div class="mt-3" style="white-space: pre-wrap;"><strong><%= lang.projects.description %>:</strong></br><%= project.description %></div>
 
           <div class="mt-3"><strong><%= lang.projects.tools %>:</strong>
-            <ul class="mb-0">
-            <% if(typeof project.tools != 'undefined' && typeof project.tools[0] != 'undefined' && project.tools[0] != null) { project.tools.forEach((tool) => { -%>
-              <li><%= lang.projects.tool_list[tool.alias] %></li>
-            <% }); } -%>
-            <% if(project.tools_other) { -%>
-              <li><%= project.tools_other %></li>
+            <% if (project.tools.length > 0 || project.tools_other) { -%>
+              <ul class="mb-0">
+              <% if(typeof project.tools != 'undefined' && typeof project.tools[0] != 'undefined' && project.tools[0] != null) { project.tools.forEach((tool) => { -%>
+                <li><%= lang.projects.tool_list[tool.alias] %></li>
+              <% }); } -%>
+              <% if(project.tools_other) { -%>
+                <li><%= project.tools_other %></li>
+              <% } -%>
+              </ul>
+            <% } else { -%>
+              <p class="mb-0"><em><%= lang.errors.no_tools %></em></p>
             <% } -%>
-            </ul>
           </div>
 
           <div class="mt-3"><strong><%= lang.projects.materials %>:</strong>
-            <ul class="mb-0">
-            <% if(typeof project.materials != 'undefined' && typeof project.materials[0] != 'undefined' && project.materials[0] != null) { project.materials.forEach((material) => { -%>
-              <li><%= lang.projects.material_list[material] %></li>
-            <% }); } -%>
-            <% if(project.materials_other) { -%>
-              <li><%= project.materials_other %></li>
-            <% }  -%>
+            <% if (project.materials.length > 0 || project.materials_other) { -%>
+              <ul class="mb-0">
+              <% if(typeof project.materials != 'undefined' && typeof project.materials[0] != 'undefined' && project.materials[0] != null) { project.materials.forEach((material) => { -%>
+                <li><%= lang.projects.material_list[material] %></li>
+              <% }); } -%>
+              <% if(project.materials_other) { -%>
+                <li><%= project.materials_other %></li>
+              <% } -%>
             </ul>
+            <% } else { -%>
+              <p class="mb-0"><em><%= lang.errors.no_materials %></em></p>
+            <% } -%>
           </div>
 
           <hr>
@@ -69,8 +81,11 @@
           <% if(project.log) { -%>
             <% project.log.forEach((log) => { -%>
             <h5><%= log.date %></h5>
+            <p class="my-0"> &#9733; &#9733; &#9733; &#9734; &#9734;</p>
             <p><%= log.log_msg %></p>
             <% }); -%>
+          <% } else { -%>
+            <em><%= lang.errors.no_log %></em>
           <% } -%>
 
           <hr>
@@ -95,14 +110,27 @@
 
           <h3><%= lang.projects.media %></h3>
 
-          <hr>
-<!-- 
-          <% if(!project.active) { -%>
-            <h3><%= lang.projects.feedback %></h3>
-
-            <hr>
+          <% if(project.media) { -%>
+          <% } else { -%>
+            <em><%= lang.errors.no_media %></em>
           <% } -%>
- -->
+
+          <hr>
+
+          <h3><%= lang.projects.evaluation %></h3>
+
+          <% if(project.active) { -%>
+            <em><%= lang.errors.unfinished %></em>
+          <% } else { -%>
+            <% if(project.evaluation) { -%>
+              <p><%= project.evaluation %></p>
+            <% } else { -%>
+              <em><%= lang.errors.no_evaluation %></em>
+            <% } -%>
+          <% } -%>
+
+          <hr>
+
           <div class='d-grid col-4 mt-3 mb-5 gap-3'>
             <a class='btn btn-primary' href='../projects/update?id=<%= project.$loki %>' type='button'><%= lang.home.update_project %></a>
             <a class='btn btn-primary' href='../projects/edit?id=<%= project.$loki %>' type='button'><%= lang.home.edit_project %></a>

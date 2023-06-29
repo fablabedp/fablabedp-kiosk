@@ -49,7 +49,7 @@
                 <div class="input-group mb-3">
                   <span class="input-group-text col-6"><%= member.name %></span>
                   <span class="input-group-text col-2"><%= member.hours %></span>
-                  <input class="form-control" type="number" id="hours" name="<%= member.name %>" min='0' value='0'>
+                  <input class="form-control" type="number" id="hours" name="<%= member.name %>" step="0.5" min='0' value='0'>
                 </div>
             <% });} -%>
             <% if (typeof project.tools != 'undefined') { -%>
@@ -57,7 +57,7 @@
                 <div class="input-group mb-3">
                   <span class="input-group-text col-6"><%= lang.projects.tool_list[tool.alias] %></span>
                   <span class="input-group-text col-2"><%= tool.hours %></span>
-                  <input class="form-control" type="number" id="hours" name="<%= tool.alias %>" min='0' value='0'>
+                  <input class="form-control" type="number" id="hours" name="<%= tool.alias %>" step="0.5" min='0' value='0'>
                 </div>
             <% });} -%>
             <input type='hidden' id='name' name='name' value='<%= project.name %>' />
