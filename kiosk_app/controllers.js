@@ -294,6 +294,7 @@ export const project_update_post = [
 
   // Check there is a rating > 0
   body('log_rating', lang.errors.no_rating )
+    .if(body('log_msg').notEmpty())
     .isInt({ min: 1 }),
 
   asyncHandler(async (req, res, next) => {
@@ -326,7 +327,7 @@ export const project_update_post = [
       let id = existing_project.$loki;
 
       // Check if there is a new log to add
-      if(req.body.log_rating) {
+      if(req.body.log_rating > 0) {
 
         // Check if there is any existing log for the project
         if(!existing_project.log) {

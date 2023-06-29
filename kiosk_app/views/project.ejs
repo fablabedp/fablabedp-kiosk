@@ -76,28 +76,6 @@
 
           <hr>
 
-          <h3><%= lang.projects.feedback %></h3>
-
-          <% if(project.log) { -%>
-            <% project.log.forEach((log) => { -%>
-            <h5><%= log.date %></h5>
-            <p class="my-0">
-              <% for (let i=0; i<5; i++) { -%>
-                <% if (i >= log.rating) { -%>
-                  &#9734;
-                <% } else { -%>
-                  &#9733;
-                <% } -%>
-              <% } -%>
-            </p>
-            <p><%= log.msg %></p>
-            <% }); -%>
-          <% } else { -%>
-            <em><%= lang.errors.no_log %></em>
-          <% } -%>
-
-          <hr>
-
           <h3><%= lang.projects.hours %></h3>
 
           <% project.team.forEach((member) => { -%>
@@ -113,6 +91,28 @@
               <li class="list-group-item col-4"><%= tool.hours %></li>
             </ul>
           <% }); -%>
+
+          <hr>
+
+          <h3><%= lang.projects.feedback %></h3>
+
+          <% if(project.log) { -%>
+            <% project.log.slice().reverse().forEach((log) => { -%>
+            <h5><%= log.date %></h5>
+            <p class="my-0">
+              <% for (let i=0; i<5; i++) { -%>
+                <% if (i >= log.rating) { -%>
+                  &#9734;
+                <% } else { -%>
+                  &#9733;
+                <% } -%>
+              <% } -%>
+            </p>
+            <p><%= log.msg %></p>
+            <% }); -%>
+          <% } else { -%>
+            <em><%= lang.errors.no_log %></em>
+          <% } -%>
 
           <hr>
 
