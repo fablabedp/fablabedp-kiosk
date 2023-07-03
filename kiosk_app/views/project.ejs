@@ -7,6 +7,7 @@
     <title><%= title %></title>
     <link href='bootstrap.min.css' rel='stylesheet'>
     <link rel='stylesheet' href='/style.css' />
+    <script type="text/javascript" src="bootstrap.min.js"></script>
   </head>
   <body class='d-flex flex-column h-100'>
     <main class='flex-shrink-0'>
@@ -143,11 +144,27 @@
             <a class='btn btn-primary' href='../projects/update?id=<%= project.$loki %>' type='button'><%= lang.home.update_project %></a>
             <a class='btn btn-primary' href='../projects/edit?id=<%= project.$loki %>' type='button'><%= lang.home.edit_project %></a>
             <a class='btn btn-primary' href='../projects/close?id=<%= project.$loki %>' type='button'><%= lang.home.close_project %></a>
-            <a class='btn btn-danger' href='../projects/delete?id=<%= project.$loki %>' type='button'><%= lang.home.delete_project %></a>
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirm-delete"><%= lang.home.delete_project %></button>
           </div>
 
         </div>
       </div>
     </main>
+
+    <div class="modal" id="confirm-delete" tabindex="-1" aria-labelledby="confirm-delete-label" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="confirm-delete-label"><%= lang.home.delete_project %></h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body"><%= lang.home.delete_project_confirm %></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= lang.cancel %></button>
+            <a class='btn btn-danger' href='../projects/delete?id=<%= project.$loki %>' type='button'><%= lang.home.delete_project %></a>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

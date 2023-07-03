@@ -39,6 +39,7 @@ router.get('/projects/close', controller.project_close_get);
 router.post('/projects/close', controller.project_close_post);
 // add/view photos from a project
 router.get('/projects/photos', controller.project_photos);
+router.get('/projects/delete', controller.project_delete_get);
 
 
 export default router;

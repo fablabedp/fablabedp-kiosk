@@ -124,20 +124,28 @@ export const user_create_post = [
 
 export const project_list = asyncHandler(async (req, res, next) => {
   let project_names = [];
-  for (let i = 1; i <= projects.count(); i++) {
-    const get_project = await projects.get(i);
+
+  const project_array = await projects.find({ 'name' : { '$ne' : null }});
+  project_array.forEach((project) => {
     project_names.push({
-      'name' : get_project.name,
-      'active' : get_project.active,
-      'date_start' : get_project.date_start,
-      'id' : get_project.$loki
-    });
+        'name' : project.name,
+        'active' : project.active,
+        'date_start' : project.date_start,
+        'id' : project.$loki
+      });
+  });
+
+  let msg;
+  switch (req.query.msg) {
+    case 'delete':
+      msg = lang.home.deleted_project + req.query.project_name;
+      break;
   }
   // Sorting projects not working yet...
   // project_names = project_names.sort((a,b) => {
   //   return new Date(b.date_start) - new Date(a.date_start);
   // });
-  res.render('projects', { lang: lang, projects: project_names });
+  res.render('projects', { lang: lang, projects: project_names, msg: msg });
 });
 
 export const project_detail = asyncHandler(async (req, res, next) => {
@@ -370,6 +378,17 @@ export const project_close_post = [
     res.send('NOT IMPLEMENTED: Close project confirmed');
   }),
 ];
+
+export const project_delete_get = asyncHandler(async (req, res, next) => {
+  const project = await projects.get(req.query.id);
+  console.log('num projects: ', projects.count());
+  console.log('removing project ' + project.$loki + ': ' + project.name);
+  let name = project.name;
+  projects.remove(project.$loki);
+  console.log('num projects: ', projects.count());
+  res.redirect("/projects?msg=delete&project_name=" + name);
+  await database.saveDatabase();
+});
 
 export const project_photos = asyncHandler(async (req, res, next) => {
   res.send('NOT IMPLEMENTED: project photos page');

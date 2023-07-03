@@ -16,10 +16,17 @@
         <div class='d-grid gap-2 row-gap-100 col-6 mx-auto'>
           <h1 class='mb-3'><%= title %></h1>
 
+          <% if (typeof msg != 'undefined') { -%>
+            <div class='alert alert-warning' role='alert'>
+              <%= msg %>
+            </div>
+          <% } -%>
+
           <div class='d-grid col-4 py-2 my-3 alert alert-success'>
             <%= lang.projects.active %>
           </div>
-
+          
+          <% console.log(projects.length) -%>
           <div class='list-group mb-3'>
             <% if(projects.length > 0) { projects.forEach((project) => { -%>
               <% if(project.active) { -%>
