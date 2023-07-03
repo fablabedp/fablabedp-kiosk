@@ -18,14 +18,22 @@ export const photos = asyncHandler(async (req, res, next) => {
 
 export const user_list = asyncHandler(async (req, res, next) => {
   const user_names = [];
-  for (let i = 1; i <= users.count(); i++) {
-    const get_user = await users.get(i);
+  const user_array = await users.find({ 'name' : { '$ne' : null }});
+  user_array.forEach((user) => {
     user_names.push({
-      'name' : get_user.name,
-      'id' : get_user.$loki
-    });
+        'name' : user.name,
+        'id' : user.$loki
+      });
+  });
+
+  let msg;
+  switch (req.query.msg) {
+    case 'delete':
+      msg = lang.home.deleted_user + req.query.user_name;
+      break;
   }
-  res.render('users', { lang: lang, users: user_names });
+
+  res.render('users', { lang: lang, users: user_names, msg: msg });
 });
 
 export const user_detail = asyncHandler(async (req, res, next) => {
@@ -117,6 +125,15 @@ export const user_create_post = [
   }),
 ];
 
+
+export const user_delete_get = asyncHandler(async (req, res, next) => {
+  const user = await users.get(req.query.id);
+  console.log('removing user ' + user.$loki + ': ' + user.name);
+  let name = user.name;
+  users.remove(user.$loki);
+  res.redirect("/users?msg=delete&user_name=" + name);
+  await database.saveDatabase();
+});
 
 
 
@@ -381,11 +398,9 @@ export const project_close_post = [
 
 export const project_delete_get = asyncHandler(async (req, res, next) => {
   const project = await projects.get(req.query.id);
-  console.log('num projects: ', projects.count());
   console.log('removing project ' + project.$loki + ': ' + project.name);
   let name = project.name;
   projects.remove(project.$loki);
-  console.log('num projects: ', projects.count());
   res.redirect("/projects?msg=delete&project_name=" + name);
   await database.saveDatabase();
 });

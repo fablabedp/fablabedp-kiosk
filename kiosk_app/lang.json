@@ -15,11 +15,13 @@
     "close_project"          : "Terminar Projeto",
     "delete_project"         : "Eliminar Projeto",
     "delete_project_confirm" : "Tem certeza que quer eliminar este projeto?  Depois de eleminar não vai ser possível recuperar.",
-    "deleted_project"        : "Projeto Eliminado: ",
+    "deleted_project"        : "Projeto eliminado: ",
     "user_list"              : "Utilizadores",
     "register_user"          : "Registrar Utilizador",
     "edit_user"              : "Editar Utilizador",
     "delete_user"            : "Eliminar Utilizador",
+    "delete_user_confirm"    : "Tem certeza que quer eliminar este utilizador?  Depois de eleminar não vai ser possível recuperar.",
+    "deleted_user"           : "Utilizador eliminado: ",
     "photos"                 : "Photo Booth"
   },
   "photos":

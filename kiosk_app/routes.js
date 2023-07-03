@@ -23,6 +23,7 @@ router.get('/users/create', controller.user_create_get);
 router.post('/users/create', controller.user_create_post);
 router.get('/users/edit', controller.user_edit_get);
 router.post('/users/edit', controller.user_create_post);
+router.get('/users/delete', controller.user_delete_get);
 
 /* Project Pages */
 router.get('/project', controller.project_detail);
