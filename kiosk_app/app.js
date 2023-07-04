@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import createError from 'http-errors';
 import { fileURLToPath } from 'url';
+import fileUpload from 'express-fileupload';
 
 import router from './routes.js';
 
@@ -22,6 +23,7 @@ app.set('view engine', 'ejs');
 
 // routes setup
 app.use(express.json());
+app.use(fileUpload());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', router);

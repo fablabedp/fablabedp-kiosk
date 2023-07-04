@@ -13,8 +13,8 @@
     <main class='flex-shrink-0'>
       <div class='container'>
         <%- include('home_button', { url: './', text: lang.home_button }) %>
-
         <div class='d-grid gap-2 row-gap-100 col-6 mx-auto'>
+
           <h1 class='mb-4'><%= project.name %></h1>
 
           <% if(project.active) { -%>
@@ -119,7 +119,19 @@
 
           <h3><%= lang.projects.media %></h3>
 
-          <% if(project.media) { -%>
+          <form class="mb-3" method='post' action='/upload' encType="multipart/form-data">
+            <div class="mb-3">
+              <label for="upload-media" class="form-label">Upload media:</label>
+              <input class="form-control" type="file" id="upload-media" name="upload_media">
+            </div>
+            <input type='hidden' id='media-dir' name='media_dir' value='<%= project.media_dir %>' />
+            <input type='submit' class='btn btn-primary' value='Upload' />
+          </form>
+
+          <% if(media) { -%>
+            <%  media.forEach(file => { %>
+              <img class="img-fluid" src='./media/<%= project.media_dir %>/<%= file %>'>
+            <% }); %>
           <% } else { -%>
             <em><%= lang.errors.no_media %></em>
           <% } -%>

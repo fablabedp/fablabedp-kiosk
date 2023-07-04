@@ -1,11 +1,15 @@
 import fs from 'fs';
 
-const photo_file = process.env.DOWNLOADS_PATH + 'image.jpg';
+const temp_photo_file = process.env.DOWNLOADS_PATH + 'image.jpg';
+
+function movePhoto() {
+
+}
 
 function removePhoto() {
-  fs.stat(photo_file, function (err, stats) {
+  fs.stat(temp_photo_file, function (err, stats) {
     if (err) { return console.error(err); }
-    fs.unlink(photo_file,function(err){
+    fs.unlink(temp_photo_file,function(err){
       if(err) return console.log(err);
     });
   });

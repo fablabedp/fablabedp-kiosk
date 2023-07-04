@@ -10,8 +10,8 @@ import { sendEmail } from './email.js';
 import { removePhoto } from './camera.js';
 //////
 
-
 const port = normalizePort(process.env.PORT || '3000');
+
 app.set('port', port);
 
 const server = http.createServer(app);

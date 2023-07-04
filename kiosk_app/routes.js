@@ -43,4 +43,9 @@ router.get('/projects/photos', controller.project_photos);
 router.get('/projects/delete', controller.project_delete_get);
 
 
+
+
+router.post('/upload', controller.photo_upload);
+
+
 export default router;

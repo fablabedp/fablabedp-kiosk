@@ -1,8 +1,10 @@
 import asyncHandler from 'express-async-handler';
 import { body, validationResult } from 'express-validator';
 import { database, projects, users } from './database.js';
+import filenamify from 'filenamify';
 
 import fs from 'fs';
+import path from 'path';
 const lang = JSON.parse(fs.readFileSync('./lang.json'));
 
 export const home = asyncHandler(async (req, res, next) => {
@@ -174,7 +176,16 @@ export const project_list = asyncHandler(async (req, res, next) => {
 export const project_detail = asyncHandler(async (req, res, next) => {
   const get_project = await projects.get(req.query.id);
   console.log(get_project);
-  res.render('project', { lang: lang, project: get_project });
+
+  const media_dir = './public/media/' + get_project.media_dir;
+
+  console.log(media_dir);
+
+  fs.readdir(media_dir, (err, files) => {
+    console.log(files);
+    res.render('project', { lang: lang, project: get_project, media: files });
+  });
+  // res.send('foooo');
 });
 
 export const project_create_get = asyncHandler(async (req, res, next) => {
@@ -279,13 +290,23 @@ export const project_create_post = [
           materials = [];
         }
 
-        existing_project.name= req.body.name;
+        existing_project.name = req.body.name;
         existing_project.team = [];
         team.forEach((member) => {
           existing_project.team.push(JSON.parse(member));
         });
         existing_project.date_start  = req.body.date_start;
         existing_project.description = req.body.description;
+
+        // media dir
+        existing_project.media_dir = req.body.date_start.slice(-4) + '_' + filenamify(req.body.name, {replacement: '-'}).replaceAll(' ', '-');
+        fs.mkdir(path.join('./public/media/', existing_project.media_dir), (err) => {
+          if (err) {
+            return console.error(err);
+          }
+          console.log('Directory created successfully!');
+        });
+
         existing_project.tools = [];
         tools.forEach((tool) => {
           existing_project.tools.push(JSON.parse(tool));
@@ -472,3 +493,32 @@ export const project_delete_get = asyncHandler(async (req, res, next) => {
 export const project_photos = asyncHandler(async (req, res, next) => {
   res.send('NOT IMPLEMENTED: project photos page');
 });
+
+
+
+// ---------------------------------------------------------------------------------- //
+
+
+
+export const photo_upload = [
+  asyncHandler(async (req, res, next) => {
+
+    if (!req.files || Object.keys(req.files).length === 0) {
+      res.status(400).send('No files were uploaded.');
+      return;
+    }
+
+    const upload_media = req.files.upload_media;
+    const upload_path = './public/media/' + req.body.media_dir + '/' + upload_media.name;
+
+    console.log(upload_media);
+    console.log(upload_path);
+
+    upload_media.mv(upload_path, function(err) {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      res.send('File uploaded to ' + upload_path);
+    });
+  }),
+];

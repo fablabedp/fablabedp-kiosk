@@ -28,9 +28,8 @@
   "photos":
   {
     "title"            : "Kiosk Camera",
-    "take_photo"       : "1. Tirar Foto",
-    "to_review"        : "2. Enviar por Email",
-    "rotate"           : "Rotate",
+    "take_photo"       : "Tirar Foto",
+    "rotate"           : "Rodar",
     "email_address"    : "Endereço de E-mail",
     "send_email"       : "Enviar",
     "email_sent"       : "Foto enviada. Obrigado!",

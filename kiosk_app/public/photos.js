@@ -47,14 +47,6 @@ window.onload = (event) => {
     },
     false
   );
-  to_review_btn.addEventListener(
-    'click',
-    (ev) => {
-      review_photo();
-      ev.preventDefault();
-    },
-    false
-  );
   to_camera.addEventListener(
     'click',
     (ev) => {
