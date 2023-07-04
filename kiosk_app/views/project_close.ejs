@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang='en' class='h-100' data-bs-theme='auto'>
+  <head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <% let title =  lang.home.close_project  + ': ' + project.name %>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='../style.css' />
+    <link rel='stylesheet' href='../bootstrap.min.css'>
+    <link rel='stylesheet' href='../star-slider.css'>
+    <script type='text/javascript' src='https://code.jquery.com/jquery-3.7.0.min.js'></script>
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js'></script>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker3.css'/>
+    <script type='text/javascript' src='../datepicker.js'></script>
+  </head>
+  <body class='d-flex flex-column h-100'>
+    <main class='flex-shrink-0'>
+      <div class='container'>
+        <%- include('home_button', { url: '../', text: lang.home_button }) %>
+
+        <div class='d-grid gap-2 row-gap-100 col-6 mx-auto mb-5'>
+          <h1 class='mb-5'><%= project.name %></h1>
+
+          <% if (typeof errors != 'undefined') { -%>
+            <% errors.forEach((error) => { -%>
+            <div class='alert alert-danger' role='alert'>
+              <%= error.msg %>
+            </div>
+          <% });} -%>
+
+          <form method='post' action=''>
+
+            <div class='mb-3'>
+              <label class='form-label' for='date'><%= lang.projects.date_end %>:</label>
+              <div class='input-group date'>
+                <div class='input-group-addon'>
+                  <input required type='text' class='form-control' id='date' name='date'>
+                  <span class='glyphicon glyphicon-th'></span>
+                </div>
+              </div>
+            </div>
+            <div class='mb-3'>
+              <label class='form-label' for='evaluation_rating'><%= lang.projects.evaluation %>:</label>
+              <p><input class="star-slider" max="5" step="1" type="range" value="0" id="evaluation_rating" name="evaluation_rating"></p>
+            </div>
+            <div class='mb-3'>
+              <label class='form-label' for='evaluation_msg'><%= lang.projects.feedback %>:</label>
+              <textarea class='form-control' rows='3' id='evaluation_msg' name='evaluation_msg'><%= locals.body ? body.log_msg : '' %></textarea>
+            </div>
+
+            <input type='hidden' id='name' name='name' value='<%= project.name %>' />
+            <input type='submit' class='btn btn-primary mt-3' value='<%= lang.close %>' />
+
+          </form>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

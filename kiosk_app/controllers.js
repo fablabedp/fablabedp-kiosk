@@ -311,7 +311,6 @@ export const project_update_get = asyncHandler(async (req, res, next) => {
   const get_project = await projects.get(req.query.id);
   console.log(get_project);
   req.body.name = get_project.name;
-  req.body.user = get_project.user;
   res.render('project_update', { lang: lang, project: get_project, body: req.body});
 });
 
@@ -332,7 +331,6 @@ export const project_update_post = [
       const get_project = await projects.get(req.query.id);
       console.log(get_project);
       req.body.name = get_project.name;
-      req.body.user = get_project.user;
 
       // There are errors. Render the form again with sanitized values/error messages.
       res.render('project_update', {
@@ -387,12 +385,72 @@ export const project_update_post = [
 ];
 
 export const project_close_get = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: Close project form');
+  const get_project = await projects.get(req.query.id);
+  console.log(get_project);
+  req.body.name = get_project.name;
+  res.render('project_close', { lang: lang, project: get_project, body: req.body});
 });
 
 export const project_close_post = [
+
+  // Check there is a rating > 0
+  body('evaluation_rating', lang.errors.no_rating )
+    .isInt({ min: 1 }),
+
+  // Check there is feedback
+  body('evaluation_msg', lang.errors.no_evaluation_msg )
+    .notEmpty(),
+
   asyncHandler(async (req, res, next) => {
-    res.send('NOT IMPLEMENTED: Close project confirmed');
+
+    // Extract the validation errors from a request. (currently no validation is needed)
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+
+      const get_project = await projects.get(req.query.id);
+      console.log(get_project);
+      req.body.name = get_project.name;
+
+      // There are errors. Render the form again with sanitized values/error messages.
+      res.render('project_close', {
+        lang: lang,
+        project: get_project,
+        body: req.body,
+        errors: errors.array(),
+      });
+      return;
+
+    } else {
+
+      // Data from form is valid.
+      // get existing project
+      let existing_project = await projects.findOne({ name: req.body.name });
+
+      let id = existing_project.$loki;
+
+      // Check if there is any existing log for the project
+      if(!existing_project.log) {
+        existing_project.log = [];
+      }
+
+      // close the project
+      existing_project.active = false;
+      existing_project.date_end = req.body.date;
+
+      // Add evaluation to project
+      existing_project.evaluation = {
+        'rating': req.body.evaluation_rating,
+        'msg': req.body.evaluation_msg
+      };
+
+      // Save project and redirect to project detail page.
+      res.redirect('../project?id=' + id);
+      await database.saveDatabase();
+
+      console.log('closed project:', id);
+
+    }
   }),
 ];
 

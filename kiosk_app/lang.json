@@ -5,6 +5,7 @@
   "project"          : "Projeto",
   "submit"           : "Submeter",
   "update"           : "Atualizar",
+  "close"            : "Terminar",
   "cancel"           : "Cancelar",
   "home"             :
   {
@@ -109,6 +110,7 @@
     "no_media"             : "There is no media yet.",
     "unfinished"           : "The project has not been completed yet.",
     "no_evaluation"        : "The project has not been evaluated.",
-    "no_rating"            : "Please provide a rating from one to five stars."
+    "no_rating"            : "Please provide a rating from one to five stars.",
+    "no_evaluation_msg"    : "Please provide feedback."
   }
 }

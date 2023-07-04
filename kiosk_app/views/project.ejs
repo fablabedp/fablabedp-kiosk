@@ -18,11 +18,11 @@
           <h1 class='mb-4'><%= project.name %></h1>
 
           <% if(project.active) { -%>
-            <div class="d-grid col-2 py-2 alert alert-success">
+            <div class="d-grid col-4 py-2 alert alert-success">
               <%= lang.projects.active %>
             </div>
           <% } else { -%>
-            <div class="d-grid col-2 py-2 alert alert-secondary">
+            <div class="d-grid col-4 py-2 alert alert-secondary">
               <%= lang.projects.inactive %>
             </div>
           <% } -%>
@@ -99,7 +99,7 @@
 
           <% if(project.log) { -%>
             <% project.log.slice().reverse().forEach((log) => { -%>
-            <h5><%= log.date %></h5>
+            <h5 class="mb-0"><%= log.date %></h5>
             <p class="my-0">
               <% for (let i=0; i<5; i++) { -%>
                 <% if (i >= log.rating) { -%>
@@ -109,7 +109,7 @@
                 <% } -%>
               <% } -%>
             </p>
-            <p><%= log.msg %></p>
+            <p class="mb-4"><%= log.msg %></p>
             <% }); -%>
           <% } else { -%>
             <em><%= lang.errors.no_log %></em>
@@ -132,7 +132,16 @@
             <em><%= lang.errors.unfinished %></em>
           <% } else { -%>
             <% if(project.evaluation) { -%>
-              <p><%= project.evaluation %></p>
+              <h4 class="my-2">
+              <% for (let i=0; i<5; i++) { -%>
+                <% if (i >= project.evaluation.rating) { -%>
+                  &#9734;
+                <% } else { -%>
+                  &#9733;
+                <% } -%>
+              <% } -%>
+              </h4>
+              <p><%= project.evaluation.msg %></p>
             <% } else { -%>
               <em><%= lang.errors.no_evaluation %></em>
             <% } -%>
