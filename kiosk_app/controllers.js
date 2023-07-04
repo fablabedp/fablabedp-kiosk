@@ -83,6 +83,10 @@ export const user_create_post = [
 
     } else {
 
+
+      const user_list = await users.find({ 'name' : { '$ne' : null }});
+      console.log(user_list);
+
       // Data from form is valid.
       // Check if user with same name already exists.
       let existing_user = await users.findOne({ name: req.body.name });
@@ -102,10 +106,12 @@ export const user_create_post = [
         // create a new user if needed, otherwise get id of exisiting user
         let id = -1;
         if(req.body.new_user == 'true') {
+          console.log('creating new user');
           users.insert({name: req.body.name});
-          id = users.count();
-          existing_user = users.get(id);
+          existing_user = await users.findOne({name: req.body.name});
+          id = existing_user.$loki;
         } else {
+          console.log('editing existing user');
           id = existing_user.$loki;
         }
 
@@ -254,8 +260,8 @@ export const project_create_post = [
         let id = -1;
         if(req.body.new_project == 'true') {
           projects.insert({name: req.body.name, active: true});
-          id = projects.count();
-          existing_project = projects.get(id);
+          existing_project = await projects.findOne({name: req.body.name});
+          id = existing_project.$loki;
         } else {
           id = existing_project.$loki;
         }
