@@ -83,7 +83,8 @@
     "hours"            : "Horas",
     "feedback"         : "Feedback",
     "evaluation"       : "Avaliação",
-    "media"            : "Galeria"
+    "media"            : "Galeria",
+    "upload_success"   : "Foto adicionada."
   },
   "email":
   {

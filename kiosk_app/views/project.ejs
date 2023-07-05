@@ -17,6 +17,12 @@
 
           <h1 class='mb-4'><%= project.name %></h1>
 
+          <% if (typeof msg != 'undefined') { -%>
+            <div class='alert alert-warning' role='alert'>
+              <%= msg %>
+            </div>
+          <% } -%>
+
           <% if(project.active) { -%>
             <div class="d-grid col-4 py-2 alert alert-success">
               <%= lang.projects.active %>
@@ -97,7 +103,7 @@
 
           <h3><%= lang.projects.feedback %></h3>
 
-          <% if(project.log) { -%>
+          <% if(project.log.length > 0) { -%>
             <% project.log.slice().reverse().forEach((log) => { -%>
             <h5 class="mb-0"><%= log.date %></h5>
             <p class="my-0">
@@ -122,9 +128,10 @@
           <form class="mb-3" method='post' action='/upload' encType="multipart/form-data">
             <div class="mb-3">
               <label for="upload-media" class="form-label">Upload media:</label>
-              <input class="form-control" type="file" id="upload-media" name="upload_media">
+              <input required class="form-control" type="file" id="upload-media" name="upload_media">
             </div>
             <input type='hidden' id='media-dir' name='media_dir' value='<%= project.media_dir %>' />
+            <input type='hidden' id='media-id' name='id' value='<%= project.$loki %>' />
             <input type='submit' class='btn btn-primary' value='Upload' />
           </form>
 

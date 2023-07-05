@@ -179,13 +179,16 @@ export const project_detail = asyncHandler(async (req, res, next) => {
 
   const media_dir = './public/media/' + get_project.media_dir;
 
-  console.log(media_dir);
+  let msg;
+  switch (req.query.msg) {
+    case 'upload_success':
+      msg = lang.projects.upload_success;
+      break;
+  }
 
   fs.readdir(media_dir, (err, files) => {
-    console.log(files);
-    res.render('project', { lang: lang, project: get_project, media: files });
+    res.render('project', { lang: lang, project: get_project, media: files, msg: msg});
   });
-  // res.send('foooo');
 });
 
 export const project_create_get = asyncHandler(async (req, res, next) => {
@@ -254,8 +257,8 @@ export const project_create_post = [
       // Check if project with same name already exists.
       let existing_project = await projects.findOne({ name: req.body.name });
 
+      // If this is supposed to be a new project, show error that a project with this name already exists
       if (existing_project && req.body.new_project == 'true') {
-        // project exists, redirect to its detail page.
         console.log('project already exists');
         res.render('project_create', {
           lang: lang,
@@ -274,6 +277,7 @@ export const project_create_post = [
           existing_project = await projects.findOne({name: req.body.name});
           id = existing_project.$loki;
         } else {
+          existing_project = await projects.get(req.body.id);
           id = existing_project.$loki;
         }
 
@@ -299,13 +303,33 @@ export const project_create_post = [
         existing_project.description = req.body.description;
 
         // media dir
-        existing_project.media_dir = req.body.date_start.slice(-4) + '_' + filenamify(req.body.name, {replacement: '-'}).replaceAll(' ', '-');
-        fs.mkdir(path.join('./public/media/', existing_project.media_dir), (err) => {
-          if (err) {
-            return console.error(err);
+        let new_media_dir =
+          req.body.date_start.slice(-4) + '_'
+          + filenamify(req.body.name, {replacement: '-'})
+          .replaceAll(' ', '-');
+
+        if(req.body.new_project == 'true') {
+          // create new media dir if new project
+          existing_project.media_dir = new_media_dir;
+          fs.mkdir(new_media_dir, (err) => {
+            if (err) {
+              return console.error(err);
+            }
+            console.log('Media directory created successfully');
+          });
+        } else {
+          // rename existing media dir
+          try {
+            fs.renameSync(
+              path.join('./public/media/',existing_project.media_dir),
+              path.join('./public/media/',new_media_dir)
+              );
+            existing_project.media_dir = new_media_dir;
+            console.log('Media directory renamed successfully');
+          } catch(err) {
+            console.log(err);
           }
-          console.log('Directory created successfully!');
-        });
+        }
 
         existing_project.tools = [];
         tools.forEach((tool) => {
@@ -511,14 +535,11 @@ export const photo_upload = [
     const upload_media = req.files.upload_media;
     const upload_path = './public/media/' + req.body.media_dir + '/' + upload_media.name;
 
-    console.log(upload_media);
-    console.log(upload_path);
-
     upload_media.mv(upload_path, function(err) {
       if (err) {
         return res.status(500).send(err);
       }
-      res.send('File uploaded to ' + upload_path);
+      res.redirect('./project?id=' + req.body.id + '&msg=upload_success');
     });
   }),
 ];
