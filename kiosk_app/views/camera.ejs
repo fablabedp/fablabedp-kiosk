@@ -3,11 +3,11 @@
   <head>
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <% let title = lang.photos.title %>
+    <% let title = lang.photos.title_camera %>
     <title><%= title %></title>
     <link href='bootstrap.min.css' rel='stylesheet'>
     <script src='/socket.io/socket.io.js'></script>
-    <script src='photos.js'></script>
+    <script src='camera.js'></script>
     <style>
       .container-cam {
         max-width: 800px;
@@ -32,6 +32,9 @@
     <main class='flex-shrink-0'>
       <%- include('home_button', { url: './', text: lang.home_button }) %>
 
+      <div class='d-grid gap-2 col-7 mx-auto'>
+      </div>
+
       <div id='capture' class='container container-cam'>
         <div class='camera'>
 
@@ -43,50 +46,32 @@
 
         </div>
         </div>
-        <div class='row m-5 text-center'>
+        <div class='row m-5'>
           <div class='col-7 gap-2 mx-auto'>
             <div class='d-grid col-10 gap-2 mx-auto'>
+
+              <label class='form-label' for='project'><%= lang.photos.select_project %>:</label>
+              <select class='form-select mb-4' id='users' name='project'>
+                <option value='photo_booth'><%= lang.home.camera %></option>
+                <% if (typeof projects != 'undefined') { -%>
+                  <% projects.forEach((project) => { -%>
+                    <option value='<%= project.$loki %>'><%= project.name %></option>
+                <% });} -%>
+              </select>
+
               <button
               id='take-photo'
               class='btn btn-primary btn-lg btn-mod'
               ><%= lang.photos.take_photo %></button>
-              <button
-              id='rotate-camera'
-              class='btn btn-primary btn-lg btn-mod'
-              ><%= lang.photos.rotate %></button>
+
             </div>
           </div>
         </form>
           <div class='col-5'>
-            <a href='' id='to-review'>
+            <a href=''>
               <img id='thumbnail' class='img-fluid' src='placeholder_image.jpg'/>
             </a>
           </div>
-        </div>
-      </div>
-
-      <div id='review' class='container container-cam' hidden>
-        <div class='camera'>
-            <img id='photo' class='img-fluid' src='placeholder_image.jpg'/>
-        </div>
-        <div class='d-grid gap-2 row-gap-100 col-8 mx-auto'>
-          <div class='my-5'>
-            <form id='email-form'>
-            <input type='email' class='form-control' id='email' placeholder='<%= lang.photos.email_address %>'>
-            <button
-            id='send-photo'
-            class='btn btn-primary btn-lg mt-3'
-            ><%= lang.photos.send_email %></button>
-            </form>
-            <p
-            id='email-sent-msg'
-            style='display: none;'
-            ><%= lang.photos.email_sent %></p>
-          </div>
-          <button
-          id='to-camera'
-          class='btn btn-primary btn-lg mx-5 btn-mod'
-          ><%= lang.photos.to_camera %></button>
         </div>
       </div>
 

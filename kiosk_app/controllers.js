@@ -11,9 +11,7 @@ export const home = asyncHandler(async (req, res, next) => {
   res.render('index', { lang: lang });
 });
 
-export const photos = asyncHandler(async (req, res, next) => {
-  res.render('photos', { lang: lang });
-});
+
 
 /* ============================= User pages ================================ */
 
@@ -147,6 +145,7 @@ export const user_delete_get = asyncHandler(async (req, res, next) => {
 
 
 /* =========================== Project pages =============================== */
+
 
 export const project_list = asyncHandler(async (req, res, next) => {
   let project_names = [];
@@ -515,17 +514,23 @@ export const project_delete_get = asyncHandler(async (req, res, next) => {
   await database.saveDatabase();
 });
 
-export const project_photos = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: project photos page');
+
+
+/* ============================= Camera and Media ================================ */
+
+
+export const camera = asyncHandler(async (req, res, next) => {
+  const project_list = await projects.find({ 'name' : { '$ne' : null }});
+  res.render('camera', { lang: lang, projects: project_list });
 });
 
 
+export const photo = asyncHandler(async (req, res, next) => {
+  const project_list = await projects.find({ 'name' : { '$ne' : null }});
+  res.render('photo', { lang: lang, file: '', projects: project_list });
+});
 
-// ---------------------------------------------------------------------------------- //
-
-
-
-export const photo_upload = [
+export const upload = [
   asyncHandler(async (req, res, next) => {
 
     if (!req.files || Object.keys(req.files).length === 0) {

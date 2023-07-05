@@ -13,9 +13,6 @@ router.get('\\S+\/$', function (req, res) {
 /* Home page */
 router.get('/', controller.home);
 
-/* Camera Page */
-router.get('/photos', controller.photos);
-
 /* User pages */
 router.get('/user', controller.user_detail);
 router.get('/users', controller.user_list);
@@ -38,14 +35,12 @@ router.post('/projects/update', controller.project_update_post);
 // close a project and give feedback
 router.get('/projects/close', controller.project_close_get);
 router.post('/projects/close', controller.project_close_post);
-// add/view photos from a project
-router.get('/projects/photos', controller.project_photos);
 router.get('/projects/delete', controller.project_delete_get);
 
-
-
-
-router.post('/upload', controller.photo_upload);
+/* Camera and Media */
+router.get('/camera', controller.camera);
+router.get('/photo', controller.photo);
+router.post('/upload', controller.upload);
 
 
 export default router;

@@ -7,7 +7,7 @@ import { Server } from 'socket.io';
 
 /////// used by sockets
 import { sendEmail } from './email.js';
-import { removePhoto } from './camera.js';
+import { removePhoto } from './photos.js';
 //////
 
 const port = normalizePort(process.env.PORT || '3000');

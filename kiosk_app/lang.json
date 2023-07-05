@@ -23,18 +23,19 @@
     "delete_user"            : "Eliminar Utilizador",
     "delete_user_confirm"    : "Tem certeza que quer eliminar este utilizador?  Depois de eleminar não vai ser possível recuperar.",
     "deleted_user"           : "Utilizador eliminado: ",
-    "photos"                 : "Photo Booth"
+    "camera"                 : "Photo Booth"
   },
   "photos":
   {
-    "title"            : "Kiosk Camera",
+    "title_camera"     : "Kiosk Camera",
+    "title_view"       : "Kiosk Foto",
     "take_photo"       : "Tirar Foto",
-    "rotate"           : "Rodar",
     "email_address"    : "Endereço de E-mail",
     "send_email"       : "Enviar",
     "email_sent"       : "Foto enviada. Obrigado!",
     "to_camera"        : "Tirar Outro Foto",
-    "no_video"         : "Video stream not available."
+    "no_video"         : "Video stream not available.",
+    "select_project"   : "Atribuir ao projeto"
   },
   "users":
   {
