@@ -114,6 +114,7 @@ export const user_create_post = [
           id = existing_user.$loki;
         } else {
           console.log('editing existing user');
+          existing_user = await users.get(req.body.id);
           id = existing_user.$loki;
         }
 

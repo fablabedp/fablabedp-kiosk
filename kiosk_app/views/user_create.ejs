@@ -41,6 +41,7 @@
               <input required class="form-control" type='text' id='org' name='org'value="<%= locals.body ? body.org : '' %>" />
             </div>
             <input type='hidden' id='new_user' name='new_user' value='<%= new_user === 'true' ? 'true' : 'false' %>' />
+            <input type='hidden' id='existing_user_id' name='id' value='<%= new_user === 'true' ? -1 : user.$loki %>' />
             <input type='submit' class="btn btn-primary mt-3" value='<%= lang.submit %>' />
 
         </div>
