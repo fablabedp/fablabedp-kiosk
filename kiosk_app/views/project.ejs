@@ -137,7 +137,8 @@
 
           <% if(media) { -%>
             <%  media.forEach(file => { %>
-              <img class="img-fluid" src='./media/<%= project.media_dir %>/<%= file %>'>
+            <% let url = './media/' + project.media_dir + '/' + file %>
+              <a href='../photo/?project_id=<%= project.$loki %>&file=<%= file %>'><img class="img-fluid" src='<%= url %>'></a>
             <% }); %>
           <% } else { -%>
             <em><%= lang.errors.no_media %></em>

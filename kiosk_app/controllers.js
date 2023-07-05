@@ -527,7 +527,14 @@ export const camera = asyncHandler(async (req, res, next) => {
 
 export const photo = asyncHandler(async (req, res, next) => {
   const project_list = await projects.find({ 'name' : { '$ne' : null }});
-  res.render('photo', { lang: lang, file: '', projects: project_list });
+  let name = lang.photos.no_project;
+  let media_dir = 'photo_booth';
+  if(req.query.project_id != null) {
+    const project = await projects.get(req.query.project_id);
+    name = project.name;
+    media_dir = project.media_dir;
+  }
+  res.render('photo', { lang: lang, file: req.query.file, project: name, media_dir: media_dir, projects: project_list });
 });
 
 export const upload = [

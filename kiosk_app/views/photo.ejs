@@ -23,42 +23,44 @@
 
       <div id='review' class='container container-cam'>
         <div class='camera'>
-            <img id='photo' class='img-fluid' src='placeholder_image.jpg'/>
+            <% let url = typeof file != 'undefined' ? './media/' + media_dir + '/' + file : 'placeholder_image.jpg' %>
+            <img id='photo' class='img-fluid' src='<%= url %>' />
         </div>
 
         <div class='row m-5 align-items-center'>
-          <div class='col-3 gap-2 ml-auto'>
+          <div class='col-3 gap-2 mx-auto'>
             <label class='form-label' for='project'><%= lang.photos.select_project %>:</label>
           </div>
-          <div class='col-8 gap-2 mr-auto'>
+          <div class='col-5 gap-2 mx-auto'>
             <select class='form-select' id='users' name='project'>
-              <option value='photo_booth'><%= lang.home.camera %></option>
+              <option value='photo_booth'><%= lang.photos.no_project %></option>
               <% if (typeof projects != 'undefined') { -%>
                 <% projects.forEach((project) => { -%>
                   <option value='<%= project.$loki %>'><%= project.name %></option>
               <% });} -%>
             </select>
           </div>
+          <div class='col-2 gap-2 mx-auto'>
+            <button id='select-project' class='btn btn-primary btn-lg'><%= lang.photos.select_project_btn %></button>
+          </div>
         </div>
 
-        <div class='d-grid gap-2 row-gap-100 col-8 mx-auto'>
-          <div class='my-5'>
-            <form id='email-form'>
-            <input type='email' class='form-control' id='email' placeholder='<%= lang.photos.email_address %>'>
-            <button
-            id='send-photo'
-            class='btn btn-primary btn-lg mt-3'
-            ><%= lang.photos.send_email %></button>
-            </form>
-            <p
-            id='email-sent-msg'
-            style='display: none;'
-            ><%= lang.photos.email_sent %></p>
+        <form id='email-form'>
+          <div class='row m-5 align-items-center'>
+            <div class='col-9 gap-2 mx-auto'>
+              <input type='email' class='form-control' id='email' placeholder='<%= lang.photos.email_address %>'>
+            </div>
+            <div class='col-2 gap-2 mx-auto'>
+              <button id='send-photo' class='btn btn-primary btn-lg'><%= lang.photos.send_email %></button>
+            </div>
           </div>
-          <button
-          id='to-camera'
-          class='btn btn-primary btn-lg mx-5 btn-mod'
-          ><%= lang.photos.to_camera %></button>
+        </form>
+        <div class='row mt-3 align-items-center'>
+          <p id='email-sent-msg' style='display: none;'><%= lang.photos.email_sent %></p>
+        </div>
+
+        <div class='d-grid gap-2 row-gap-100 col-4 mx-auto'>
+          <button id='to-camera' class='btn btn-primary btn-lg btn-mod' ><%= lang.photos.to_camera %></button>
         </div>
       </div>
 
@@ -71,6 +73,7 @@
     let send_photo = document.getElementById('send-photo');
 
     window.onload = (event) => {
+
       send_photo.addEventListener(
         'click',
         (ev) => {
@@ -81,6 +84,8 @@
         },
         false
       );
+
+
     }
 
   </script>

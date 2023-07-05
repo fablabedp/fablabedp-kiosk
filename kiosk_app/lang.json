@@ -27,15 +27,17 @@
   },
   "photos":
   {
-    "title_camera"     : "Kiosk Camera",
-    "title_view"       : "Kiosk Foto",
-    "take_photo"       : "Tirar Foto",
-    "email_address"    : "Endereço de E-mail",
-    "send_email"       : "Enviar",
-    "email_sent"       : "Foto enviada. Obrigado!",
-    "to_camera"        : "Tirar Outro Foto",
-    "no_video"         : "Video stream not available.",
-    "select_project"   : "Atribuir ao projeto"
+    "title_camera"       : "Kiosk Camera",
+    "title_view"         : "Kiosk Foto",
+    "take_photo"         : "Tirar Foto",
+    "email_address"      : "Endereço de E-mail",
+    "send_email"         : "Enviar",
+    "email_sent"         : "Foto enviada. Obrigado!",
+    "to_camera"          : "Tirar Outro Foto",
+    "no_video"           : "Video stream not available.",
+    "select_project"     : "Atribuir ao projeto",
+    "select_project_btn" : "Atribuir",
+    "no_project"         : "Galeria Photo Booth"
   },
   "users":
   {
