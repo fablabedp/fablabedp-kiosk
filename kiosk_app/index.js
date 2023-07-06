@@ -94,6 +94,10 @@ io_socket.on('connection', (socket) => {
     removePhoto();
   });
 
+  socket.on('select_project', (project) => {
+    
+  });
+
   socket.on('send_email', (email_address) => {
     console.log('sending email to', email_address);
     sendEmail(email_address);

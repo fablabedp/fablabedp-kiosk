@@ -103,7 +103,7 @@
 
           <h3><%= lang.projects.feedback %></h3>
 
-          <% if(project.log.length > 0) { -%>
+          <% if(project.log && project.log.length > 0) { -%>
             <% project.log.slice().reverse().forEach((log) => { -%>
             <h5 class="mb-0"><%= log.date %></h5>
             <p class="my-0">

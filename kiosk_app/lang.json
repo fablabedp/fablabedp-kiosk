@@ -37,7 +37,8 @@
     "no_video"           : "Video stream not available.",
     "select_project"     : "Atribuir ao projeto",
     "select_project_btn" : "Atribuir",
-    "no_project"         : "Galeria Photo Booth"
+    "no_project"         : "Galeria Photo Booth",
+    "move_success"       : "Foto reatribuída"
   },
   "users":
   {

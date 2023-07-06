@@ -311,7 +311,7 @@ export const project_create_post = [
         if(req.body.new_project == 'true') {
           // create new media dir if new project
           existing_project.media_dir = new_media_dir;
-          fs.mkdir(new_media_dir, (err) => {
+          fs.mkdir(path.join('./public/media/',new_media_dir), (err) => {
             if (err) {
               return console.error(err);
             }
@@ -519,24 +519,6 @@ export const project_delete_get = asyncHandler(async (req, res, next) => {
 /* ============================= Camera and Media ================================ */
 
 
-export const camera = asyncHandler(async (req, res, next) => {
-  const project_list = await projects.find({ 'name' : { '$ne' : null }});
-  res.render('camera', { lang: lang, projects: project_list });
-});
-
-
-export const photo = asyncHandler(async (req, res, next) => {
-  const project_list = await projects.find({ 'name' : { '$ne' : null }});
-  let name = lang.photos.no_project;
-  let media_dir = 'photo_booth';
-  if(req.query.project_id != null) {
-    const project = await projects.get(req.query.project_id);
-    name = project.name;
-    media_dir = project.media_dir;
-  }
-  res.render('photo', { lang: lang, file: req.query.file, project: name, media_dir: media_dir, projects: project_list });
-});
-
 export const upload = [
   asyncHandler(async (req, res, next) => {
 
@@ -554,5 +536,118 @@ export const upload = [
       }
       res.redirect('./project?id=' + req.body.id + '&msg=upload_success');
     });
+  }),
+];
+
+export const camera = asyncHandler(async (req, res, next) => {
+  const project_list = await projects.find({ 'name' : { '$ne' : null }});
+  res.render('camera', { lang: lang, projects: project_list });
+});
+
+
+export const photo = asyncHandler(async (req, res, next) => {
+
+  const project_list = await projects.find({ 'name' : { '$ne' : null }});
+  let name = lang.photos.no_project;
+  let media_dir = 'photo_booth';
+  let id = -1;
+
+  if(req.query.project_id != null) {
+    id = req.query.project_id;
+    const project = await projects.get(id);
+    media_dir = project.media_dir;
+  }
+
+  let msg;
+  switch (req.query.msg) {
+    case 'move_success':
+      msg = lang.photos.move_success;
+      break;
+  }
+
+  res.render('photo', { lang: lang, file: req.query.file, project_id: id, media_dir: media_dir, projects: project_list, msg: msg });
+});
+
+
+export const photo_move = [
+
+  // validate inputs
+
+  asyncHandler(async (req, res, next) => {
+
+    const errors = validationResult(req);
+
+    console.log(req.body.project_id);
+
+    const project_list = await projects.find({ 'name' : { '$ne' : null }});
+    const project = projects.get(req.body.project_id);
+
+    console.log(project);
+
+    if (!errors.isEmpty()) {
+
+      // ???
+
+      return;
+
+    } else {
+
+      // move photo to selected project media dir
+      const previous_project = await projects.get(req.body.previous_project_id);
+      const new_project = await projects.get(req.body.project_id);
+      const previous_path = './public/media/' + previous_project.media_dir + '/' + req.body.file;
+      const new_path = './public/media/' + new_project.media_dir + '/' + req.body.file;
+
+      fs.rename(previous_path, new_path, function (err) {
+        if (err) {
+          throw err
+        } else {
+          console.log('Media moved successfully')
+        }
+      })
+
+      res.redirect(
+        '../photo/?project_id=' + req.body.project_id +
+        '&file=' + req.body.file +
+        '&msg=move_success'
+        );
+
+    }
+  }),
+];
+
+export const photo_email = [
+
+  // validate inputs
+
+  asyncHandler(async (req, res, next) => {
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+
+      res.render('photo', {
+        lang: lang,
+        file: req.query.file,
+        project: name,
+        media_dir: media_dir,
+        projects: project_list,
+        errors: errors.array(),
+      });
+      return;
+
+    } else {
+
+      console.log(req.body.project);
+
+      res.render('photo', {
+        lang: lang,
+        file: req.query.file,
+        project: name,
+        media_dir: media_dir,
+        projects: project_list,
+      });
+
+    }
   }),
 ];

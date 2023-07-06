@@ -38,9 +38,11 @@ router.post('/projects/close', controller.project_close_post);
 router.get('/projects/delete', controller.project_delete_get);
 
 /* Camera and Media */
+router.post('/upload', controller.upload);
 router.get('/camera', controller.camera);
 router.get('/photo', controller.photo);
-router.post('/upload', controller.upload);
+router.post('/photo/move', controller.photo_move);
+router.post('/photo/email', controller.photo_email);
 
 
 export default router;

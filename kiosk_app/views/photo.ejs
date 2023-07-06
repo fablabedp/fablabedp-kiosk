@@ -22,30 +22,41 @@
       <%- include('home_button', { url: './', text: lang.home_button }) %>
 
       <div id='review' class='container container-cam'>
-        <div class='camera'>
+
+        <% if (typeof msg != 'undefined') { -%>
+          <div class='alert alert-warning' role='alert'>
+            <%= msg %>
+          </div>
+        <% } -%>
+
+        <div class='photo'>
             <% let url = typeof file != 'undefined' ? './media/' + media_dir + '/' + file : 'placeholder_image.jpg' %>
             <img id='photo' class='img-fluid' src='<%= url %>' />
         </div>
 
-        <div class='row m-5 align-items-center'>
-          <div class='col-3 gap-2 mx-auto'>
-            <label class='form-label' for='project'><%= lang.photos.select_project %>:</label>
+        <form method='post' action='photo/move' id='select-project-form'>
+          <div class='row m-5 align-items-center'>
+            <div class='col-3 gap-2 mx-auto'>
+              <label class='form-label' for='project_id'><%= lang.photos.select_project %>:</label>
+            </div>
+            <div class='col-5 gap-2 mx-auto'>
+              <select class='form-select' id='project_list' name='project_id'>
+                <option value='no_project'><%= lang.photos.no_project %></option>
+                <% if (typeof projects != 'undefined') { -%>
+                  <% projects.forEach((project) => { -%>
+                    <option value='<%= project.$loki %>'><%= project.name %></option>
+                <% });} -%>
+              </select>
+            </div>
+            <div class='col-2 gap-2 mx-auto'>
+              <input type='hidden' id='previous_project_id' name='previous_project_id' value='<%= project_id %>' />
+              <input type='hidden' id='file' name='file' value='<%= file %>' />
+              <input type='submit' id='select-project' class='btn btn-primary btn-lg' value='<%= lang.photos.select_project_btn %>'/>
+            </div>
           </div>
-          <div class='col-5 gap-2 mx-auto'>
-            <select class='form-select' id='users' name='project'>
-              <option value='photo_booth'><%= lang.photos.no_project %></option>
-              <% if (typeof projects != 'undefined') { -%>
-                <% projects.forEach((project) => { -%>
-                  <option value='<%= project.$loki %>'><%= project.name %></option>
-              <% });} -%>
-            </select>
-          </div>
-          <div class='col-2 gap-2 mx-auto'>
-            <button id='select-project' class='btn btn-primary btn-lg'><%= lang.photos.select_project_btn %></button>
-          </div>
-        </div>
+        </form>
 
-        <form id='email-form'>
+        <form method='post' action='photo/email' id='email-form'>
           <div class='row m-5 align-items-center'>
             <div class='col-9 gap-2 mx-auto'>
               <input type='email' class='form-control' id='email' placeholder='<%= lang.photos.email_address %>'>
@@ -55,11 +66,11 @@
             </div>
           </div>
         </form>
-        <div class='row mt-3 align-items-center'>
-          <p id='email-sent-msg' style='display: none;'><%= lang.photos.email_sent %></p>
+        <div class='row my-3 align-items-center'>
+          <p id='email-sent-msg' style='text-align: center; display: none;'><%= lang.photos.email_sent %></p>
         </div>
 
-        <div class='d-grid gap-2 row-gap-100 col-4 mx-auto'>
+        <div class='d-grid gap-2 row-gap-100 col-4 mx-auto my-3'>
           <button id='to-camera' class='btn btn-primary btn-lg btn-mod' ><%= lang.photos.to_camera %></button>
         </div>
       </div>
@@ -68,9 +79,12 @@
   </body>
   <script type='text/javascript'>
 
+    let socket = io();
+
     let email_form = document.getElementById('email-form');
     let email_sent_msg = document.getElementById('email-sent-msg');
     let send_photo = document.getElementById('send-photo');
+    // let select_project = document.getElementById('select-project');
 
     window.onload = (event) => {
 
@@ -85,6 +99,14 @@
         false
       );
 
+      // select_project.addEventListener(
+      //   'click',
+      //   (ev) => {
+      //     socket.emit('select_project', document.getElementById('project_list').value);
+      //     ev.preventDefault();
+      //   },
+      //   false
+      // );
 
     }
 

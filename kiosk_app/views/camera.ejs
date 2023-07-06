@@ -51,8 +51,8 @@
             <div class='d-grid col-10 gap-2 mx-auto'>
 
               <label class='form-label' for='project'><%= lang.photos.select_project %>:</label>
-              <select class='form-select mb-4' id='users' name='project'>
-                <option value='photo_booth'><%= lang.photos.no_project %></option>
+              <select class='form-select mb-4' id='project_list' name='project'>
+                <option value='no_project'><%= lang.photos.no_project %></option>
                 <% if (typeof projects != 'undefined') { -%>
                   <% projects.forEach((project) => { -%>
                     <option value='<%= project.$loki %>'><%= project.name %></option>
