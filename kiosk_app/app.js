@@ -1,14 +1,14 @@
 import path from 'path';
-import dotenv from 'dotenv';
 import express from 'express';
 import createError from 'http-errors';
 import { fileURLToPath } from 'url';
 import fileUpload from 'express-fileupload';
-
-import router from './routes.js';
+import dotenv from 'dotenv';
 
 // get enviroment variables
 dotenv.config();
+
+import router from './routes.js';
 
 // get dirname for use in ES module
 // https://bobbyhadz.com/blog/javascript-dirname-is-not-defined-in-es-module-scope

@@ -27,6 +27,7 @@
     "express-async-handler": "^1.2.0",
     "express-fileupload": "^1.4.0",
     "express-validator": "^7.0.1",
+    "file-url": "^4.0.0",
     "filenamify": "^6.0.0",
     "http-errors": "^2.0.0",
     "lokijs": "^1.5.12",

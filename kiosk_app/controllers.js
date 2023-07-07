@@ -1,16 +1,18 @@
-import asyncHandler from 'express-async-handler';
-import { body, validationResult } from 'express-validator';
-import { database, projects, users } from './database.js';
-import filenamify from 'filenamify';
-
 import fs from 'fs';
 import path from 'path';
+import filenamify from 'filenamify';
+import asyncHandler from 'express-async-handler';
+import { body, validationResult } from 'express-validator';
+
+import { database, projects, users } from './database.js';
+import { sendEmail } from './email.js';
 const lang = JSON.parse(fs.readFileSync('./lang.json'));
 
 export const home = asyncHandler(async (req, res, next) => {
   res.render('index', { lang: lang });
 });
 
+const media_path = 'public/media/';
 
 
 /* ============================= User pages ================================ */
@@ -177,7 +179,7 @@ export const project_detail = asyncHandler(async (req, res, next) => {
   const get_project = await projects.get(req.query.id);
   console.log(get_project);
 
-  const media_dir = './public/media/' + get_project.media_dir;
+  const media_dir = media_path + get_project.media_dir;
 
   let msg;
   switch (req.query.msg) {
@@ -311,7 +313,7 @@ export const project_create_post = [
         if(req.body.new_project == 'true') {
           // create new media dir if new project
           existing_project.media_dir = new_media_dir;
-          fs.mkdir(path.join('./public/media/',new_media_dir), (err) => {
+          fs.mkdir(path.join(media_path,new_media_dir), (err) => {
             if (err) {
               return console.error(err);
             }
@@ -321,8 +323,8 @@ export const project_create_post = [
           // rename existing media dir
           try {
             fs.renameSync(
-              path.join('./public/media/',existing_project.media_dir),
-              path.join('./public/media/',new_media_dir)
+              path.join(media_path,existing_project.media_dir),
+              path.join(media_path,new_media_dir)
               );
             existing_project.media_dir = new_media_dir;
             console.log('Media directory renamed successfully');
@@ -528,7 +530,7 @@ export const upload = [
     }
 
     const upload_media = req.files.upload_media;
-    const upload_path = './public/media/' + req.body.media_dir + '/' + upload_media.name;
+    const upload_path = media_path + req.body.media_dir + upload_media.name;
 
     upload_media.mv(upload_path, function(err) {
       if (err) {
@@ -551,10 +553,11 @@ export const photo = asyncHandler(async (req, res, next) => {
   let name = lang.photos.no_project;
   let media_dir = 'photo_booth';
   let id = -1;
+  let project;
 
   if(req.query.project_id != null) {
     id = req.query.project_id;
-    const project = await projects.get(id);
+    project = await projects.get(id);
     media_dir = project.media_dir;
   }
 
@@ -563,9 +566,19 @@ export const photo = asyncHandler(async (req, res, next) => {
     case 'move_success':
       msg = lang.photos.move_success;
       break;
+    case 'email_success':
+      msg = lang.photos.email_success;
+      break;
   }
 
-  res.render('photo', { lang: lang, file: req.query.file, project_id: id, media_dir: media_dir, projects: project_list, msg: msg });
+  res.render('photo', {
+    lang: lang,
+    file: req.query.file,
+    project: project,
+    media_dir: media_dir,
+    projects: project_list,
+    msg: msg
+  });
 });
 
 
@@ -577,13 +590,6 @@ export const photo_move = [
 
     const errors = validationResult(req);
 
-    console.log(req.body.project_id);
-
-    const project_list = await projects.find({ 'name' : { '$ne' : null }});
-    const project = projects.get(req.body.project_id);
-
-    console.log(project);
-
     if (!errors.isEmpty()) {
 
       // ???
@@ -593,10 +599,10 @@ export const photo_move = [
     } else {
 
       // move photo to selected project media dir
-      const previous_project = await projects.get(req.body.previous_project_id);
-      const new_project = await projects.get(req.body.project_id);
-      const previous_path = './public/media/' + previous_project.media_dir + '/' + req.body.file;
-      const new_path = './public/media/' + new_project.media_dir + '/' + req.body.file;
+      const previous_project = await projects.get(req.body.project_id);
+      const new_project = await projects.get(req.body.new_project_id);
+      const previous_path = media_path + previous_project.media_dir + req.body.file;
+      const new_path = media_path + new_project.media_dir + req.body.file;
 
       fs.rename(previous_path, new_path, function (err) {
         if (err) {
@@ -607,7 +613,7 @@ export const photo_move = [
       })
 
       res.redirect(
-        '../photo/?project_id=' + req.body.project_id +
+        '../photo/?project_id=' + req.body.new_project_id +
         '&file=' + req.body.file +
         '&msg=move_success'
         );
@@ -626,28 +632,23 @@ export const photo_email = [
 
     if (!errors.isEmpty()) {
 
-      res.render('photo', {
-        lang: lang,
-        file: req.query.file,
-        project: name,
-        media_dir: media_dir,
-        projects: project_list,
-        errors: errors.array(),
-      });
+      // ???
+
       return;
 
     } else {
 
-      console.log(req.body.project);
+      const project = projects.get(req.body.project_id);
+      const path = media_path + project.media_dir + req.body.file;
 
-      res.render('photo', {
-        lang: lang,
-        file: req.query.file,
-        project: name,
-        media_dir: media_dir,
-        projects: project_list,
-      });
+      console.log('sending email to', req.body.email);
+      sendEmail(req.body.email, path, req.body.file);
 
+      res.redirect(
+        '../photo/?project_id=' + req.body.project_id +
+        '&file=' + req.body.file +
+        '&msg=email_success'
+        );
     }
   }),
 ];

@@ -1,7 +1,17 @@
 import fs from 'fs';
-const lang = JSON.parse(fs.readFileSync('./lang.json'));
-
+import path from 'path';
 import { SMTPClient } from 'emailjs';
+import { fileURLToPath } from 'url';
+import fileUrl from 'file-url';
+import dotenv from 'dotenv';
+
+// get enviroment variables
+dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const lang = JSON.parse(fs.readFileSync('./lang.json'));
 
 const client = new SMTPClient({
 	user: process.env.EMAIL_USER,
@@ -10,10 +20,7 @@ const client = new SMTPClient({
 	ssl: true,
 });
 
-function sendEmail(email_address) {
-
-	console.log(lang.email.body_text);
-	console.log(lang.email.subject);
+function sendEmail(email_address, path, filename) {
 
 	client.send(
 		{
@@ -22,7 +29,7 @@ function sendEmail(email_address) {
 			to: email_address,
 			subject: lang.email.subject,
 			attachment: [
-				{ path: process.env.DOWNLOADS_PATH + 'image.jpg', type: 'image/jpeg', name: 'foto.jpg' },
+				{ path: fileURLToPath(fileUrl(path)), type: 'image/jpeg', name: filename },
 			],
 		},
 		(err, message) => {

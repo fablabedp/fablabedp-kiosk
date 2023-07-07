@@ -6,7 +6,6 @@ import cors from 'cors';
 import { Server } from 'socket.io';
 
 /////// used by sockets
-import { sendEmail } from './email.js';
 import { removePhoto } from './photos.js';
 //////
 
@@ -94,13 +93,9 @@ io_socket.on('connection', (socket) => {
     removePhoto();
   });
 
-  socket.on('select_project', (project) => {
-    
-  });
-
-  socket.on('send_email', (email_address) => {
-    console.log('sending email to', email_address);
-    sendEmail(email_address);
-  });
+  // socket.on('send_email', (email_address) => {
+  //   console.log('sending email to', email_address);
+  //   sendEmail(email_address);
+  // });
 
 });
