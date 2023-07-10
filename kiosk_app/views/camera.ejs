@@ -51,7 +51,7 @@
 
               <label class='form-label' for='project_id'><%= lang.photos.select_project %>:</label>
               <select class='form-select mb-4' id='project_id' name='project_id'>
-                <option value='no_project'><%= lang.photos.no_project %></option>
+                <option value='-1'><%= lang.photos.gallery %></option>
                 <% if (typeof projects != 'undefined') { -%>
                   <% projects.forEach((project) => { -%>
                     <option value='<%= project.$loki %>'><%= project.name %></option>

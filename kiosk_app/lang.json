@@ -32,11 +32,11 @@
     "take_photo"         : "Tirar Foto",
     "email_address"      : "Endereço de E-mail",
     "send_email"         : "Enviar",
-    "to_camera"          : "Tirar Outro Foto",
+    "to_camera"          : "Photo Booth",
     "no_video"           : "Video stream not available.",
     "select_project"     : "Atribuir ao projeto",
     "select_project_btn" : "Atribuir",
-    "no_project"         : "Galeria Photo Booth",
+    "gallery"            : "Galeria Photo Booth",
     "move_success"       : "Foto reatribuída",
     "email_success"      : "Foto enviada por email"
   },

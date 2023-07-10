@@ -1,9 +1,6 @@
 'use strict';
 
-let capture = null;
-let review = null;
 let video = null;
-let photo = null;
 let thumbnail = null;
 let take_photo = null;
 let countdown_label = null;
@@ -12,10 +9,7 @@ let project_id = null;
 
 window.onload = (event) => {
 
-  capture = document.getElementById('capture');
-  review = document.getElementById('review');
   video = document.getElementById('video');
-  photo = document.getElementById('photo');
   thumbnail = document.getElementById('thumbnail');
   take_photo = document.getElementById('take-photo');
   countdown_label = document.getElementById('countdown');
@@ -50,6 +44,9 @@ navigator.mediaDevices.getUserMedia({video: true})
             String(time.getSeconds()).padStart(2,'0');
 
           thumbnail.src = 'loading.gif';
+          thumbnail.parentElement.href =
+            '../photo/?project_id=' + project_id.value +
+            '&file=' + timestamp + '.jpg';
 
           imageCapture.takePhoto()
             .then(blob => {
@@ -88,14 +85,3 @@ async function countdown(n) {
     n--;
   }
 }
-
-
-// from https://attacomsian.com/blog/javascript-download-file
-const download = (path, filename) => {
-  const anchor = document.createElement('a');
-  anchor.href = path;
-  anchor.download = filename;
-  document.body.appendChild(anchor);
-  anchor.click();
-  document.body.removeChild(anchor);
-};

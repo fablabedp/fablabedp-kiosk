@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang='en' class='h-100' data-bs-theme='auto'>
+  <head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <% let title = lang.photos.gallery %>
+    <title><%= title %></title>
+    <link href='bootstrap.min.css' rel='stylesheet'>
+    <link rel='stylesheet' href='/style.css' />
+    <script type="text/javascript" src="bootstrap.min.js"></script>
+  </head>
+  <body class='d-flex flex-column h-100'>
+    <main class='flex-shrink-0'>
+      <div class='container'>
+        <%- include('home_button', { url: './', text: lang.home_button }) %>
+        <div class='d-grid gap-2 row-gap-100 col-6 mx-auto'>
+
+          <h1 class='mb-4'><%= lang.photos.gallery %></h1>
+
+          <% if(media) { -%>
+            <%  media.forEach(file => { %>
+            <% let url = './media/' + media_dir + '/' + file %>
+              <a href='../photo/?project_id=-1&file=<%= file %>'><img class="img-fluid" src='<%= url %>'></a>
+            <% }); %>
+          <% } else { -%>
+            <em><%= lang.errors.no_media %></em>
+          <% } -%>
+
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

@@ -39,6 +39,7 @@ router.get('/projects/delete', controller.project_delete_get);
 
 /* Camera and Media */
 router.get('/photo', controller.photo);
+router.get('/photos', controller.photos);
 router.get('/camera', controller.camera);
 router.post('/photo/capture', controller.photo_capture);
 router.post('/photo/move', controller.photo_move);

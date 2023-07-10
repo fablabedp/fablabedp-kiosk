@@ -12,7 +12,8 @@ export const home = asyncHandler(async (req, res, next) => {
   res.render('index', { lang: lang });
 });
 
-const media_path = 'public/media/'; // also defined in photos.js
+const media_path = 'public/media/';
+const photo_booth_dir = 'photo_booth';
 
 
 /* ============================= User pages ================================ */
@@ -38,15 +39,18 @@ export const user_list = asyncHandler(async (req, res, next) => {
   res.render('users', { lang: lang, users: user_names, msg: msg });
 });
 
+
 export const user_detail = asyncHandler(async (req, res, next) => {
   const get_user = await users.get(req.query.id);
   console.log(get_user);
   res.render('user', { lang: lang, user: get_user });
 });
 
+
 export const user_create_get = asyncHandler(async (req, res, next) => {
   res.render('user_create', { lang: lang, new_user: 'true' });
 });
+
 
 export const user_edit_get = asyncHandler(async (req, res, next) => {
   const get_user = await users.get(req.query.id);
@@ -175,29 +179,41 @@ export const project_list = asyncHandler(async (req, res, next) => {
   res.render('projects', { lang: lang, projects: project_names, msg: msg });
 });
 
+
 export const project_detail = asyncHandler(async (req, res, next) => {
-  const get_project = await projects.get(req.query.id);
-  console.log(get_project);
 
-  const media_dir = media_path + get_project.media_dir;
+  if(req.query.id < 0) {
 
-  let msg;
-  switch (req.query.msg) {
-    case 'upload_success':
-      msg = lang.projects.upload_success;
-      break;
+    res.redirect('../photos');
+
+  } else {
+
+    const get_project = await projects.get(req.query.id);
+    console.log(get_project);
+
+    const media_dir = media_path + get_project.media_dir;
+
+    let msg;
+    switch (req.query.msg) {
+      case 'upload_success':
+        msg = lang.projects.upload_success;
+        break;
+    }
+
+    fs.readdir(media_dir, (err, files) => {
+      res.render('project', { lang: lang, project: get_project, media: files, msg: msg});
+    });
   }
 
-  fs.readdir(media_dir, (err, files) => {
-    res.render('project', { lang: lang, project: get_project, media: files, msg: msg});
-  });
 });
+
 
 export const project_create_get = asyncHandler(async (req, res, next) => {
   const user_list = await users.find({ 'name' : { '$ne' : null }});
   req.body.team = [];
   res.render('project_create', { lang: lang, users: user_list, new_project: 'true' });
 });
+
 
 export const project_edit_get = asyncHandler(async (req, res, next) => {
   const user_list = await users.find({ 'name' : { '$ne' : null }});
@@ -219,6 +235,7 @@ export const project_edit_get = asyncHandler(async (req, res, next) => {
   req.body.materials_other = get_project.materials_other;
   res.render('project_create', { lang: lang, users: user_list, new_project: 'false', project: get_project, body: req.body});
 });
+
 
 export const project_create_post = [
 
@@ -360,12 +377,14 @@ export const project_create_post = [
   }),
 ];
 
+
 export const project_update_get = asyncHandler(async (req, res, next) => {
   const get_project = await projects.get(req.query.id);
   console.log(get_project);
   req.body.name = get_project.name;
   res.render('project_update', { lang: lang, project: get_project, body: req.body});
 });
+
 
 export const project_update_post = [
 
@@ -437,12 +456,14 @@ export const project_update_post = [
   }),
 ];
 
+
 export const project_close_get = asyncHandler(async (req, res, next) => {
   const get_project = await projects.get(req.query.id);
   console.log(get_project);
   req.body.name = get_project.name;
   res.render('project_close', { lang: lang, project: get_project, body: req.body});
 });
+
 
 export const project_close_post = [
 
@@ -507,6 +528,7 @@ export const project_close_post = [
   }),
 ];
 
+
 export const project_delete_get = asyncHandler(async (req, res, next) => {
   const project = await projects.get(req.query.id);
   console.log('removing project ' + project.$loki + ': ' + project.name);
@@ -524,14 +546,14 @@ export const project_delete_get = asyncHandler(async (req, res, next) => {
 export const photo = asyncHandler(async (req, res, next) => {
 
   const project_list = await projects.find({ 'name' : { '$ne' : null }});
-  let name = lang.photos.no_project;
-  let media_dir = 'photo_booth';
+  let name = lang.photos.gallery;
+  let media_dir = photo_booth_dir;
   let id = -1;
-  let project;
 
-  if(req.query.project_id != null) {
+  if(req.query.project_id >= 0) {
     id = req.query.project_id;
-    project = await projects.get(id);
+    let project = await projects.get(id);
+    name = project.name;
     media_dir = project.media_dir;
   }
 
@@ -548,11 +570,23 @@ export const photo = asyncHandler(async (req, res, next) => {
   res.render('photo', {
     lang: lang,
     file: req.query.file,
-    project: project,
+    project_id: id,
+    project_name: name,
     media_dir: media_dir,
     projects: project_list,
     msg: msg
   });
+});
+
+
+export const photos = asyncHandler(async (req, res, next) => {
+
+  const media_dir = media_path + photo_booth_dir;
+
+  fs.readdir(media_dir, (err, files) => {
+    res.render('photos', { lang: lang, media_dir: photo_booth_dir, media: files});
+  });
+
 });
 
 
@@ -564,39 +598,33 @@ export const camera = asyncHandler(async (req, res, next) => {
 
 export const photo_capture = [
 
-  // validate inputs
-
   asyncHandler(async (req, res, next) => {
 
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-
-      // ???
-
-      return;
-
-    } else {
-
+    let media_dir = null;
+    if(req.query.project_id >= 0) {
       const project = await projects.get(req.query.project_id);
-      const path = media_path + project.media_dir + req.query.timestamp + '.jpg';
-
-      fs.writeFileSync(path, req.body, (err) => {
-        if (err) {
-          throw err
-        } else {
-          res.send('ok');
-        }
-      });
-
+      media_dir = project.media_dir;
+    } else {
+      media_dir = photo_booth_dir + '/';
     }
+
+    const path = media_path + media_dir + req.query.timestamp + '.jpg';
+
+    fs.writeFileSync(path, req.body, (err) => {
+      if (err) {
+        throw err
+      } else {
+        res.send('ok');
+      }
+    });
+
   }),
 ];
 
 
 export const photo_move = [
 
-  // validate inputs
+  // todo: validate inputs
 
   asyncHandler(async (req, res, next) => {
 
@@ -604,17 +632,29 @@ export const photo_move = [
 
     if (!errors.isEmpty()) {
 
-      // ???
+      // handle errors
 
       return;
 
     } else {
 
+      let previous_path;
+      let new_path;
+
       // move photo to selected project media dir
-      const previous_project = await projects.get(req.body.project_id);
-      const new_project = await projects.get(req.body.new_project_id);
-      const previous_path = media_path + previous_project.media_dir + req.body.file;
-      const new_path = media_path + new_project.media_dir + req.body.file;
+      if(req.body.project_id < 0) {
+        previous_path = media_path + photo_booth_dir + '/' + req.body.file;
+      } else {
+        const previous_project = await projects.get(req.body.project_id);
+        previous_path = media_path + previous_project.media_dir + req.body.file;
+      }
+
+      if(req.body.new_project_id < 0) {
+        new_path = media_path + photo_booth_dir + '/' + req.body.file;
+      } else {
+        const new_project = await projects.get(req.body.new_project_id);
+        new_path = media_path + new_project.media_dir + req.body.file;
+      }
 
       fs.rename(previous_path, new_path, function (err) {
         if (err) {
@@ -636,7 +676,7 @@ export const photo_move = [
 
 export const photo_email = [
 
-  // validate inputs
+  // todo: validate inputs
 
   asyncHandler(async (req, res, next) => {
 
@@ -644,14 +684,20 @@ export const photo_email = [
 
     if (!errors.isEmpty()) {
 
-      // ???
+      // handle errors
 
       return;
 
     } else {
 
-      const project = projects.get(req.body.project_id);
-      const path = media_path + project.media_dir + req.body.file;
+      let path;
+
+      if(req.body.project_id < 0) {
+        path = media_path + photo_booth_dir + '/' + req.body.file;
+      } else {
+        const project = projects.get(req.body.project_id);
+        path = media_path + project.media_dir + req.body.file;
+      }
 
       console.log('sending email to', req.body.email);
       sendEmail(req.body.email, path, req.body.file);
