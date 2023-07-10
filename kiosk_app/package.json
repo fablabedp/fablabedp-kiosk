@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/fablabedp/fablabedp-kiosk.git\u001b[H\u001b[F#readme",
   "dependencies": {
+    "blob-util": "^2.0.2",
     "cors": "^2.8.5",
     "dotenv": "^16.1.1",
     "ejs": "^3.1.9",

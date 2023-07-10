@@ -12,7 +12,7 @@ export const home = asyncHandler(async (req, res, next) => {
   res.render('index', { lang: lang });
 });
 
-const media_path = 'public/media/';
+const media_path = 'public/media/'; // also defined in photos.js
 
 
 /* ============================= User pages ================================ */
@@ -521,32 +521,6 @@ export const project_delete_get = asyncHandler(async (req, res, next) => {
 /* ============================= Camera and Media ================================ */
 
 
-export const upload = [
-  asyncHandler(async (req, res, next) => {
-
-    if (!req.files || Object.keys(req.files).length === 0) {
-      res.status(400).send('No files were uploaded.');
-      return;
-    }
-
-    const upload_media = req.files.upload_media;
-    const upload_path = media_path + req.body.media_dir + upload_media.name;
-
-    upload_media.mv(upload_path, function(err) {
-      if (err) {
-        return res.status(500).send(err);
-      }
-      res.redirect('./project?id=' + req.body.id + '&msg=upload_success');
-    });
-  }),
-];
-
-export const camera = asyncHandler(async (req, res, next) => {
-  const project_list = await projects.find({ 'name' : { '$ne' : null }});
-  res.render('camera', { lang: lang, projects: project_list });
-});
-
-
 export const photo = asyncHandler(async (req, res, next) => {
 
   const project_list = await projects.find({ 'name' : { '$ne' : null }});
@@ -580,6 +554,44 @@ export const photo = asyncHandler(async (req, res, next) => {
     msg: msg
   });
 });
+
+
+export const camera = asyncHandler(async (req, res, next) => {
+  const project_list = await projects.find({ 'name' : { '$ne' : null }});
+  res.render('camera', { lang: lang, projects: project_list });
+});
+
+
+export const photo_capture = [
+
+  // validate inputs
+
+  asyncHandler(async (req, res, next) => {
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+
+      // ???
+
+      return;
+
+    } else {
+
+      const project = await projects.get(req.query.project_id);
+      const path = media_path + project.media_dir + req.query.timestamp + '.jpg';
+
+      fs.writeFileSync(path, req.body, (err) => {
+        if (err) {
+          throw err
+        } else {
+          res.send('ok');
+        }
+      });
+
+    }
+  }),
+];
 
 
 export const photo_move = [
@@ -650,5 +662,26 @@ export const photo_email = [
         '&msg=email_success'
         );
     }
+  }),
+];
+
+
+export const upload = [
+  asyncHandler(async (req, res, next) => {
+
+    if (!req.files || Object.keys(req.files).length === 0) {
+      res.status(400).send('No files were uploaded.');
+      return;
+    }
+
+    const upload_media = req.files.upload_media;
+    const upload_path = media_path + req.body.media_dir + upload_media.name;
+
+    upload_media.mv(upload_path, function(err) {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      res.redirect('./project?id=' + req.body.id + '&msg=upload_success');
+    });
   }),
 ];

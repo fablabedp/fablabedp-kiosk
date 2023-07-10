@@ -6,7 +6,6 @@
     <% let title = lang.photos.title_camera %>
     <title><%= title %></title>
     <link href='bootstrap.min.css' rel='stylesheet'>
-    <script src='/socket.io/socket.io.js'></script>
     <script src='camera.js'></script>
     <style>
       .container-cam {
@@ -50,8 +49,8 @@
           <div class='col-7 gap-2 mx-auto'>
             <div class='d-grid col-10 gap-2 mx-auto'>
 
-              <label class='form-label' for='project'><%= lang.photos.select_project %>:</label>
-              <select class='form-select mb-4' id='project_list' name='project'>
+              <label class='form-label' for='project_id'><%= lang.photos.select_project %>:</label>
+              <select class='form-select mb-4' id='project_id' name='project_id'>
                 <option value='no_project'><%= lang.photos.no_project %></option>
                 <% if (typeof projects != 'undefined') { -%>
                   <% projects.forEach((project) => { -%>

@@ -2,12 +2,6 @@
 
 import app from './app.js';
 import http from 'http';
-import cors from 'cors';
-import { Server } from 'socket.io';
-
-/////// used by sockets
-import { removePhoto } from './photos.js';
-//////
 
 const port = normalizePort(process.env.PORT || '3000');
 
@@ -18,11 +12,6 @@ const server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
-
-// https://stackoverflow.com/questions/65721253/how-to-use-socket-io-in-node-js-with-es6-syntax
-const io_socket = new Server(server, { cors: { origin: '*' } });
-
-
 
 
 function normalizePort(val) {
@@ -78,24 +67,4 @@ process.on('SIGINT', function() {
     console.log('server closed')
     process.exit(err ? 1 : 0)
   })
-});
-
-
-
-
-// websockets
-io_socket.on('connection', (socket) => {
-
-  console.log('io socket connected');
-
-  socket.on('take_photo', () => {
-    // remove temporary photo when taking a new one
-    removePhoto();
-  });
-
-  // socket.on('send_email', (email_address) => {
-  //   console.log('sending email to', email_address);
-  //   sendEmail(email_address);
-  // });
-
 });

@@ -6,7 +6,6 @@
     <% let title = lang.photos.title_view %>
     <title><%= title %></title>
     <link href='bootstrap.min.css' rel='stylesheet'>
-    <script src='/socket.io/socket.io.js'></script>
     <style>
       .container-cam {
         max-width: 800px;
@@ -80,38 +79,4 @@
 
     </main>
   </body>
-  <script type='text/javascript'>
-
-    // let socket = io();
-
-    // let email_form = document.getElementById('email-form');
-    // let email_sent_msg = document.getElementById('email-sent-msg');
-    // let send_photo = document.getElementById('send-photo');
-    // let select_project = document.getElementById('select-project');
-
-    window.onload = (event) => {
-
-      // send_photo.addEventListener(
-      //   'click',
-      //   (ev) => {
-      //     socket.emit('send_email', document.getElementById('email').value, photo.src);
-      //     email_form.style.display = 'none';
-      //     email_sent_msg.style.display = 'block';
-      //     ev.preventDefault();
-      //   },
-      //   false
-      // );
-
-      // select_project.addEventListener(
-      //   'click',
-      //   (ev) => {
-      //     socket.emit('select_project', document.getElementById('project_list').value);
-      //     ev.preventDefault();
-      //   },
-      //   false
-      // );
-
-    }
-
-  </script>
 </html>

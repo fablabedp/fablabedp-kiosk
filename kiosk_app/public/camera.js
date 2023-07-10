@@ -1,6 +1,5 @@
 'use strict';
 
-let socket = io();
 let capture = null;
 let review = null;
 let video = null;
@@ -8,7 +7,8 @@ let photo = null;
 let thumbnail = null;
 let take_photo = null;
 let countdown_label = null;
-let photo_countdown = 5;
+let photo_countdown = 1;
+let project_id = null;
 
 window.onload = (event) => {
 
@@ -19,29 +19,53 @@ window.onload = (event) => {
   thumbnail = document.getElementById('thumbnail');
   take_photo = document.getElementById('take-photo');
   countdown_label = document.getElementById('countdown');
+  project_id = document.getElementById('project_id');
 
 };
 
 
 // adapted from https://developer.chrome.com/blog/imagecapture/
 navigator.mediaDevices.getUserMedia({video: true})
+
   .then((mediaStream) => {
     const mediaStreamTrack = mediaStream.getVideoTracks()[0];
     const imageCapture = new ImageCapture(mediaStreamTrack);
     video.srcObject = mediaStream;
     video.play();
+
     take_photo.addEventListener(
       'click',
       (ev) => {
+
         countdown(photo_countdown).then(() => {
           countdown_label.textContent = '';
-          socket.emit('take_photo');
+
+          const time = new Date(Date.now());
+          const timestamp =
+            time.getFullYear() + '-' +
+            String(time.getMonth()).padStart(2,'0') + '-' +
+            String(time.getDate()).padStart(2,'0') + '_' +
+            String(time.getHours()).padStart(2,'0') + '-' +
+            String(time.getMinutes()).padStart(2,'0') + '-' +
+            String(time.getSeconds()).padStart(2,'0');
+
           thumbnail.src = 'loading.gif';
+
           imageCapture.takePhoto()
             .then(blob => {
               const photo_data = URL.createObjectURL(blob);
               thumbnail.src = photo_data;
-              download(photo_data, 'image.jpg');
+
+              const req = new XMLHttpRequest();
+              req.open("POST",
+                'photo/capture' +
+                '?project_id=' + project_id.value +
+                '&timestamp=' + timestamp
+                , true);
+              req.onload = (event) => {
+                // Uploaded
+              };
+              req.send(blob);
             })
             .catch(error => console.error('takePhoto() error:', error));
         });

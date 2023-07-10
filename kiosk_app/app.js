@@ -3,9 +3,10 @@ import express from 'express';
 import createError from 'http-errors';
 import { fileURLToPath } from 'url';
 import fileUpload from 'express-fileupload';
+import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 
-// get enviroment variables
+// get environment variables
 dotenv.config();
 
 import router from './routes.js';
@@ -23,8 +24,9 @@ app.set('view engine', 'ejs');
 
 // routes setup
 app.use(express.json());
+app.use(express.urlencoded({extended: false}))
+app.use(express.raw({type: '*/*', limit: '50mb'})); // to allow download of camera capture blobs
 app.use(fileUpload());
-app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', router);
 
