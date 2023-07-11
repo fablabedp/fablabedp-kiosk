@@ -6,52 +6,46 @@
     <% let title = lang.home.project_list %>
     <title><%= title %></title>
     <link href='bootstrap.min.css' rel='stylesheet'>
-    <link rel='stylesheet' href='/style.css' />
+    <link rel='stylesheet' href='style.css'>
   </head>
-  <body class='d-flex flex-column h-100'>
-    <main class='flex-shrink-0'>
-      <div class='container'>
-        <%- include('home_button', { url: './', text: lang.home_button }) %>
+  <%- include('_header', { url: './', text: lang.home_button }) %>
 
-        <div class='d-grid gap-2 row-gap-100 col-6 mx-auto'>
-          <h1 class='mb-3'><%= title %></h1>
+    <h1 class='mb-3'><%= title %></h1>
 
-          <% if (typeof msg != 'undefined') { -%>
-            <div class='alert alert-warning' role='alert'>
-              <%= msg %>
-            </div>
-          <% } -%>
-
-          <div class='d-grid col-4 py-2 my-3 alert alert-success'>
-            <%= lang.projects.active %>
-          </div>
-
-          <div class='list-group mb-3'>
-            <% if(projects.length > 0) { projects.forEach((project) => { -%>
-              <% if(project.active) { -%>
-                <a class='list-group-item list-group-item-action py-3' href='./project?id=<%= project.id %>'><span class="alert alert-success py-1 me-3"><%= project.date_start %></span><%= project.name %></a>
-              <% } -%>
-            <% }); } else { -%>
-              <p><%= lang.errors.no_active_projects %></p>
-            <% } -%>
-          </div>
-
-          <div class='d-grid col-4 py-2 my-3 alert alert-secondary'>
-            <%= lang.projects.inactive %>
-          </div>
-
-          <div class='list-group'>
-            <% if(projects.length > 0) { projects.forEach((project) => { -%>
-              <% if(!project.active) { -%>
-              <a class='list-group-item list-group-item-action py-3' href='./project?id=<%= project.id %>'><span class="alert alert-secondary py-1 me-3"><%= project.date_start %></span><%= project.name %></a>
-              <% } -%>
-            <% }); } else { -%>
-              <p><%= lang.errors.no_inactive_projects %></p>
-            <% } -%>
-          </div>
-
-        </div>
+    <% if (typeof msg != 'undefined') { -%>
+      <div class='alert alert-warning' role='alert'>
+        <%= msg %>
       </div>
-    </main>
+    <% } -%>
+
+    <div class='d-grid col-4 py-2 my-3 alert alert-success'>
+      <%= lang.projects.active %>
+    </div>
+
+    <div class='list-group mb-3'>
+      <% if(projects.length > 0) { projects.forEach((project) => { -%>
+        <% if(project.active) { -%>
+          <a class='list-group-item list-group-item-action py-3' href='./project?id=<%= project.id %>'><span class="alert alert-success py-1 me-3"><%= project.date_start %></span><%= project.name %></a>
+        <% } -%>
+      <% }); } else { -%>
+        <p><%= lang.errors.no_active_projects %></p>
+      <% } -%>
+    </div>
+
+    <div class='d-grid col-4 py-2 my-3 alert alert-secondary'>
+      <%= lang.projects.inactive %>
+    </div>
+
+    <div class='list-group'>
+      <% if(projects.length > 0) { projects.forEach((project) => { -%>
+        <% if(!project.active) { -%>
+        <a class='list-group-item list-group-item-action py-3' href='./project?id=<%= project.id %>'><span class="alert alert-secondary py-1 me-3"><%= project.date_start %></span><%= project.name %></a>
+        <% } -%>
+      <% }); } else { -%>
+        <p><%= lang.errors.no_inactive_projects %></p>
+      <% } -%>
+    </div>
+
+  <%- include('_footer') %>
   </body>
 </html>

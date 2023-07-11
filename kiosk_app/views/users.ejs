@@ -6,31 +6,25 @@
     <% let title = lang.home.user_list %>
     <title><%= title %></title>
     <link href='bootstrap.min.css' rel='stylesheet'>
-    <link rel='stylesheet' href='/style.css' />
+    <link href='style.css' rel='stylesheet'>
   </head>
-  <body class='d-flex flex-column h-100'>
-    <main class='flex-shrink-0'>
-      <div class='container'>
-        <%- include('home_button', { url: './', text: lang.home_button }) %>
+  <%- include('_header', { url: './', text: lang.home_button }) %>
 
-        <div class='d-grid gap-2 row-gap-100 col-6 mx-auto'>
-          <h1 class='mb-5'><%= title %></h1>
+    <h1 class='mb-5'><%= title %></h1>
 
-          <% if (typeof msg != 'undefined') { -%>
-            <div class='alert alert-warning' role='alert'>
-              <%= msg %>
-            </div>
-          <% } -%>
-
-          <div class='list-group'>
-            <% if(users.length > 0) { users.forEach((user) => { -%>
-              <a class='list-group-item list-group-item-action py-3' href='./user?id=<%= user.id %>'><%= user.name %></a>
-            <% }); } else { -%>
-              <p><%= lang.errors.no_users %></p>
-            <% } -%>
-          </div>
-        </div>
+    <% if (typeof msg != 'undefined') { -%>
+      <div class='alert alert-warning' role='alert'>
+        <%= msg %>
       </div>
-    </main>
+    <% } -%>
+
+    <div class='list-group'>
+      <% if(users.length > 0) { users.forEach((user) => { -%>
+        <a class='list-group-item list-group-item-action py-3' href='./user?id=<%= user.id %>'><%= user.name %></a>
+      <% }); } else { -%>
+        <p><%= lang.errors.no_users %></p>
+      <% } -%>
+    </div>
+
   </body>
 </html>

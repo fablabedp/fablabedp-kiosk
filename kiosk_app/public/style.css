@@ -1,0 +1,6 @@
+.btn-mod {
+  --bs-btn-padding-y: 1rem;
+}
+.main-container, .camera, .photo {
+  max-width: 900px;
+}

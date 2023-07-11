@@ -6,83 +6,65 @@
     <% let title = lang.photos.title_view %>
     <title><%= title %></title>
     <link href='bootstrap.min.css' rel='stylesheet'>
-    <style>
-      .container-cam {
-        max-width: 800px;
-      }
-      .btn-mod {
-        --bs-btn-padding-y: 1rem;
-      }
-    </style>
+    <link rel='stylesheet' href='/style.css'>
   </head>
-  <body class='d-flex flex-column h-100'>
+  <%- include('_header', { url: './', text: lang.home_button }) %>
 
-    <main class='flex-shrink-0'>
-      <%- include('home_button', { url: './', text: lang.home_button }) %>
+    <a class='link-offset-3 link-underline link-underline-opacity-0 link-underline-opacity-100-hover'
+    href='./project?id=<%= project_id %>'><h1 class='mb-4 text-center'><%= project_name %></h1></a>
+    <% if (typeof msg != 'undefined') { -%>
+      <div class='alert alert-warning' role='alert'>
+        <%= msg %>
+      </div>
+    <% } -%>
 
-      <div id='review' class='container container-cam'>
 
-        <div class='d-grid gap-2 row-gap-100 col-6 mx-auto'>
-          <a class='link-offset-3 link-underline link-underline-opacity-0 link-underline-opacity-100-hover'
-          href='./project?id=<%= project_id %>'><h1 class='mb-4 text-center'><%= project_name %></h1></a>
-          <% if (typeof msg != 'undefined') { -%>
-            <div class='alert alert-warning' role='alert'>
-              <%= msg %>
-            </div>
-          <% } -%>
+    <div class='photo'>
+        <% let url = typeof file != 'undefined' ? './media/' + media_dir + '/' + file : 'placeholder_image.jpg' %>
+        <img id='photo' class='img-fluid mx-auto' src='<%= url %>' />
+    </div>
+
+    <form method='post' action='photo/move' id='select-project-form'>
+      <div class='row my-3 align-items-center'>
+        <div class='col-sm-3 gap-2 mx-auto'>
+          <label class='form-label' for='new_project_id'><%= lang.photos.select_project %>:</label>
         </div>
-
-
-        <div class='photo'>
-            <% let url = typeof file != 'undefined' ? './media/' + media_dir + '/' + file : 'placeholder_image.jpg' %>
-            <img id='photo' class='img-fluid' src='<%= url %>' />
+        <div class='col-sm-5 gap-2 mx-auto'>
+          <select class='form-select' id='project_list' name='new_project_id'>
+            <option value='-1' <%= Number(project_id) < 0 ? "selected='selected'"  : '' %>><%= lang.photos.gallery %></option>
+            <% if (typeof projects != 'undefined') { -%>
+              <% projects.forEach((project) => { -%>
+                <option value='<%= project.$loki %>' <%= String(project.$loki) === project_id ? "selected='selected'" : '' %>><%= project.name %></option>
+            <% });} -%>
+          </select>
         </div>
-
-        <form method='post' action='photo/move' id='select-project-form'>
-          <div class='row m-5 align-items-center'>
-            <div class='col-3 gap-2 mx-auto'>
-              <label class='form-label' for='new_project_id'><%= lang.photos.select_project %>:</label>
-            </div>
-            <div class='col-5 gap-2 mx-auto'>
-              <select class='form-select' id='project_list' name='new_project_id'>
-                <option value='-1' <%= Number(project_id) < 0 ? "selected='selected'"  : '' %>><%= lang.photos.gallery %></option>
-                <% if (typeof projects != 'undefined') { -%>
-                  <% projects.forEach((project) => { -%>
-                    <option value='<%= project.$loki %>' <%= String(project.$loki) === project_id ? "selected='selected'" : '' %>><%= project.name %></option>
-                <% });} -%>
-              </select>
-            </div>
-            <div class='col-2 gap-2 mx-auto'>
-              <input type='hidden' id='project_id' name='project_id' value='<%= project_id %>' />
-              <input type='hidden' id='file' name='file' value='<%= file %>' />
-              <input type='submit' id='select-project' class='btn btn-primary btn-lg' value='<%= lang.photos.select_project_btn %>'/>
-            </div>
-          </div>
-        </form>
-
-        <form method='post' action='photo/email' id='email-form'>
-          <div class='row m-5 align-items-center'>
-            <div class='col-9 gap-2 mx-auto'>
-              <input type='email' class='form-control' id='email' name='email' placeholder='<%= lang.photos.email_address %>'>
-            </div>
-            <div class='col-2 gap-2 mx-auto'>
-              <input type='hidden' id='project_id' name='project_id' value='<%= project_id %>' />
-              <input type='hidden' id='file' name='file' value='<%= file %>' />
-              <input type='submit' id='send-photo' class='btn btn-primary btn-lg' value='<%= lang.photos.send_email %>'/>
-            </div>
-          </div>
-        </form>
-
-        <div class='d-grid gap-2 row-gap-100 col-4 mx-auto my-3'>
-          <a href='../camera'><button id='to-camera' class='btn btn-primary btn-lg btn-mod' ><%= lang.photos.to_camera %></button></a>
+        <div class='col-sm-2 gap-2 my-3 mx-auto'>
+          <input type='hidden' id='project_id' name='project_id' value='<%= project_id %>' />
+          <input type='hidden' id='file' name='file' value='<%= file %>' />
+          <input type='submit' id='select-project' class='btn btn-primary btn-lg' value='<%= lang.photos.select_project_btn %>'/>
         </div>
       </div>
+    </form>
 
-    </main>
+    <form method='post' action='photo/email' id='email-form'>
+      <div class='row my-3 align-items-center'>
+        <div class='col-sm-9 gap-2 mx-auto'>
+          <input type='email' class='form-control' id='email' name='email' placeholder='<%= lang.photos.email_address %>'>
+        </div>
+        <div class='col-sm-2 gap-2 my-3 mx-auto'>
+          <input type='hidden' id='project_id' name='project_id' value='<%= project_id %>' />
+          <input type='hidden' id='file' name='file' value='<%= file %>' />
+          <input type='submit' id='send-photo' class='btn btn-primary btn-lg' value='<%= lang.photos.send_email %>'/>
+        </div>
+      </div>
+    </form>
+
+    <div class='row mb-3'>
+      <div class='d-grid col-sm-5 gap-2 mx-auto'>
+        <button id='to-camera' class='btn btn-primary btn-lg btn-mod' href='../camera'><%= lang.photos.to_camera %></button>
+      </div>
+    </div>
+
+  <%- include('_footer') %>
   </body>
-  <script type="text/javascript">
-    window.onload = (event) => {
-
-    };
-  </script>
 </html>

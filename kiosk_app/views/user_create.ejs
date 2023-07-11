@@ -6,46 +6,40 @@
     <% let title = lang.home.register_user %>
     <title><%= title %></title>
     <link href='../bootstrap.min.css' rel='stylesheet'>
-    <link rel='stylesheet' href='/style.css' />
+    <link href='../style.css' rel='stylesheet'>
   </head>
-  <body class='d-flex flex-column h-100'>
-    <main class='flex-shrink-0'>
-      <div class='container'>
-        <%- include('home_button', { url: '../', text: lang.home_button }) %>
+  <%- include('_header', { url: '../', text: lang.home_button }) %>
 
-        <div class='d-grid gap-2 row-gap-100 col-6 mx-auto'>
-          <h1 class='mb-5'><%= title %></h1>
+    <h1 class='mb-5'><%= title %></h1>
 
-          <% if (typeof errors != 'undefined') { -%>
-            <% errors.forEach((error) => { -%>
-            <div class="alert alert-danger" role="alert">
-              <%= error.msg %>
-            </div>
-          <% });} -%>
-
-          <form method='post' action=''>
-            <div class="mb-3">
-              <label class="form-label" for='name'><%= lang.users.name %></label>
-              <input required class="form-control" type='text' id='name' name='name'value="<%= locals.body ? body.name : '' %>" />
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for='email'><%= lang.users.email %></label>
-              <input required class="form-control" type='email' id='email' name='email'value="<%= locals.body ? body.email : '' %>" />
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for='phone'><%= lang.users.phone %></label>
-              <input required class="form-control" type='tel' id='phone' name='phone'value="<%= locals.body ? body.phone : '' %>" />
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for='org'><%= lang.users.org %></label>
-              <input required class="form-control" type='text' id='org' name='org'value="<%= locals.body ? body.org : '' %>" />
-            </div>
-            <input type='hidden' id='new_user' name='new_user' value='<%= new_user === 'true' ? 'true' : 'false' %>' />
-            <input type='hidden' id='existing_user_id' name='id' value='<%= new_user === 'true' ? -1 : user.$loki %>' />
-            <input type='submit' class="btn btn-primary mt-3" value='<%= lang.submit %>' />
-
-        </div>
+    <% if (typeof errors != 'undefined') { -%>
+      <% errors.forEach((error) => { -%>
+      <div class="alert alert-danger" role="alert">
+        <%= error.msg %>
       </div>
-    </main>
+    <% });} -%>
+
+    <form method='post' action=''>
+      <div class="mb-3">
+        <label class="form-label" for='name'><%= lang.users.name %></label>
+        <input required class="form-control" type='text' id='name' name='name'value="<%= locals.body ? body.name : '' %>" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for='email'><%= lang.users.email %></label>
+        <input required class="form-control" type='email' id='email' name='email'value="<%= locals.body ? body.email : '' %>" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for='phone'><%= lang.users.phone %></label>
+        <input required class="form-control" type='tel' id='phone' name='phone'value="<%= locals.body ? body.phone : '' %>" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for='org'><%= lang.users.org %></label>
+        <input required class="form-control" type='text' id='org' name='org'value="<%= locals.body ? body.org : '' %>" />
+      </div>
+      <input type='hidden' id='new_user' name='new_user' value='<%= new_user === 'true' ? 'true' : 'false' %>' />
+      <input type='hidden' id='existing_user_id' name='id' value='<%= new_user === 'true' ? -1 : user.$loki %>' />
+      <input type='submit' class="btn btn-primary mt-3" value='<%= lang.submit %>' />
+
+  <%- include('_footer') %>
   </body>
 </html>

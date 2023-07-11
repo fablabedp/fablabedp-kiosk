@@ -6,31 +6,25 @@
     <% let title = lang.user + ': ' + user.name %>
     <title><%= title %></title>
     <link href='bootstrap.min.css' rel='stylesheet'>
-    <link rel='stylesheet' href='/style.css' />
+    <link href='style.css' rel='stylesheet'>
     <script type="text/javascript" src="bootstrap.min.js"></script>
   </head>
-  <body class='d-flex flex-column h-100'>
-    <main class='flex-shrink-0'>
-      <div class='container'>
-        <%- include('home_button', { url: './', text: lang.home_button }) %>
+  <%- include('_header', { url: './', text: lang.home_button }) %>
 
-        <div class='d-grid gap-2 row-gap-100 col-6 mx-auto'>
-          <h1 class='mb-5'><%= user.name %></h1>
+    <h1 class='mb-5'><%= user.name %></h1>
 
-          <!-- <p><strong>ID: </strong><%= user.$loki %></p> -->
-          <p><strong><%= lang.users.email %>:</strong></br><%= user.email %></p>
-          <p><strong><%= lang.users.phone %>:</strong></br><%= user.phone %></p>
-          <p><strong><%= lang.users.org %>:</strong></br><%= user.org %></p>
+    <!-- <p><strong>ID: </strong><%= user.$loki %></p> -->
+    <p><strong><%= lang.users.email %>:</strong></br><%= user.email %></p>
+    <p><strong><%= lang.users.phone %>:</strong></br><%= user.phone %></p>
+    <p><strong><%= lang.users.org %>:</strong></br><%= user.org %></p>
 
-          <div class='d-grid col-4 mt-3 mb-5 gap-3'>
-            <a class='btn btn-primary' href='../users/edit?id=<%= user.$loki %>' type='button'><%= lang.home.edit_user %></a>
-            <!-- <a class='btn btn-danger' href='../users/delete?id=<%= user.$loki %>' type='button'><%= lang.home.delete_user %></a> -->
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirm-delete"><%= lang.home.delete_user %></button>
-          </div>
+    <div class='d-grid col-4 mt-3 mb-5 gap-3'>
+      <a class='btn btn-primary' href='../users/edit?id=<%= user.$loki %>' type='button'><%= lang.home.edit_user %></a>
+      <!-- <a class='btn btn-danger' href='../users/delete?id=<%= user.$loki %>' type='button'><%= lang.home.delete_user %></a> -->
+      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirm-delete"><%= lang.home.delete_user %></button>
+    </div>
 
-        </div>
-      </div>
-    </main>
+  <%- include('_footer') %>
 
     <div class="modal" id="confirm-delete" tabindex="-1" aria-labelledby="confirm-delete-label" aria-hidden="true">
       <div class="modal-dialog">
@@ -47,5 +41,6 @@
         </div>
       </div>
     </div>
+
   </body>
 </html>

@@ -5,72 +5,67 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <% let title =  lang.home.update_project  + ': ' + project.name %>
     <title><%= title %></title>
-    <link rel='stylesheet' href='../style.css' />
     <link rel='stylesheet' href='../bootstrap.min.css'>
+    <link rel='stylesheet' href='../style.css'>
     <link rel='stylesheet' href='../star-slider.css'>
     <script type='text/javascript' src='https://code.jquery.com/jquery-3.7.0.min.js'></script>
     <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js'></script>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker3.css'/>
     <script type='text/javascript' src='../datepicker.js'></script>
   </head>
-  <body class='d-flex flex-column h-100'>
-    <main class='flex-shrink-0'>
-      <div class='container'>
-        <%- include('home_button', { url: '../', text: lang.home_button }) %>
+  <%- include('_header', { url: './', text: lang.home_button }) %>
 
-        <div class='d-grid gap-2 row-gap-100 col-6 mx-auto mb-5'>
-          <h1 class='mb-5'><%= project.name %></h1>
+    <h1 class='mb-5'><%= project.name %></h1>
 
-          <% if (typeof errors != 'undefined') { -%>
-            <% errors.forEach((error) => { -%>
-            <div class='alert alert-danger' role='alert'>
-              <%= error.msg %>
-            </div>
-          <% });} -%>
+    <% if (typeof errors != 'undefined') { -%>
+      <% errors.forEach((error) => { -%>
+      <div class='alert alert-danger' role='alert'>
+        <%= error.msg %>
+      </div>
+    <% });} -%>
 
-          <form method='post' action=''>
+    <form method='post' action=''>
 
-            <div class='mb-3'>
-              <label class='form-label' for='date'><%= lang.projects.date_log %>:</label>
-              <div class='input-group date'>
-                <div class='input-group-addon'>
-                  <input required type='text' class='form-control' id='date' name='date'>
-                  <span class='glyphicon glyphicon-th'></span>
-                </div>
-              </div>
-            </div>
-            <div class='mb-3'>
-              <label class='form-label' for='log_rating'><%= lang.projects.evaluation %>:</label>
-              <p><input class="star-slider" max="5" step="1" type="range" value="0" id="log_rating" name="log_rating"></p>
-            </div>
-            <div class='mb-3'>
-              <label class='form-label' for='log_msg'><%= lang.projects.feedback %>:</label>
-              <textarea class='form-control' rows='3' id='log_msg' name='log_msg'><%= locals.body ? body.log_msg : '' %></textarea>
-            </div>
-
-            <label class='form-label' for='user'><%= lang.projects.hours %>:</label>
-            <% if (typeof project.team != 'undefined') { -%>
-              <% project.team.forEach((member) => { -%>
-                <div class="input-group mb-3">
-                  <span class="input-group-text col-6"><%= member.name %></span>
-                  <span class="input-group-text col-2"><%= member.hours %></span>
-                  <input class="form-control" type="number" id="hours" name="<%= member.name %>" step="0.5" min='0' value='0'>
-                </div>
-            <% });} -%>
-            <% if (typeof project.tools != 'undefined') { -%>
-              <% project.tools.forEach((tool) => { -%>
-                <div class="input-group mb-3">
-                  <span class="input-group-text col-6"><%= lang.projects.tool_list[tool.alias] %></span>
-                  <span class="input-group-text col-2"><%= tool.hours %></span>
-                  <input class="form-control" type="number" id="hours" name="<%= tool.alias %>" step="0.5" min='0' value='0'>
-                </div>
-            <% });} -%>
-            <input type='hidden' id='name' name='name' value='<%= project.name %>' />
-            <input type='submit' class='btn btn-primary mt-3' value='<%= lang.update %>' />
-
-          </form>
+      <div class='mb-3'>
+        <label class='form-label' for='date'><%= lang.projects.date_log %>:</label>
+        <div class='input-group date'>
+          <div class='input-group-addon'>
+            <input required type='text' class='form-control' id='date' name='date'>
+            <span class='glyphicon glyphicon-th'></span>
+          </div>
         </div>
       </div>
-    </main>
+      <div class='mb-3'>
+        <label class='form-label' for='log_rating'><%= lang.projects.evaluation %>:</label>
+        <p><input class="star-slider" max="5" step="1" type="range" value="0" id="log_rating" name="log_rating"></p>
+      </div>
+      <div class='mb-3'>
+        <label class='form-label' for='log_msg'><%= lang.projects.feedback %>:</label>
+        <textarea class='form-control' rows='3' id='log_msg' name='log_msg'><%= locals.body ? body.log_msg : '' %></textarea>
+      </div>
+
+      <label class='form-label' for='user'><%= lang.projects.hours %>:</label>
+      <% if (typeof project.team != 'undefined') { -%>
+        <% project.team.forEach((member) => { -%>
+          <div class="input-group mb-3">
+            <span class="input-group-text col-6"><%= member.name %></span>
+            <span class="input-group-text col-2"><%= member.hours %></span>
+            <input class="form-control" type="number" id="hours" name="<%= member.name %>" step="0.5" min='0' value='0'>
+          </div>
+      <% });} -%>
+      <% if (typeof project.tools != 'undefined') { -%>
+        <% project.tools.forEach((tool) => { -%>
+          <div class="input-group mb-3">
+            <span class="input-group-text col-6"><%= lang.projects.tool_list[tool.alias] %></span>
+            <span class="input-group-text col-2"><%= tool.hours %></span>
+            <input class="form-control" type="number" id="hours" name="<%= tool.alias %>" step="0.5" min='0' value='0'>
+          </div>
+      <% });} -%>
+      <input type='hidden' id='name' name='name' value='<%= project.name %>' />
+      <input type='submit' class='btn btn-primary mt-3' value='<%= lang.update %>' />
+
+    </form>
+
+  <%- include('_footer') %>
   </body>
 </html>
