@@ -25,7 +25,7 @@ app.set('view engine', 'ejs');
 // routes setup
 app.use(express.json());
 app.use(express.urlencoded({extended: false}))
-app.use(express.raw({type: '*/*', limit: '50mb'})); // to allow download of camera capture blobs
+app.use('/photo/capture', express.raw({type: '*/*', limit: '50mb'})); // to allow download of camera capture blobs
 app.use(fileUpload());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', router);
