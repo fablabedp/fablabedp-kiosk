@@ -29,6 +29,7 @@ app.use('/photo/capture', express.raw({type: '*/*', limit: '50mb'})); // to allo
 app.use(fileUpload());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', router);
+app.use("/media/", express.static(process.env.MEDIA_PATH));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -4,6 +4,10 @@ import filenamify from 'filenamify';
 import asyncHandler from 'express-async-handler';
 import { body, validationResult } from 'express-validator';
 
+import dotenv from 'dotenv';
+// get enviroment variables
+dotenv.config();
+
 import { database, projects, users } from './database.js';
 import { sendEmail } from './email.js';
 const lang = JSON.parse(fs.readFileSync('./lang.json'));
@@ -12,9 +16,16 @@ export const home = asyncHandler(async (req, res, next) => {
   res.render('index', { lang: lang });
 });
 
-const media_path = 'public/media/';
+const media_path = process.env.MEDIA_PATH; //'public/media/';
 const photo_booth_dir = 'photo_booth';
 
+if(media_path == undefined) {
+  throw new Error('media folder is undefined');
+}
+
+if (!fs.existsSync(media_path + photo_booth_dir)) {
+  fs.mkdirSync(media_path + photo_booth_dir);
+}
 
 /* ============================= User pages ================================ */
 
@@ -608,7 +619,12 @@ export const photo_capture = [
       media_dir = photo_booth_dir + '/';
     }
 
-    const path = media_path + media_dir + req.query.timestamp + '.jpg';
+    const upload_dir = media_path + media_dir;
+    const path = upload_dir + req.query.timestamp + '.jpg';
+
+    if (!fs.existsSync(upload_dir)) {
+      fs.mkdirSync(upload_dir);
+    }
 
     fs.writeFileSync(path, req.body, (err) => {
       if (err) {
@@ -646,14 +662,17 @@ export const photo_move = [
         previous_path = media_path + photo_booth_dir + '/' + req.body.file;
       } else {
         const previous_project = await projects.get(req.body.project_id);
-        previous_path = media_path + previous_project.media_dir + req.body.file;
+        previous_path = media_path + previous_project.media_dir + '/' + req.body.file;
       }
 
       if(req.body.new_project_id < 0) {
         new_path = media_path + photo_booth_dir + '/' + req.body.file;
       } else {
         const new_project = await projects.get(req.body.new_project_id);
-        new_path = media_path + new_project.media_dir + req.body.file;
+        if (!fs.existsSync(media_path + new_project.media_dir)) {
+          fs.mkdirSync(media_path + new_project.media_dir);
+        }
+        new_path = media_path + new_project.media_dir + '/' + req.body.file;
       }
 
       fs.rename(previous_path, new_path, function (err) {
@@ -721,7 +740,12 @@ export const upload = [
     }
 
     const upload_media = req.files.upload_media;
-    const upload_path = media_path + req.body.media_dir + upload_media.name;
+    const upload_dir = media_path + req.body.media_dir
+    const upload_path = upload_dir + '/' + upload_media.name;
+
+    if (!fs.existsSync(upload_dir)) {
+      fs.mkdirSync(upload_dir);
+    }
 
     upload_media.mv(upload_path, function(err) {
       if (err) {
