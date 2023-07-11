@@ -619,7 +619,7 @@ export const photo_capture = [
       media_dir = photo_booth_dir + '/';
     }
 
-    const upload_dir = media_path + media_dir;
+    const upload_dir = media_path + media_dir + '/';
     const path = upload_dir + req.query.timestamp + '.jpg';
 
     if (!fs.existsSync(upload_dir)) {
