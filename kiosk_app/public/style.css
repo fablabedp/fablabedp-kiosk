@@ -2,5 +2,5 @@
   --bs-btn-padding-y: 1rem;
 }
 .main-container, .camera, .photo {
-  max-width: 900px;
+  max-width: 750px;
 }
