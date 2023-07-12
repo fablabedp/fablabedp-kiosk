@@ -3,6 +3,8 @@ import path from 'path';
 import filenamify from 'filenamify';
 import asyncHandler from 'express-async-handler';
 import { body, validationResult } from 'express-validator';
+import { Parser } from '@json2csv/plainjs';
+import stream from 'stream';
 
 import dotenv from 'dotenv';
 // get enviroment variables
@@ -755,3 +757,99 @@ export const upload = [
     });
   }),
 ];
+
+
+
+/* ============================= Admin ================================ */
+
+
+export const admin = asyncHandler(async (req, res, next) => {
+
+  let msg;
+  switch (req.query.msg) {
+    // export messages not displayed yet, see below
+    case 'export_users_success':
+      msg = lang.admin.export_users_success;
+      break;
+    case 'export_projects_success':
+      msg = lang.admin.export_projects_success;
+      break;
+  }
+
+  res.render('admin', { lang: lang, msg: msg });
+
+});
+
+
+export const export_users = asyncHandler(async (req, res, next) => {
+
+  const user_array = await users.find({ 'name' : { '$ne' : null }});
+
+  const time = new Date(Date.now());
+  const timestamp =
+    time.getFullYear() + '-' +
+    String(time.getMonth()).padStart(2,'0') + '-' +
+    String(time.getDate()).padStart(2,'0');
+
+  try {
+
+    const opts = {};
+    const parser = new Parser(opts);
+    const csv = parser.parse(user_array);
+    const filename = 'kiosk-users_' + timestamp + '.csv';
+
+    // using buffer to download csv
+    // https://stackoverflow.com/questions/45922074/node-express-js-download-file-from-memory-filename-must-be-a-string
+
+    let fileContents = Buffer.from(csv, "utf8");
+    let readStream = new stream.PassThrough();
+    readStream.end(fileContents);
+
+    res.set('Content-disposition', 'attachment; filename=' + filename);
+    res.set('Content-Type', 'text/plain');
+    readStream.pipe(res)
+
+    // couldn't work out how to reload the page after sending csv file
+    // res.redirect('/admin?msg=export_users_success');
+
+    console.error('exported user database');
+
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+
+
+export const export_projects = asyncHandler(async (req, res, next) => {
+
+  const project_array = await projects.find({ 'name' : { '$ne' : null }});
+
+  const time = new Date(Date.now());
+  const timestamp =
+    time.getFullYear() + '-' +
+    String(time.getMonth()).padStart(2,'0') + '-' +
+    String(time.getDate()).padStart(2,'0');
+
+  try {
+
+    const opts = {};
+    const parser = new Parser(opts);
+    const csv = parser.parse(project_array);
+    const filename = 'kiosk-projects_' + timestamp + '.csv';
+
+    let fileContents = Buffer.from(csv, "utf8");
+    let readStream = new stream.PassThrough();
+    readStream.end(fileContents);
+
+    res.set('Content-disposition', 'attachment; filename=' + filename);
+    res.set('Content-Type', 'text/plain');
+
+    readStream.pipe(res)
+
+    console.error('exported project database');
+
+  } catch (err) {
+    console.error(err);
+  }
+});

@@ -95,6 +95,14 @@
     "subject"    : "FabLab EDP Kiosk Photo",
     "body_text"  : "Obrigado pela sua visíta."
   },
+  "admin":
+  {
+    "title_admin"             : "Admin",
+    "export_users"            : "Export Users",
+    "export_projects"         : "Export Projects",
+    "export_users_success"    : "User database exported",
+    "export_projects_success" : "Project database exported"
+  },
   "errors":
   {
     "bad_name"             : "Name is required.",

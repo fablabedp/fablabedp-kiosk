@@ -46,5 +46,9 @@ router.post('/photo/move', controller.photo_move);
 router.post('/photo/email', controller.photo_email);
 router.post('/upload', controller.upload);
 
+/* Admin pages */
+router.get('/admin', controller.admin);
+router.get('/admin/export_users', controller.export_users);
+router.get('/admin/export_projects', controller.export_projects);
 
 export default router;

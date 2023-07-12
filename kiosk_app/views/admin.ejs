@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang='en' class='h-100' data-bs-theme='auto'>
+  <head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <% let title = lang.photos.gallery %>
+    <title><%= title %></title>
+    <link href='bootstrap.min.css' rel='stylesheet'>
+    <link href='style.css' rel='stylesheet' >
+    <script type="text/javascript" src="bootstrap.min.js"></script>
+  </head>
+  <%- include('_header', { url: './', text: lang.home_button }) %>
+
+    <h1 class='mb-4 text-center'><%= lang.admin.title_admin %></h1>
+
+    <% if (typeof msg != 'undefined') { -%>
+      <div class='alert alert-warning' role='alert'>
+        <%= msg %>
+      </div>
+    <% } -%>
+
+    <div class='row mb-3'>
+      <div class='d-grid col-sm-5 gap-2 mx-auto'>
+        <a class='btn btn-primary btn-lg my-3' href='./users' type='button'><%= lang.home.user_list %></a>
+        <form action="admin/export_users" method="get">
+          <input type='submit' id='export-users' class='btn btn-primary btn-lg my-3' style="width: 100%;" value='<%= lang.admin.export_users %>'/>
+        </form>
+        <form action="admin/export_projects" method="get">
+          <input type='submit' id='export-projects' class='btn btn-primary btn-lg my-3' style="width: 100%;" value='<%= lang.admin.export_projects %>'/>
+        </form>
+      </div>
+    </div>
+
+  <%- include('_footer') %>
+  </body>
+</html>
