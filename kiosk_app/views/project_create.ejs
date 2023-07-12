@@ -94,7 +94,9 @@
       <input type='hidden' id='new_project' name='new_project' value='<%= new_project === 'true' ? 'true' : 'false' %>' />
       <input type='hidden' id='existing_project_id' name='id' value='<%= new_project === 'true' ? -1 : project.$loki %>' />
       <input type='submit' class='btn btn-primary mt-3' value='<%= lang.submit %>' />
-
+      <% if (new_project === 'false') { -%>
+        <a class='btn btn-primary mt-3' href='../project?id=<%= project.$loki %>' type='button'><%= lang.cancel %></a>
+      <% } -%>
     </form>
 
   <%- include('_footer') %>

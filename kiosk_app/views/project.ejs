@@ -145,7 +145,7 @@
     <div class='d-grid col-4 mt-3 mb-5 gap-3'>
       <a class='btn btn-primary' href='../projects/update?id=<%= project.$loki %>' type='button'><%= lang.home.update_project %></a>
       <a class='btn btn-primary' href='../projects/edit?id=<%= project.$loki %>' type='button'><%= lang.home.edit_project %></a>
-      <a class='btn btn-primary' href='../projects/close?id=<%= project.$loki %>' type='button'><%= lang.home.close_project %></a>
+      <a class='btn btn-primary <%= project.active ? '' : 'disabled' %>' href='../projects/close?id=<%= project.$loki %>' type='button' ><%= lang.home.close_project %></a>
       <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirm-delete"><%= lang.home.delete_project %></button>
     </div>
 
