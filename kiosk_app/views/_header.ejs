@@ -1,7 +1,11 @@
 <body class='d-flex flex-column h-100'>
   <main class='flex-shrink-0'>
     <!-- <div class='d-grid gap-2 row-gap-100 col-sm-7 mx-auto'> -->
-    <div class='container-md main-container mb-5'>
+    <% if(typeof wide != 'undefined' && wide) { -%>
+      <div class='container-md main-container-wide mb-5'>
+    <% } else { -%>
+      <div class='container-md main-container mb-5'>
+    <% } -%>
       <div class='d-grid col-sm-5 gap-2 mx-auto'>
         <a class='btn btn-primary btn-lg my-5 btn-mod' href='<%= url %>' type='button'><%= text %></a>
       </div>

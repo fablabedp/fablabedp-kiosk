@@ -4,3 +4,7 @@
 .main-container, .camera, .photo {
   max-width: 750px;
 }
+
+.main-container-wide {
+  max-width: 1350px;
+}
