@@ -562,12 +562,14 @@ export const photo = asyncHandler(async (req, res, next) => {
   let name = lang.photos.gallery;
   let media_dir = photo_booth_dir;
   let id = -1;
+  let is_featured = false;
 
   if(req.query.project_id >= 0) {
     id = req.query.project_id;
     let project = await projects.get(id);
     name = project.name;
     media_dir = project.media_dir;
+    is_featured = project.image === req.query.file ? true : false;
   }
 
   let msg;
@@ -578,6 +580,9 @@ export const photo = asyncHandler(async (req, res, next) => {
     case 'email_success':
       msg = lang.photos.email_success;
       break;
+    case 'set_featured_success':
+      msg = lang.photos.set_featured_success;
+      break;
   }
 
   res.render('photo', {
@@ -587,6 +592,7 @@ export const photo = asyncHandler(async (req, res, next) => {
     project_name: name,
     media_dir: media_dir,
     projects: project_list,
+    is_featured: is_featured,
     msg: msg
   });
 });
@@ -694,6 +700,41 @@ export const photo_move = [
     }
   }),
 ];
+
+
+export const photo_set_featured = [
+
+  // todo: validate inputs
+
+  asyncHandler(async (req, res, next) => {
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+
+      // handle errors
+
+      return;
+
+    } else {
+
+      const project = await projects.get(req.body.project_id);
+
+      // close the project
+      project.image = req.body.file;
+
+      // Save project and redirect to photo detail page.
+      res.redirect(
+        '../photo/?project_id=' + req.body.project_id +
+        '&file=' + req.body.file +
+        '&msg=set_featured_success'
+        );
+      await database.saveDatabase();
+
+    }
+  }),
+];
+
 
 export const photo_email = [
 

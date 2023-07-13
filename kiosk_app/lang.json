@@ -27,18 +27,23 @@
   },
   "photos":
   {
-    "title_camera"       : "Kiosk Camera",
-    "title_view"         : "Kiosk Foto",
-    "take_photo"         : "Tirar Foto",
-    "email_address"      : "Endereço de E-mail",
-    "send_email"         : "Enviar",
-    "to_camera"          : "Photo Booth",
-    "no_video"           : "Video stream not available.",
-    "select_project"     : "Atribuir ao projeto",
-    "select_project_btn" : "Atribuir",
-    "gallery"            : "Galeria Photo Booth",
-    "move_success"       : "Foto reatribuída",
-    "email_success"      : "Foto enviada por email"
+    "title_camera"           : "Kiosk Camera",
+    "title_view"             : "Kiosk Foto",
+    "take_photo"             : "Tirar Foto",
+    "email_address"          : "Endereço de E-mail",
+    "send_by_email"          : "Enviar por email",
+    "send_email"             : "Enviar",
+    "to_camera"              : "Photo Booth",
+    "no_video"               : "Video stream not available.",
+    "select_project"         : "Atribuir ao projeto",
+    "select_project_btn"     : "Atribuir",
+    "gallery"                : "Galeria Photo Booth",
+    "move_success"           : "Foto reatribuída",
+    "email_success"          : "Foto enviada por email",
+    "set_featured_image"     : "Definir como imagem de destaque do projeto",
+    "is_featured_image"      : "Imagem de destaque do projeto",
+    "set_featured_image_btn" : "Definir",
+    "set_featured_success"   : "Foto definido como imagem de destaque do projeto"
   },
   "users":
   {
@@ -50,7 +55,7 @@
   "projects":
   {
     "name"             : "Designação do Projeto",
-    "team"             : "Equipa",
+    "team"             : "Equipa do Projeto",
     "add_member"       : "Adicionar à equipa",
     "active"           : "Ativo",
     "inactive"         : "Terminado",
@@ -120,6 +125,7 @@
     "no_materials"         : "There are no materials indicated.",
     "no_log"               : "There is no feedback yet.",
     "no_media"             : "There is no media yet.",
+    "no_featured_image"    : "There is no featured image yet.",
     "unfinished"           : "The project has not been completed yet.",
     "no_evaluation"        : "The project has not been evaluated.",
     "no_rating"            : "Please provide a rating from one to five stars.",

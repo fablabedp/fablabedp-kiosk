@@ -25,11 +25,11 @@
     </div>
 
     <form method='post' action='photo/move' id='select-project-form'>
-      <div class='row my-3 align-items-center'>
-        <div class='col-sm-3 gap-2 mx-auto'>
+      <div class='row mt-3'>
+        <div class='col-sm-3 gap-2'>
           <label class='form-label' for='new_project_id'><%= lang.photos.select_project %>:</label>
         </div>
-        <div class='col-sm-5 gap-2 mx-auto'>
+        <div class='col-sm-9 gap-2'>
           <select class='form-select' id='project_list' name='new_project_id'>
             <option value='-1' <%= Number(project_id) < 0 ? "selected='selected'"  : '' %>><%= lang.photos.gallery %></option>
             <% if (typeof projects != 'undefined') { -%>
@@ -37,8 +37,10 @@
                 <option value='<%= project.$loki %>' <%= String(project.$loki) === project_id ? "selected='selected'" : '' %>><%= project.name %></option>
             <% });} -%>
           </select>
+      </div>
+      <div class='row'>
         </div>
-        <div class='col-sm-2 gap-2 my-3 mx-auto'>
+        <div class='col-sm-2 gap-2 my-3'>
           <input type='hidden' id='project_id' name='project_id' value='<%= project_id %>' />
           <input type='hidden' id='file' name='file' value='<%= file %>' />
           <input type='submit' id='select-project' class='btn btn-primary btn-lg' value='<%= lang.photos.select_project_btn %>'/>
@@ -46,12 +48,44 @@
       </div>
     </form>
 
+    <% if (project_id >= 0) { -%>
+      <% if (is_featured) { -%>
+      <div class='row'>
+        <div class='col-sm-9 gap-2'>
+          <p><em><%= lang.photos.is_featured_image %></em></p>
+        </div>
+      </div>
+      <% } else { -%>
+      <form method='post' action='photo/set_featured' id='set-featured-form'>
+        <div class='row'>
+          <div class='col-sm-9 gap-2'>
+            <label class='form-label' for='set_featured'><%= lang.photos.set_featured_image %>:</label>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-sm-4 mb-3 gap-2'>
+            <input type='hidden' id='project_id' name='project_id' value='<%= project_id %>' />
+            <input type='hidden' id='file' name='file' value='<%= file %>' />
+            <input type='submit' id='set_featured' name='set_featured' class='btn btn-primary btn-lg' value='<%= lang.photos.set_featured_image_btn %>'/>
+          </div>
+        </div>
+      </form>
+      <% } -%>
+    <% } -%>
+
     <form method='post' action='photo/email' id='email-form'>
-      <div class='row my-3 align-items-center'>
-        <div class='col-sm-9 gap-2 mx-auto'>
+      <div class='row'>
+        <div class='col-sm-9 gap-2'>
+          <label class='form-label' for='set_featured'><%= lang.photos.send_by_email %>:</label>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-sm-12 gap-2'>
           <input type='email' class='form-control' id='email' name='email' placeholder='<%= lang.photos.email_address %>'>
         </div>
-        <div class='col-sm-2 gap-2 my-3 mx-auto'>
+      </div>
+      <div class='row my-3'>
+        <div class='col-sm-4 gap-2'>
           <input type='hidden' id='project_id' name='project_id' value='<%= project_id %>' />
           <input type='hidden' id='file' name='file' value='<%= file %>' />
           <input type='submit' id='send-photo' class='btn btn-primary btn-lg' value='<%= lang.photos.send_email %>'/>
@@ -60,7 +94,7 @@
     </form>
 
     <div class='row mb-3'>
-      <div class='d-grid col-sm-5 gap-2 mx-auto'>
+      <div class='d-grid col-sm-5 gap-2 mt-3 mx-auto'>
         <a id='to-camera' class='btn btn-primary btn-lg btn-mod' href='../camera'><%= lang.photos.to_camera %></a>
       </div>
     </div>

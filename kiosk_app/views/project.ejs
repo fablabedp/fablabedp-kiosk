@@ -20,14 +20,20 @@
     <% } -%>
 
     <% if(project.active) { -%>
-      <div class="d-grid col-4 py-2 alert alert-success">
+      <div class="d-grid col-sm-4 py-2 alert alert-success">
         <%= lang.projects.active %>
       </div>
     <% } else { -%>
-      <div class="d-grid col-4 py-2 alert alert-secondary">
+      <div class="d-grid col-sm-4 py-2 alert alert-secondary">
         <%= lang.projects.inactive %>
       </div>
     <% } -%>
+
+    <% if(project.image) { -%>
+      <% let url = './media/' + project.media_dir + '/' + project.image %>
+      <a href='../photo/?project_id=<%= project.$loki %>&file=<%= project.image %>'><img class="img-fluid my-2 mx-auto" src='<%= url %>'></a>
+    <% } -%>
+
     <!-- <p><strong>ID: </strong><%= project.$loki %></p> -->
     <!-- <p><strong><%= lang.user %>:</strong></br><%= project.user %></p> -->
 
@@ -142,7 +148,7 @@
 
     <hr>
 
-    <div class='d-grid col-4 mt-3 mb-5 gap-3'>
+    <div class='d-grid col-sm-4 mt-3 mb-5 gap-3'>
       <a class='btn btn-primary' href='../projects/update?id=<%= project.$loki %>' type='button'><%= lang.home.update_project %></a>
       <a class='btn btn-primary' href='../projects/edit?id=<%= project.$loki %>' type='button'><%= lang.home.edit_project %></a>
       <a class='btn btn-primary <%= project.active ? '' : 'disabled' %>' href='../projects/close?id=<%= project.$loki %>' type='button' ><%= lang.home.close_project %></a>
@@ -164,10 +170,12 @@
     </form>
 
     <% if(media) { -%>
-      <%  media.forEach(file => { %>
-      <% let url = './media/' + project.media_dir + '/' + file %>
-        <a href='../photo/?project_id=<%= project.$loki %>&file=<%= file %>'><img class="img-fluid my-2 mx-auto" src='<%= url %>'></a>
-      <% }); %>
+      <%  media.forEach(file => { -%>
+        <% if(file != project.image) { -%>
+          <% let url = './media/' + project.media_dir + '/' + file %>
+          <a href='../photo/?project_id=<%= project.$loki %>&file=<%= file %>'><img class="img-fluid my-2 mx-auto" src='<%= url %>'></a>
+        <% } -%>
+      <% }); -%>
     <% } else { -%>
       <em><%= lang.errors.no_media %></em>
     <% } -%>

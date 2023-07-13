@@ -43,6 +43,7 @@ router.get('/photos', controller.photos);
 router.get('/camera', controller.camera);
 router.post('/photo/capture', controller.photo_capture);
 router.post('/photo/move', controller.photo_move);
+router.post('/photo/set_featured', controller.photo_set_featured);
 router.post('/photo/email', controller.photo_email);
 router.post('/upload', controller.upload);
 
