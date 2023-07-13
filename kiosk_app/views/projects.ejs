@@ -22,15 +22,35 @@
       <%= lang.projects.active %>
     </div>
 
-    <div class='list-group mb-3'>
-      <% if(projects.length > 0) { projects.forEach((project) => { -%>
-        <% if(project.active) { -%>
-          <a class='list-group-item list-group-item-action py-3' href='./project?id=<%= project.id %>'><span class="alert alert-success py-1 me-3"><%= project.date_start %></span><%= project.name %></a>
-        <% } -%>
-      <% }); } else { -%>
-        <p><%= lang.errors.no_active_projects %></p>
+    <% if(projects.length > 0) { projects.forEach((project) => { -%>
+      <% if(project.active) { -%>
+        <div class="card mb-3">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <% console.log(project); if(project.image) { -%>
+                <% let url = './media/' + project.media_dir + '/' + project.image %>
+                <a href='../project?id=<%= project.$loki %>'><img class="img-fluid rounded-start" src='<%= url %>'></a>
+              <% } -%>
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <p class="card-title"><span class="alert alert-success py-1 me-3"><%= project.date_start %></span></p>
+                <h5 class="card-title"><%= project.name %></h5>
+                <p class="card-text">
+                <% project.team.forEach((member, index) => { -%>
+                <% if (index > 0) { -%>,<% } -%>
+                <%= member.name %>
+                <% });-%>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       <% } -%>
-    </div>
+    <% }); } else { -%>
+      <p><%= lang.errors.no_active_projects %></p>
+    <% } -%>
+
 
     <div class='d-grid col-sm-4 py-2 my-3 alert alert-secondary'>
       <%= lang.projects.inactive %>

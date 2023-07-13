@@ -167,14 +167,18 @@ export const user_delete_get = asyncHandler(async (req, res, next) => {
 
 
 export const project_list = asyncHandler(async (req, res, next) => {
-  let project_names = [];
+  let project_info = [];
 
   const project_array = await projects.find({ 'name' : { '$ne' : null }});
   project_array.forEach((project) => {
-    project_names.push({
+    project_info.push({
         'name' : project.name,
         'active' : project.active,
         'date_start' : project.date_start,
+        'date_end' : project.date_end,
+        'team' : project.team,
+        'media_dir' : project.media_dir,
+        'image' : project.image,
         'id' : project.$loki
       });
   });
@@ -186,10 +190,10 @@ export const project_list = asyncHandler(async (req, res, next) => {
       break;
   }
   // Sorting projects not working yet...
-  // project_names = project_names.sort((a,b) => {
+  // project_info = project_info.sort((a,b) => {
   //   return new Date(b.date_start) - new Date(a.date_start);
   // });
-  res.render('projects', { lang: lang, projects: project_names, msg: msg });
+  res.render('projects', { lang: lang, projects: project_info, msg: msg });
 });
 
 
