@@ -90,6 +90,8 @@
     },
     "materials_other"  : "Outro",
     "hours"            : "Horas",
+    "hours_team"       : "Horas mao de obra",
+    "hours_tools"      : "Horas maquina",
     "feedback"         : "Feedback",
     "evaluation"       : "Avaliação",
     "media"            : "Galeria",

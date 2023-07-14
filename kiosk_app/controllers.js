@@ -171,12 +171,30 @@ export const project_list = asyncHandler(async (req, res, next) => {
 
   const project_array = await projects.find({ 'name' : { '$ne' : null }});
   project_array.forEach((project) => {
+
+    let last_update =
+      project.log && project.log.length > 0 ?
+      project.log[project.log.length -1].date :
+      project.date_start;
+
+    let hours_team = 0;
+    project.team.forEach((member) => {
+      hours_team += member.hours;
+    });
+    let hours_tools = 0;
+    project.tools.forEach((tool) => {
+      hours_tools += tool.hours;
+    });
+
     project_info.push({
         'name' : project.name,
         'active' : project.active,
         'date_start' : project.date_start,
         'date_end' : project.date_end,
+        'last_update' : last_update,
         'team' : project.team,
+        'hours_team' : hours_team,
+        'hours_tools' : hours_tools,
         'media_dir' : project.media_dir,
         'image' : project.image,
         'id' : project.$loki

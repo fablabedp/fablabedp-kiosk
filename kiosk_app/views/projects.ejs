@@ -25,16 +25,20 @@
     <% if(projects.length > 0) { projects.forEach((project) => { -%>
       <% if(project.active) { -%>
         <div class="card mb-3">
-          <div class="row g-0">
+          <div class="row g-0 ">
             <div class="col-md-4">
-              <% console.log(project); if(project.image) { -%>
-                <% let url = './media/' + project.media_dir + '/' + project.image %>
-                <a href='../project?id=<%= project.$loki %>'><img class="img-fluid rounded-start" src='<%= url %>'></a>
+              <% let url; -%>
+              <% if(project.image) { -%>
+                <% url = './media/' + project.media_dir + '/' + project.image %>
+              <% } else { -%>
+                <% url = 'placeholder_image.jpg' %>
               <% } -%>
+                <a href='../project?id=<%= project.id %>'><img class="img-fluid rounded-start project-thumbnail" src='<%= url %>'></a>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-4">
               <div class="card-body">
                 <p class="card-title"><span class="alert alert-success py-1 me-3"><%= project.date_start %></span></p>
+                <p class="card-text"><small class="text-body-secondary">Last updated: <%= project.last_update %></small></p>
                 <h5 class="card-title"><%= project.name %></h5>
                 <p class="card-text">
                 <% project.team.forEach((member, index) => { -%>
@@ -42,6 +46,18 @@
                 <%= member.name %>
                 <% });-%>
                 </p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card-body">
+                <ul class="list-group list-group-horizontal mb-1">
+                  <li class="list-group-item col-8"><%= lang.projects.hours_team %></li>
+                  <li class="list-group-item col-4"><%= project.hours_team %></li>
+                </ul>
+                <ul class="list-group list-group-horizontal mb-1">
+                  <li class="list-group-item col-8"><%= lang.projects.hours_tools %></li>
+                  <li class="list-group-item col-4"><%= project.hours_tools %></li>
+                </ul>
               </div>
             </div>
           </div>

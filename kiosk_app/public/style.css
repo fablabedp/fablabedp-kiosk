@@ -6,5 +6,12 @@
 }
 
 .main-container-wide {
-  max-width: 1350px;
+  max-width: 1200px;
+}
+
+.project-thumbnail {
+  object-fit: cover;
+/*  height: 200px;*/
+  max-height: 250px;
+  width: 100%;
 }
