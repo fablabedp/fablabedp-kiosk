@@ -4,7 +4,7 @@ let video = null;
 let thumbnail = null;
 let take_photo = null;
 let countdown_label = null;
-let photo_countdown = 1;
+let photo_countdown = 3;
 let project_id = null;
 
 window.onload = (event) => {

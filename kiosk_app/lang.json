@@ -10,18 +10,18 @@
   "home"             :
   {
     "project_list"           : "Projetos",
-    "register_project"       : "Registrar Projeto",
+    "register_project"       : "Registar Projeto",
     "edit_project"           : "Editar Projeto",
     "update_project"         : "Atualizar Projeto",
     "close_project"          : "Terminar Projeto",
     "delete_project"         : "Eliminar Projeto",
-    "delete_project_confirm" : "Tem certeza que quer eliminar este projeto?  Depois de eleminar não vai ser possível recuperar.",
+    "delete_project_confirm" : "Tem a certeza que pretende eliminar este projeto?  Depois de eliminar não é possível recuperar!",
     "deleted_project"        : "Projeto eliminado: ",
     "user_list"              : "Utilizadores",
-    "register_user"          : "Registrar Utilizador",
+    "register_user"          : "Registar Utilizador",
     "edit_user"              : "Editar Utilizador",
     "delete_user"            : "Eliminar Utilizador",
-    "delete_user_confirm"    : "Tem certeza que quer eliminar este utilizador?  Depois de eleminar não vai ser possível recuperar.",
+    "delete_user_confirm"    : "Tem a certeza que pretende eliminar este utilizador?  Depois de eliminar não é possível recuperar!",
     "deleted_user"           : "Utilizador eliminado: ",
     "camera"                 : "Photo Booth"
   },
@@ -43,24 +43,24 @@
     "set_featured_image"     : "Definir como imagem de destaque do projeto",
     "is_featured_image"      : "Imagem de destaque do projeto",
     "set_featured_image_btn" : "Definir",
-    "set_featured_success"   : "Foto definido como imagem de destaque do projeto"
+    "set_featured_success"   : "Foto definida como imagem de destaque do projeto"
   },
   "users":
   {
     "name"             : "Nome e apelido",
     "email"            : "Email",
     "phone"            : "Telemóvel",
-    "org"              : "Empresa grupo EDP / área"
+    "org"              : "Empresa / área"
   },
   "projects":
   {
     "name"             : "Designação do Projeto",
-    "team"             : "Equipa do Projeto",
+    "team"             : "Equipa de Projeto",
     "add_member"       : "Adicionar à equipa",
     "active"           : "Ativo",
     "inactive"         : "Terminado",
     "date_start"       : "Data de início",
-    "date_end"         : "Data de termino",
+    "date_end"         : "Data de fim",
     "date_log"         : "Data de feedback",
     "last_updated"     : "Última atualização",
     "description"      : "Breve descrição do projeto",
@@ -90,8 +90,8 @@
     },
     "materials_other"  : "Outro",
     "hours"            : "Horas",
-    "hours_team"       : "Horas mao de obra",
-    "hours_tools"      : "Horas maquina",
+    "hours_team"       : "Mão de obra (h)",
+    "hours_tools"      : "Máquina (h)",
     "feedback"         : "Feedback",
     "evaluation"       : "Avaliação",
     "media"            : "Galeria",
@@ -105,32 +105,32 @@
   "admin":
   {
     "title_admin"             : "Admin",
-    "export_users"            : "Export Users",
-    "export_projects"         : "Export Projects",
-    "export_users_success"    : "User database exported",
-    "export_projects_success" : "Project database exported"
+    "export_users"            : "Exportar Utilizadores",
+    "export_projects"         : "Exportar Projetos",
+    "export_users_success"    : "Tabela de utilizadores exportado",
+    "export_projects_success" : "Tabela de projetos exportado"
   },
   "errors":
   {
-    "bad_name"             : "Name is required.",
-    "short_name"           : "Project name must contain at least 3 characters.",
-    "bad_email"            : "Valid email is required.",
-    "bad_phone"            : "Phone number is required.",
-    "bad_org"              : "Organisation name is required.",
-    "user_exists"          : "A user with this name already exists.",
-    "project_exists"       : "A project with this name already exists.",
-    "no_users"             : "There are no users.",
-    "empty_team"           : "Team needs at least one member.",
-    "no_active_projects"   : "There are no active projects.",
-    "no_inactive_projects" : "There are no finished projects.",
-    "no_tools"             : "There are no processes or tools indicated.",
-    "no_materials"         : "There are no materials indicated.",
-    "no_log"               : "There is no feedback yet.",
-    "no_media"             : "There is no media yet.",
-    "no_featured_image"    : "There is no featured image yet.",
-    "unfinished"           : "The project has not been completed yet.",
-    "no_evaluation"        : "The project has not been evaluated.",
-    "no_rating"            : "Please provide a rating from one to five stars.",
-    "no_evaluation_msg"    : "Please provide feedback."
+    "bad_name"             : "O nome é obrigatório.",
+    "short_name"           : "O nome do projeto deve conter pelo menos 3 caracteres.",
+    "bad_email"            : "É necessário um e-mail válido.",
+    "bad_phone"            : "O número de telefone é obrigatório.",
+    "bad_org"              : "O nome da organização é obrigatório.",
+    "user_exists"          : "Já existe utilizador com este nome.",
+    "project_exists"       : "Já existe projeto com este nome.",
+    "no_users"             : "Não há utilizadores.",
+    "empty_team"           : "A equipe precisa de pelo menos um membro.",
+    "no_active_projects"   : "Não há projetos ativos.",
+    "no_inactive_projects" : "Não há projetos concluídos.",
+    "no_tools"             : "Não há processos ou ferramentas indicadas.",
+    "no_materials"         : "Não há materiais indicados.",
+    "no_log"               : "Ainda não há feedback.",
+    "no_media"             : "Ainda não há media.",
+    "no_featured_image"    : "Ainda não há imagem em destaque.",
+    "unfinished"           : "O projeto ainda não foi concluído.",
+    "no_evaluation"        : "O projeto ainda não foi avaliado.",
+    "no_rating"            : "Por favor indica uma avaliação de uma a cinco estrelas.",
+    "no_evaluation_msg"    : "Por favor inclui algum comentário.."
   }
 }
