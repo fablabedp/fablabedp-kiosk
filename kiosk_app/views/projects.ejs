@@ -22,7 +22,7 @@
       <%= lang.projects.active %>
     </div>
 
-    <% if(projects.length > 0) { projects.forEach((project) => { -%>
+    <% if(!no_projects_active) { projects.forEach((project) => { -%>
       <% if(project.active) { -%>
         <div class="card mb-3">
           <div class="row g-0 ">
@@ -73,7 +73,7 @@
         </div>
       <% } -%>
     <% }); } else { -%>
-      <p><%= lang.errors.no_active_projects %></p>
+      <p><em><%= lang.errors.no_active_projects %></em></p>
     <% } -%>
 
 
@@ -82,7 +82,7 @@
     </div>
 
     <div class='list-group'>
-      <% if(projects.length > 0) { projects.forEach((project) => { -%>
+      <% if(!no_projects_inactive) { projects.forEach((project) => { -%>
         <% if(!project.active) { -%>
         <div class="card mb-3">
           <div class="row g-0 ">
@@ -124,7 +124,7 @@
         </div>
       <% } -%>
       <% }); } else { -%>
-        <p><%= lang.errors.no_inactive_projects %></p>
+        <p><em><%= lang.errors.no_inactive_projects %></em></p>
       <% } -%>
     </div>
 

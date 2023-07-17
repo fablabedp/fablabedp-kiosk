@@ -171,7 +171,17 @@ export const project_list = asyncHandler(async (req, res, next) => {
 
 
   const project_array = await projects.find({ 'name' : { '$ne' : null }});
+
+  let no_projects_active = true;
+  let no_projects_inactive = true;
+
   project_array.forEach((project) => {
+
+    if(project.active) {
+      no_projects_active = false;
+    } else {
+      no_projects_inactive = false;
+    }
 
     let last_update =
       project.log && project.log.length > 0 ?
@@ -219,7 +229,12 @@ export const project_list = asyncHandler(async (req, res, next) => {
   // project_info = project_info.sort((a,b) => {
   //   return new Date(b.date_start) - new Date(a.date_start);
   // });
-  res.render('projects', { lang: lang, projects: project_info, msg: msg });
+  res.render('projects', {
+    lang: lang,
+    projects: project_info,
+    no_projects_active: no_projects_active,
+    no_projects_inactive: no_projects_inactive,
+    msg: msg });
 });
 
 
