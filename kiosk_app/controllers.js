@@ -169,6 +169,7 @@ export const user_delete_get = asyncHandler(async (req, res, next) => {
 export const project_list = asyncHandler(async (req, res, next) => {
   let project_info = [];
 
+
   const project_array = await projects.find({ 'name' : { '$ne' : null }});
   project_array.forEach((project) => {
 
@@ -186,6 +187,12 @@ export const project_list = asyncHandler(async (req, res, next) => {
       hours_tools += tool.hours;
     });
 
+    let description_max_length = 200;
+    let description =
+      project.description.length < description_max_length ?
+      project.description :
+      project.description.substring(0, description_max_length) + ' ...';
+
     project_info.push({
         'name' : project.name,
         'active' : project.active,
@@ -193,6 +200,7 @@ export const project_list = asyncHandler(async (req, res, next) => {
         'date_end' : project.date_end,
         'last_update' : last_update,
         'team' : project.team,
+        'description' : description,
         'hours_team' : hours_team,
         'hours_tools' : hours_tools,
         'media_dir' : project.media_dir,

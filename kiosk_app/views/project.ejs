@@ -87,12 +87,16 @@
 
     <h3><%= lang.projects.hours %></h3>
 
+    <h5><%= lang.projects.hours_team %></h5>
+
     <% project.team.forEach((member) => { -%>
       <ul class="list-group list-group-horizontal mb-1">
         <li class="list-group-item col-8"><%= member.name %></li>
         <li class="list-group-item col-4"><%= member.hours %></li>
       </ul>
     <% }); -%>
+
+    <h5><%= lang.projects.hours_tools %></h5>
 
     <% project.tools.forEach((tool) => { -%>
       <ul class="list-group list-group-horizontal mb-1">

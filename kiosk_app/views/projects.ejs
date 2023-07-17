@@ -18,7 +18,7 @@
       </div>
     <% } -%>
 
-    <div class='d-grid col-sm-4 py-2 my-3 alert alert-success'>
+    <div class='d-grid col-sm-4 py-2 mt-5 mb-4 alert alert-success'>
       <%= lang.projects.active %>
     </div>
 
@@ -35,17 +35,77 @@
               <% } -%>
                 <a href='../project?id=<%= project.id %>'><img class="img-fluid rounded-start project-thumbnail" src='<%= url %>'></a>
             </div>
+            <div class="col-md-8">
+              <div class="row g-0 ">
+                <div class="col-md-6">
+                  <div class="card-body">
+                    <p class="card-title"><span class="alert alert-success py-1"><%= project.date_start %></span></p>
+                    <p class="card-text"><small class="text-body-secondary"><%= lang.projects.last_updated %>: <%= project.last_update %></small></p>
+                    <h5 class="card-title"><%= project.name %></h5>
+                    <p class="card-text"><em>
+                    <% project.team.forEach((member, index) => { -%>
+                    <% if (index > 0) { -%>,<% } -%>
+                    <%= member.name %>
+                    <% });-%>
+                    </em></p>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="card-body">
+                    <ul class="list-group list-group-horizontal mb-1">
+                      <li class="list-group-item col-8"><%= lang.projects.hours_team %></li>
+                      <li class="list-group-item col-4"><%= project.hours_team %></li>
+                    </ul>
+                    <ul class="list-group list-group-horizontal mb-1">
+                      <li class="list-group-item col-8"><%= lang.projects.hours_tools %></li>
+                      <li class="list-group-item col-4"><%= project.hours_tools %></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="row g-0 px-3 mb-3">
+                <div class="col-md-12">
+                  <p class="card-text"><%= project.description %></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% } -%>
+    <% }); } else { -%>
+      <p><%= lang.errors.no_active_projects %></p>
+    <% } -%>
+
+
+    <div class='d-grid col-sm-4 py-2 mt-5 mb-4 alert alert-secondary'>
+      <%= lang.projects.inactive %>
+    </div>
+
+    <div class='list-group'>
+      <% if(projects.length > 0) { projects.forEach((project) => { -%>
+        <% if(!project.active) { -%>
+        <div class="card mb-3">
+          <div class="row g-0 ">
+            <div class="col-md-4">
+              <% let url; -%>
+              <% if(project.image) { -%>
+                <% url = './media/' + project.media_dir + '/' + project.image %>
+              <% } else { -%>
+                <% url = 'placeholder_image.jpg' %>
+              <% } -%>
+                <a href='../project?id=<%= project.id %>'><img class="img-fluid rounded-start project-thumbnail" src='<%= url %>'></a>
+            </div>
             <div class="col-md-4">
               <div class="card-body">
-                <p class="card-title"><span class="alert alert-success py-1 me-3"><%= project.date_start %></span></p>
-                <p class="card-text"><small class="text-body-secondary">Last updated: <%= project.last_update %></small></p>
+                <p class="card-title"><span class="alert alert-secondary py-1"><%= project.date_start %> - <%= project.date_end %></span></p>
                 <h5 class="card-title"><%= project.name %></h5>
-                <p class="card-text">
+                <p class="card-text"><em>
                 <% project.team.forEach((member, index) => { -%>
                 <% if (index > 0) { -%>,<% } -%>
                 <%= member.name %>
                 <% });-%>
-                </p>
+                </em></p>
+                <p class="card-text"><%= project.description %></p>
               </div>
             </div>
             <div class="col-md-4">
@@ -63,20 +123,6 @@
           </div>
         </div>
       <% } -%>
-    <% }); } else { -%>
-      <p><%= lang.errors.no_active_projects %></p>
-    <% } -%>
-
-
-    <div class='d-grid col-sm-4 py-2 my-3 alert alert-secondary'>
-      <%= lang.projects.inactive %>
-    </div>
-
-    <div class='list-group'>
-      <% if(projects.length > 0) { projects.forEach((project) => { -%>
-        <% if(!project.active) { -%>
-        <a class='list-group-item list-group-item-action py-3' href='./project?id=<%= project.id %>'><span class="alert alert-secondary py-1 me-3"><%= project.date_start %></span><%= project.name %></a>
-        <% } -%>
       <% }); } else { -%>
         <p><%= lang.errors.no_inactive_projects %></p>
       <% } -%>

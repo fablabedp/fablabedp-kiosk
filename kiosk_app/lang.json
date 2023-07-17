@@ -62,7 +62,7 @@
     "date_start"       : "Data de início",
     "date_end"         : "Data de termino",
     "date_log"         : "Data de feedback",
-    "date_end"         : "Data de termino",
+    "last_updated"     : "Última atualização",
     "description"      : "Breve descrição do projeto",
     "tools"            : "Processos / ferramentas a utilizar do FabLab EDP",
     "tool_list"        :
