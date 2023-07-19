@@ -14,31 +14,35 @@
 
     <% if (typeof errors != 'undefined') { -%>
       <% errors.forEach((error) => { -%>
-      <div class="alert alert-danger" role="alert">
+      <div class='alert alert-danger' role='alert'>
         <%= error.msg %>
       </div>
     <% });} -%>
 
     <form method='post' action=''>
-      <div class="mb-3">
-        <label class="form-label" for='name'><%= lang.users.name %></label>
-        <input required class="form-control" type='text' id='name' name='name'value="<%= locals.body ? body.name : '' %>" />
+      <div class='mb-3'>
+        <label class='form-label' for='name'><%= lang.users.name %></label>
+        <input required class='form-control' type='text' id='name' name='name'value='<%= locals.body ? body.name : '' %>' />
       </div>
-      <div class="mb-3">
-        <label class="form-label" for='email'><%= lang.users.email %></label>
-        <input required class="form-control" type='email' id='email' name='email'value="<%= locals.body ? body.email : '' %>" />
+      <div class='mb-3'>
+        <label class='form-label' for='email'><%= lang.users.email %></label>
+        <input required class='form-control' type='email' id='email' name='email'value='<%= locals.body ? body.email : '' %>' />
       </div>
-      <div class="mb-3">
-        <label class="form-label" for='phone'><%= lang.users.phone %></label>
-        <input required class="form-control" type='tel' id='phone' name='phone'value="<%= locals.body ? body.phone : '' %>" />
+      <div class='mb-3'>
+        <label class='form-label' for='phone'><%= lang.users.phone %></label>
+        <input required class='form-control' type='tel' id='phone' name='phone'value='<%= locals.body ? body.phone : '' %>' />
       </div>
-      <div class="mb-3">
-        <label class="form-label" for='org'><%= lang.users.org %></label>
-        <input required class="form-control" type='text' id='org' name='org'value="<%= locals.body ? body.org : '' %>" />
+      <div class='mb-3'>
+        <label class='form-label' for='org'><%= lang.users.org %></label>
+        <input required class='form-control' type='text' id='org' name='org'value='<%= locals.body ? body.org : '' %>' />
+      </div>
+      <div class='form-check'>
+        <input class='form-check-input' type='checkbox' value='true' id='org_internal' name='org_internal'>
+        <label class='form-check-label' for='org_internal'><%= lang.users.org_internal %></label>
       </div>
       <input type='hidden' id='new_user' name='new_user' value='<%= new_user === 'true' ? 'true' : 'false' %>' />
       <input type='hidden' id='existing_user_id' name='id' value='<%= new_user === 'true' ? -1 : user.$loki %>' />
-      <input type='submit' class="btn btn-primary mt-3" value='<%= lang.submit %>' />
+      <input type='submit' class='btn btn-primary mt-3' value='<%= lang.submit %>' />
 
   <%- include('_footer') %>
   </body>

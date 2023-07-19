@@ -102,9 +102,9 @@ export const user_create_post = [
 
     } else {
 
+      console.log("is EDP:", req.body.org_internal);
 
       const user_list = await users.find({ 'name' : { '$ne' : null }});
-      console.log(user_list);
 
       // Data from form is valid.
       // Check if user with same name already exists.
@@ -139,6 +139,7 @@ export const user_create_post = [
         existing_user.email = req.body.email;
         existing_user.phone = req.body.phone;
         existing_user.org   = req.body.org;
+        existing_user.org_internal = req.body.org_internal ? true : false;
         users.update(existing_user);
 
         // New user saved. Redirect to user detail page.

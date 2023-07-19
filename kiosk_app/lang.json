@@ -10,7 +10,7 @@
   "home"             :
   {
     "project_list"           : "Projetos",
-    "register_project"       : "Registar Projeto",
+    "register_project"       : "Criar Projeto",
     "edit_project"           : "Editar Projeto",
     "update_project"         : "Atualizar Projeto",
     "close_project"          : "Terminar Projeto",
@@ -50,7 +50,8 @@
     "name"             : "Nome e apelido",
     "email"            : "Email",
     "phone"            : "Telemóvel",
-    "org"              : "Empresa / área"
+    "org"              : "Empresa / área",
+    "org_internal"     : "Associado ao EDP"
   },
   "projects":
   {
