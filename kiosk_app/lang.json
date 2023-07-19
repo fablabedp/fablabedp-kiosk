@@ -76,6 +76,7 @@
       "scan_3d"          : "Digitalização 3D",
       "3d_print"         : "Impressão 3D",
       "cnc"              : "Maquinação CNC",
+      "mill"             : "Fresadora Manual",
       "elec_tools"       : "Eletrónica e microcontroladores"
     },
     "tools_other"      : "Outro",
