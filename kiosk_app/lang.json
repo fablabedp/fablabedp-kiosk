@@ -5,7 +5,7 @@
   "project"          : "Projeto",
   "submit"           : "Submeter",
   "update"           : "Atualizar",
-  "close"            : "Terminar",
+  "close"            : "Concluir",
   "cancel"           : "Cancelar",
   "home"             :
   {
@@ -13,7 +13,7 @@
     "register_project"       : "Criar Projeto",
     "edit_project"           : "Editar Projeto",
     "update_project"         : "Atualizar Projeto",
-    "close_project"          : "Terminar Projeto",
+    "close_project"          : "Concluir Projeto",
     "delete_project"         : "Eliminar Projeto",
     "delete_project_confirm" : "Tem a certeza que pretende eliminar este projeto?  Depois de eliminar não é possível recuperar!",
     "deleted_project"        : "Projeto eliminado: ",
@@ -59,7 +59,7 @@
     "team"             : "Equipa de Projeto",
     "add_member"       : "Adicionar à equipa",
     "active"           : "Ativo",
-    "inactive"         : "Terminado",
+    "inactive"         : "Concluído",
     "date_start"       : "Data de início",
     "date_end"         : "Data de fim",
     "date_log"         : "Data de feedback",
