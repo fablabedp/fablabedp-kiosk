@@ -67,6 +67,7 @@ Configuring Enviroment Variables
 
 rename `.env.sample` to `.env` and edit variables as needed
 
+if you need to change the port, this must also be updated in `start_kiosk.sh`
 
 Installing systemd services
 
