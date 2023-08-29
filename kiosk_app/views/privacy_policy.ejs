@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang='en' class='h-100' data-bs-theme='auto'>
+  <head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <% let title = lang.privacy_policy %>
+    <title><%= title %></title>
+    <link href='bootstrap.min.css' rel='stylesheet'>
+    <link rel='stylesheet' href='/style.css'>
+    <script type="text/javascript" src="bootstrap.min.js"></script>
+  </head>
+  <%- include('_header', { url: './', text: lang.home_button }) %>
+
+  <%- include('privacy_policy.html') %>
+
+  <%- include('_footer') %>
+  </body>
+</html>

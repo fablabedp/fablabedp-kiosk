@@ -18,6 +18,10 @@ export const home = asyncHandler(async (req, res, next) => {
   res.render('index', { lang: lang });
 });
 
+export const privacy_policy = asyncHandler(async (req, res, next) => {
+  res.render('privacy_policy', { lang: lang });
+});
+
 const media_path = process.env.MEDIA_PATH; //'public/media/';
 const photo_booth_dir = 'photo_booth';
 

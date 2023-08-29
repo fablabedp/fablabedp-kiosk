@@ -1,13 +1,15 @@
 {
-  "home_title"       : "Kiosk Home",
-  "home_button"      : "Home",
-  "user"             : "Utilizador",
-  "project"          : "Projeto",
-  "submit"           : "Submeter",
-  "update"           : "Atualizar",
-  "close"            : "Concluir",
-  "cancel"           : "Cancelar",
-  "home"             :
+  "home_title"           : "Kiosk Home",
+  "home_button"          : "Home",
+  "user"                 : "Utilizador",
+  "project"              : "Projeto",
+  "submit"               : "Submeter",
+  "update"               : "Atualizar",
+  "close"                : "Concluir",
+  "cancel"               : "Cancelar",
+  "privacy_policy"       : "Política de Privacidade",
+  "privacy_policy_agree" : "Declaro que tomei conhecimento da Política de Privacidade e autorizo que os meus dados pessoais sejam recolhidos pela EDP, SA e tratados.",
+  "home"                 :
   {
     "project_list"           : "Projetos",
     "register_project"       : "Criar Projeto",

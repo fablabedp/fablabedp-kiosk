@@ -52,4 +52,7 @@ router.get('/admin', controller.admin);
 router.get('/admin/export_users', controller.export_users);
 router.get('/admin/export_projects', controller.export_projects);
 
+/* Privacy Policy */
+router.get('/privacy_policy', controller.privacy_policy);
+
 export default router;

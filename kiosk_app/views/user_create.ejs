@@ -40,10 +40,49 @@
         <input class='form-check-input' type='checkbox' value='true' id='org_internal' name='org_internal'>
         <label class='form-check-label' for='org_internal'><%= lang.users.org_internal %></label>
       </div>
+      <br />
+      <div class="card">
+        <div class="card-body">
+          <p><button id="show-privacy-policy" type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#privacy-policy"><%= lang.privacy_policy %></button></a></p>
+          <div class='form-check'>
+            <input required class='form-check-input' type='checkbox' value='true' id='gdpr_consent' name='gdpr_consent'>
+            <label class='form-check-label' for='gdpr_consent'><%= lang.privacy_policy_agree %></label>
+          </div>
+        </div>
+      </div>
       <input type='hidden' id='new_user' name='new_user' value='<%= new_user === 'true' ? 'true' : 'false' %>' />
       <input type='hidden' id='existing_user_id' name='id' value='<%= new_user === 'true' ? -1 : user.$loki %>' />
       <input type='submit' class='btn btn-primary mt-3' value='<%= lang.submit %>' />
+    </form>
+
+    <div class="modal" id="privacy-policy" tabindex="-1" aria-labelledby="modal_label" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="modal-label"><%= lang.privacy_policy %></h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <%- include('privacy_policy.html') %>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
   <%- include('_footer') %>
   </body>
+  <script src="../bootstrap.min.js"></script>
+  <script type="text/javascript">
+    // const privacy_policy = new bootstrap.Modal(document.getElementById('privacy-policy'))
+    // privacy_policy.toggle();
+/*    const privacy_policy = document.getElementById('privacy-policy')
+    const show_privacy_policy = document.getElementById('show-privacy-policy')
+
+    privacy_policy.addEventListener('shown.bs.modal', () => {
+      show_privacy_policy.focus()
+    })*/
+  </script>
 </html>
