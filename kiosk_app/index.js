@@ -2,6 +2,10 @@
 
 import app from './app.js';
 import http from 'http';
+import dotenv from 'dotenv';
+
+// get environment variables
+dotenv.config();
 
 const port = normalizePort(process.env.PORT || '3000');
 
