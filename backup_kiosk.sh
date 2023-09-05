@@ -12,6 +12,8 @@ else
     echo "backup failed."
 fi
 
+mkdir -p $LOCAL_BACKUP_DIR
+
 echo "Creating local database backup..."
 if cp /home/pi/fablabedp-kiosk/kiosk_app/database.json $LOCAL_BACKUP_DIR/database_$datestamp.json ; then
     echo "done."
