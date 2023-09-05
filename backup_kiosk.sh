@@ -6,7 +6,7 @@ datestamp=$(date +%Y-%m-%d_%H-%M-%S)
 echo $datestamp
 
 echo "Backing up kiosk media..."
- if lftp -u "$FTP_USER","$FTP_PASS" -e "mirror -Re /home/pi/kiosk_media/ kiosk_media/; quit" ftp://"$FTP_SERVER" ; then
+ if lftp -u "$FTP_USER","$FTP_PASS" -e "mirror -Re $MEDIA_DIR kiosk_media/; quit" ftp://"$FTP_SERVER" ; then
     echo "done."
 else
     echo "backup failed."

@@ -38,7 +38,7 @@ Reboot to enable changes.
 
 ## Installing
 
-Update Raspberry Pi OS and install Git
+### Update Raspberry Pi OS and install Git
 
 ```
 sudo apt update
@@ -46,30 +46,29 @@ sudo apt upgrade
 sudo apt install git
 ```
 
-
-Installing Node.js
+### Install Node.js
 
 ```
 curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 sudo apt install nodejs
 ```
 
+### Install the kiosk app
 
-Installing the Kiosk app
 ```
 git clone https://github.com/fablabedp/fablabedp-kiosk.git
 cd fablabedp-kiosk/kiosk_app/
 npm install
-
 ```
 
-Configuring Enviroment Variables
+### Configure the app enviroment variables
 
-rename `.env.sample` to `.env` and edit variables as needed
+In the `kiosk_app` folder, rename `.env.sample` to `.env` and edit variables as needed.
 
-if you need to change the port, this must also be updated in `start_kiosk.sh`
+If you need to change the port number, this must also be updated in `start_kiosk.sh`.
 
-Installing systemd services
+
+### Install systemd services
 
 ```
 sudo cp fablabedp-kiosk.service /etc/systemd/system/
@@ -77,3 +76,12 @@ sudo cp fablabedp-virtualcam.service /etc/systemd/system/
 sudo systemctl enable fablabedp-kiosk.service
 sudo systemctl enable fablabedp-virtualcam.service
 ```
+
+### Configure and enable backupa
+
+If you want to keep a remote backup of the kiosk, you can use the `backup_kiosk.sh` script.
+
+1. Rename `backup_config.txt.sample` to `backup_config.txt` and update with values with FTP creditials for you backups.  Ensure `MEDIA_DIR` is the same as `MEDIA_PATH` in the app `.env` file.
+
+2. You can schedule the script with cron by editing `crontab -e`, adding this line will run the backup script daily at 12h00, and save a log in the project directory:  
+`0 12 * * * cd /home/pi/fablabedp-kiosk && ./backup_kiosk.sh >> backup.log 2>&1`

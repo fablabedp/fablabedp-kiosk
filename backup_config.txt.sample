@@ -1,4 +1,5 @@
 FTP_USER=user
 FTP_PASS=password
 FTP_SERVER=server_url_or_ip
-LOCAL_BACKUP_DIR=/home/pi/kiosk_database_backup
+MEDIA_DIR=/home/pi/kiosk_media/
+LOCAL_BACKUP_DIR=/home/pi/kiosk_database_backup/
