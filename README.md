@@ -74,7 +74,7 @@ sudo systemctl enable fablabedp-kiosk.service
 sudo systemctl enable fablabedp-virtualcam.service
 ```
 
-## Desktop Configuration
+### Desktop Configuration
 
 Hide/show the taskbar:
 

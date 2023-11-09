@@ -193,15 +193,6 @@ export const project_list = asyncHandler(async (req, res, next) => {
       project.log[project.log.length -1].date :
       project.date_start;
 
-    let hours_team = 0;
-    project.team.forEach((member) => {
-      hours_team += member.hours;
-    });
-    let hours_tools = 0;
-    project.tools.forEach((tool) => {
-      hours_tools += tool.hours;
-    });
-
     let description_max_length = 200;
     let description =
       project.description.length < description_max_length ?
@@ -216,8 +207,8 @@ export const project_list = asyncHandler(async (req, res, next) => {
         'last_update' : last_update,
         'team' : project.team,
         'description' : description,
-        'hours_team' : hours_team,
-        'hours_tools' : hours_tools,
+        'hours_team' : project.hours_team,
+        'hours_tools' : project.hours_tools,
         'media_dir' : project.media_dir,
         'image' : project.image,
         'id' : project.$loki
@@ -502,12 +493,18 @@ export const project_update_post = [
       }
 
       // Update hours
+      let hours_team = 0;
+      let hours_tools = 0;
       existing_project.team.forEach((member) => {
         member.hours += Number(req.body[member.name]);
+        hours_team += member.hours;
       });
       existing_project.tools.forEach((tool) => {
         tool.hours += Number(req.body[tool.alias]);
+        hours_tools += tool.hours;
       });
+      existing_project.hours_team = hours_team;
+      existing_project.hours_tools = hours_tools;
 
       // Save project and redirect to project detail page.
       res.redirect('../project?id=' + id);
@@ -927,6 +924,9 @@ export const export_projects = asyncHandler(async (req, res, next) => {
     const opts = {};
     const parser = new Parser(opts);
     const csv = parser.parse(project_array);
+
+    console.log(csv);
+
     const filename = 'kiosk-projects_' + timestamp + '.csv';
 
     let fileContents = Buffer.from(csv, "utf8");
