@@ -6,8 +6,9 @@ The kiosk hardware uses a Raspberry Pi 4 in a CNC machined PVC stand.  We design
 
 The kiosk software is built with Node.js and uses a [LokiJS](https://github.com/techfort/LokiJS) database.  Due to issues accessing the Raspberry Pi Camera from Chromium, we also had to use gstreamer with a v4l2loopback device for the photobooth, see [#set-up-raspberry-pi-camera-for-use-in-chromium](#set-up-raspberry-pi-camera-for-use-in-chromium).
 
-
 This repo also contains systemd unit files to manage autostarting the kiosk app and the v4l2loopback device.  There is also a shell script that can be used to create automatic remote backups of the kiosk database and media files via FTP.
+
+See the [FabLab EDP Wiki](https://github.com/fablabedp/fablabedp-wiki/blob/main/projects/kiosk.md) pictures and more details on the hardware construction.  CAD and CAM files are available in the `hardware` folder.
 
 
 ## Installing
@@ -86,6 +87,13 @@ Edit desktop items:
 `nano /home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf`
 
 Reboot to enable changes.
+
+
+### Language and Tools/Materials Tags
+
+The default kiosk interface is in Portuguese.  All strings are stored in `lang.json` that can be translated as needed.  An english translation already exists in `lang.en.json`
+
+To add or remove items from the tools or materials lists, simply add lines to the `material_list` and `tool_list` nodes in the json file.  Note that if you edit a tag name in this list (the key, not the string value), upon restarting the app all records for that tag will be lost.  If you need to edit an existing tag name for some reason, this must be done manually in the database fist.
 
 
 ### Configure and enable backups
